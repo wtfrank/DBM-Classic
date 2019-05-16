@@ -21,9 +21,6 @@ local specialWarningLocust	= mod:NewSpecialWarningSpell(28785, nil, nil, nil, 2,
 local timerLocustIn			= mod:NewCDTimer(80, 28785, nil, nil, nil, 6)
 local timerLocustFade 		= mod:NewBuffActiveTimer(26, 28785, nil, nil, nil, 6)
 
-mod:AddBoolOption("ArachnophobiaTimer", true, "timer")
-
-
 function mod:OnCombatStart(delay)
 	if self:IsDifficulty("normal25") then
 		timerLocustIn:Start(90 - delay)
@@ -60,7 +57,6 @@ function mod:UNIT_DIED(args)
 	if self.Options.ArachnophobiaTimer and not DBM.Bars:GetBar(L.ArachnophobiaTimer) then
 		local cid = self:GetCIDFromGUID(args.destGUID)
 		if cid == 15956 then		-- Anub'Rekhan
-			DBM.Bars:CreateBar(1200, L.ArachnophobiaTimer)
 			warningLocustSoon:Cancel()
 			timerLocustFade:Cancel()
 			timerLocustIn:Cancel()

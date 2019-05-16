@@ -69,7 +69,7 @@ end
 
 DBM = {
 	Revision = parseCurseDate("@project-date-integer@"),
-	DisplayVersion = "8.1.25 alpha", -- the string that is shown as version
+	DisplayVersion = "1.13.0 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2019, 5, 7) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
@@ -496,8 +496,8 @@ local IsInRaid, IsInGroup, IsInInstance = IsInRaid, IsInGroup, IsInInstance
 local UnitAffectingCombat, InCombatLockdown, IsFalling, IsEncounterInProgress, UnitPlayerOrPetInRaid, UnitPlayerOrPetInParty = UnitAffectingCombat, InCombatLockdown, IsFalling, IsEncounterInProgress, UnitPlayerOrPetInRaid, UnitPlayerOrPetInParty
 local UnitGUID, UnitHealth, UnitHealthMax, UnitBuff, UnitDebuff = UnitGUID, UnitHealth, UnitHealthMax, UnitBuff, UnitDebuff
 local UnitExists, UnitIsDead, UnitIsFriend, UnitIsUnit = UnitExists, UnitIsDead, UnitIsFriend, UnitIsUnit
-local GetSpellInfo, EJ_GetSectionInfo, GetSectionIconFlags, GetSpellTexture, GetSpellCooldown = GetSpellInfo, C_EncounterJournal.GetSectionInfo, C_EncounterJournal.GetSectionIconFlags, GetSpellTexture, GetSpellCooldown
-local EJ_GetEncounterInfo, EJ_GetCreatureInfo, GetDungeonInfo = EJ_GetEncounterInfo, EJ_GetCreatureInfo, GetDungeonInfo
+local GetSpellInfo, GetDungeonInfo, GetSpellTexture, GetSpellCooldown = GetSpellInfo, GetDungeonInfo, GetSpellTexture, GetSpellCooldown
+--local EJ_GetEncounterInfo, EJ_GetCreatureInfo, EJ_GetSectionInfo, GetSectionIconFlags = EJ_GetEncounterInfo, EJ_GetCreatureInfo, C_EncounterJournal.GetSectionInfo, C_EncounterJournal.GetSectionIconFlags
 local GetInstanceInfo = GetInstanceInfo
 local GetSpecialization, GetSpecializationInfo, GetSpecializationInfoByID = GetSpecialization, GetSpecializationInfo, GetSpecializationInfoByID
 local UnitDetailedThreatSituation = UnitDetailedThreatSituation
@@ -1392,7 +1392,7 @@ do
 				"PLAY_MOVIE",
 				"CINEMATIC_START",
 				"PLAYER_LEVEL_CHANGED",
-				"PLAYER_SPECIALIZATION_CHANGED",
+				"CHARACTER_POINTS_CHANGED",
 				"PARTY_INVITE_REQUEST",
 				"LOADING_SCREEN_DISABLED",
 				"SCENARIO_COMPLETED",
@@ -2825,7 +2825,7 @@ do
 				inRaid = true
 				sendSync("H")
 				SendAddonMessage("BigWigs", versionQueryString:format(0, fakeBWHash), IsInGroup(2) and "INSTANCE_CHAT" or "RAID")
-				self:Schedule(2, self.RoleCheck, false, self)
+				--self:Schedule(2, self.RoleCheck, false, self)
 				fireEvent("raidJoin", playerName)
 				if BigWigs and BigWigs.db.profile.raidicon and not self.Options.DontSetIcons and self:GetRaidRank() > 0 then--Both DBM and bigwigs have raid icon marking turned on.
 					self:AddMsg(DBM_CORE_BIGWIGS_ICON_CONFLICT)--Warn that one of them should be turned off to prevent conflict (which they turn off is obviously up to raid leaders preference, dbm accepts either or turned off to stop this alert)
@@ -2882,7 +2882,7 @@ do
 				inRaid = true
 				sendSync("H")
 				SendAddonMessage("BigWigs", versionQueryString:format(0, fakeBWHash), IsInGroup(2) and "INSTANCE_CHAT" or "PARTY")
-				self:Schedule(2, self.RoleCheck, false, self)
+				--self:Schedule(2, self.RoleCheck, false, self)
 				fireEvent("partyJoin", playerName)
 			end
 			for i = 0, GetNumSubgroupMembers() do
@@ -3367,7 +3367,7 @@ end
 function DBM:PLAYER_LEVEL_CHANGED()
 	playerLevel = UnitLevel("player")
 	if playerLevel < 15 and playerLevel > 9 then
-		self:PLAYER_SPECIALIZATION_CHANGED()
+		self:CHARACTER_POINTS_CHANGED()
 	end
 end
 
@@ -3746,14 +3746,14 @@ function DBM:READY_CHECK()
 	self:Schedule(4, self.TransitionToDungeonBGM, self)
 end
 
-function DBM:PLAYER_SPECIALIZATION_CHANGED()
+function DBM:CHARACTER_POINTS_CHANGED()
 	local lastSpecID = currentSpecID
 	self:SetCurrentSpecInfo()
 	if currentSpecID ~= lastSpecID then--Don't fire specchanged unless spec actually has changed.
 		self:SpecChanged()
-		if IsInGroup() then
-			self:RoleCheck(false)
-		end
+		--if IsInGroup() then
+			--self:RoleCheck(false)
+		--end
 	end
 end
 
@@ -4096,7 +4096,6 @@ function DBM:LoadMod(mod, force)
 	if not difficultyIndex then -- prevent error in EJ_SetDifficulty if not yet set
 		savedDifficulty, difficultyText, difficultyIndex, LastGroupSize, difficultyModifier = DBM:GetCurrentInstanceDifficulty()
 	end
-	EJ_SetDifficulty(difficultyIndex)--Work around blizzard crash bug where other mods (like Boss) screw with Ej difficulty value, which makes EJ_GetSectionInfo crash the game when called with invalid difficulty index set.
 	self:Debug("LoadAddOn should have fired for "..mod.name, 2)
 	local loaded, reason = LoadAddOn(mod.modId)
 	if not loaded then
@@ -4785,14 +4784,14 @@ do
 			end
 		end
 
-		syncHandlers["GCB"] = function(sender, modId, ver, difficulty, difficultyModifier)
+		syncHandlers["GCB"] = function(sender, modId, ver, difficulty, difficultyModifier, name)
 			if not DBM.Options.ShowGuildMessages or not difficulty then return end
 			if not ver or not (ver == "2") then return end--Ignore old versions
 			if DBM:AntiSpam(10, "GCB") then
 				if IsInInstance() then return end--Simple filter, if you are inside an instance, just filter it, if not in instance, good to go.
 				difficulty = tonumber(difficulty)
 				if not DBM.Options.ShowGuildMessagesPlus and difficulty == 8 then return end
-				local bossName = EJ_GetEncounterInfo(modId) or DBM_CORE_UNKNOWN
+				local bossName = EJ_GetEncounterInfo and EJ_GetEncounterInfo(modId) or name or DBM_CORE_UNKNOWN
 				local difficultyName = DBM_CORE_UNKNOWN
 				if difficulty == 8 then
 					if difficultyModifier and difficultyModifier ~= 0 then
@@ -4811,14 +4810,14 @@ do
 			end
 		end
 
-		syncHandlers["GCE"] = function(sender, modId, ver, wipe, time, difficulty, difficultyModifier, wipeHP)
+		syncHandlers["GCE"] = function(sender, modId, ver, wipe, time, difficulty, difficultyModifier, name, wipeHP)
 			if not DBM.Options.ShowGuildMessages or not difficulty then return end
-			if not ver or not (ver == "4") then return end--Ignore old versions
+			if not ver or not (ver == "5") then return end--Ignore old versions
 			if DBM:AntiSpam(5, "GCE") then
 				if IsInInstance() then return end--Simple filter, if you are inside an instance, just filter it, if not in instance, good to go.
 				difficulty = tonumber(difficulty)
 				if not DBM.Options.ShowGuildMessagesPlus and difficulty == 8 then return end
-				local bossName = EJ_GetEncounterInfo(modId) or DBM_CORE_UNKNOWN
+				local bossName = EJ_GetEncounterInfo and EJ_GetEncounterInfo(modId) or name or DBM_CORE_UNKNOWN
 				local difficultyName = DBM_CORE_UNKNOWN
 				if difficulty == 8 then
 					if difficultyModifier and difficultyModifier ~= 0 then
@@ -4847,7 +4846,7 @@ do
 			lastBossEngage[modId..realm] = GetTime()
 			if realm == playerRealm and DBM.Options.WorldBossAlert and not IsEncounterInProgress() then
 				modId = tonumber(modId)--If it fails to convert into number, this makes it nil
-				local bossName = modId and EJ_GetEncounterInfo(modId) or name or DBM_CORE_UNKNOWN
+				local bossName = modId and EJ_GetEncounterInfo and EJ_GetEncounterInfo(modId) or name or DBM_CORE_UNKNOWN
 				DBM:AddMsg(DBM_CORE_WORLDBOSS_ENGAGED:format(bossName, floor(health), sender))
 			end
 		end
@@ -4858,7 +4857,7 @@ do
 			lastBossDefeat[modId..realm] = GetTime()
 			if realm == playerRealm and DBM.Options.WorldBossAlert and not IsEncounterInProgress() then
 				modId = tonumber(modId)--If it fails to convert into number, this makes it nil
-				local bossName = modId and EJ_GetEncounterInfo(modId) or name or DBM_CORE_UNKNOWN
+				local bossName = modId and EJ_GetEncounterInfo and EJ_GetEncounterInfo(modId) or name or DBM_CORE_UNKNOWN
 				DBM:AddMsg(DBM_CORE_WORLDBOSS_DEFEATED:format(bossName, sender))
 			end
 		end
@@ -4870,7 +4869,7 @@ do
 			if realm == playerRealm and DBM.Options.WorldBossAlert and not IsEncounterInProgress() then
 				local _, toonName = BNGetGameAccountInfo(sender)
 				modId = tonumber(modId)--If it fails to convert into number, this makes it nil
-				local bossName = modId and EJ_GetEncounterInfo(modId) or name or DBM_CORE_UNKNOWN
+				local bossName = modId and EJ_GetEncounterInfo and EJ_GetEncounterInfo(modId) or name or DBM_CORE_UNKNOWN
 				DBM:AddMsg(DBM_CORE_WORLDBOSS_ENGAGED:format(bossName, floor(health), toonName))
 			end
 		end
@@ -4882,7 +4881,7 @@ do
 			if realm == playerRealm and DBM.Options.WorldBossAlert and not IsEncounterInProgress() then
 				local _, toonName = BNGetGameAccountInfo(sender)
 				modId = tonumber(modId)--If it fails to convert into number, this makes it nil
-				local bossName = modId and EJ_GetEncounterInfo(modId) or name or DBM_CORE_UNKNOWN
+				local bossName = modId and EJ_GetEncounterInfo and EJ_GetEncounterInfo(modId) or name or DBM_CORE_UNKNOWN
 				DBM:AddMsg(DBM_CORE_WORLDBOSS_DEFEATED:format(bossName, toonName))
 			end
 		end
@@ -6027,7 +6026,7 @@ do
 						else
 							self:AddMsg(DBM_CORE_COMBAT_STARTED:format(difficultyText..name))
 							if (difficultyIndex == 8 or difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16) and InGuildParty() and not statusGuildDisabled and not self.Options.DisableGuildStatus then--Only send relevant content, not guild beating down lich king or LFR.
-								SendAddonMessage("D4", "GCB\t"..modId.."\t2\t"..difficultyIndex.."\t"..difficultyModifier, "GUILD")
+								SendAddonMessage("D4", "GCB\t"..modId.."\t2\t"..difficultyIndex.."\t"..difficultyModifier.."\t"..name, "GUILD")
 							end
 						end
 					end
@@ -6203,7 +6202,7 @@ do
 						else
 							self:AddMsg(DBM_CORE_COMBAT_ENDED_AT_LONG:format(difficultyText..name, wipeHP, strFromTime(thisTime), totalPulls - totalKills))
 							if (difficultyIndex == 8 or difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16) and InGuildParty() and not statusGuildDisabled and not self.Options.DisableGuildStatus then--Maybe add mythic plus/CM?
-								SendAddonMessage("D4", "GCE\t"..modId.."\t4\t1\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..difficultyModifier.."\t"..wipeHP, "GUILD")
+								SendAddonMessage("D4", "GCE\t"..modId.."\t5\t1\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..difficultyModifier.."\t"..name.."\t"..wipeHP, "GUILD")
 							end
 						end
 					end
@@ -6291,7 +6290,7 @@ do
 						else
 							msg = DBM_CORE_BOSS_DOWN:format(difficultyText..name, strFromTime(thisTime))
 							if (difficultyIndex == 8 or difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16) and InGuildParty() and not statusGuildDisabled and not self.Options.DisableGuildStatus then
-								SendAddonMessage("D4", "GCE\t"..modId.."\t4\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..difficultyModifier, "GUILD")
+								SendAddonMessage("D4", "GCE\t"..modId.."\t5\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..difficultyModifier.."\t"..name, "GUILD")
 							end
 						end
 					elseif thisTime < (bestTime or mhuge) then
@@ -6300,7 +6299,7 @@ do
 						else
 							msg = DBM_CORE_BOSS_DOWN_NR:format(difficultyText..name, strFromTime(thisTime), strFromTime(bestTime), totalKills)
 							if (difficultyIndex == 8 or difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16) and InGuildParty() and not statusGuildDisabled and not self.Options.DisableGuildStatus then
-								SendAddonMessage("D4", "GCE\t"..modId.."\t4\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..difficultyModifier, "GUILD")
+								SendAddonMessage("D4", "GCE\t"..modId.."\t5\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..difficultyModifier.."\t"..name, "GUILD")
 							end
 						end
 					else
@@ -6309,7 +6308,7 @@ do
 						else
 							msg = DBM_CORE_BOSS_DOWN_L:format(difficultyText..name, strFromTime(thisTime), strFromTime(lastTime), strFromTime(bestTime), totalKills)
 							if (difficultyIndex == 8 or difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16) and InGuildParty() and not statusGuildDisabled and not self.Options.DisableGuildStatus then
-								SendAddonMessage("D4", "GCE\t"..modId.."\t4\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..difficultyModifier, "GUILD")
+								SendAddonMessage("D4", "GCE\t"..modId.."\t5\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..difficultyModifier.."\t"..name, "GUILD")
 							end
 						end
 					end
@@ -6508,9 +6507,21 @@ do
 end
 
 function DBM:SetCurrentSpecInfo()
-	currentSpecGroup = GetSpecialization() or 1
-	currentSpecID, currentSpecName = GetSpecializationInfo(currentSpecGroup)--give temp first spec id for non-specialization char. no one should use dbm with no specialization, below level 10, should not need dbm.
-	currentSpecID = tonumber(currentSpecID)
+	--local talentPoints = UnitCharacterPoints("player")
+	local numTabs = GetNumTalentTabs()
+	local highestPointsSpent = 0
+	for i=1, MAX_TALENT_TABS do
+		if ( i <= numTabs ) then
+			name, iconTexture, pointsSpent = GetTalentTabInfo(i)
+			if pointsSpent > highestPointsSpent then
+				highestPointsSpent = pointsSpent
+				currentSpecID = playerClass..tostring(i)--Associate specID with class name and tabnumber (class is used because spec name is shared in some spots like "holy")
+			end
+		end
+	end
+	--If 0 talents are spent, then just set them to first spec to prevent nil errors
+	--This should only happen for a level 1 player or someone who's in middle of respecing
+	if not currentSpecID then currentSpecID = playerClass..tostring(1) end
 end
 
 --TODO C_IslandsQueue.GetIslandDifficultyInfo(), if 38-40 don't work
@@ -8111,8 +8122,9 @@ do
 		["HasImmunity"] = true,--Has an immunity that can prevent or remove a spell effect (not just one that reduces damage like turtle or dispursion)
 	}]]
 
+	--Entire table Needs Review
 	local specRoleTable = {
-		[62] = {	--Arcane Mage
+		["MAGE1"] = {	--Arcane Mage
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
@@ -8124,7 +8136,7 @@ do
 			["HasImmunity"] = true,
 			["RemoveCurse"] = true,
 		},
-		[65] = {	--Holy Paladin
+		["PALADIN1"] = {	--Holy Paladin
 			["Healer"] = true,
 			["Ranged"] = true,
 			["ManaUser"] = true,
@@ -8134,7 +8146,7 @@ do
 			["RemoveDisease"] = true,
 			["HasImmunity"] = true,
 		},
-		[66] = {	--Protection Paladin
+		["PALADIN2"] = {	--Protection Paladin
 			["Tank"] = true,
 			["Melee"] = true,
 			["ManaUser"] = true,
@@ -8144,7 +8156,7 @@ do
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
 		},
-		[70] = {	--Retribution Paladin
+		["PALADIN3"] = {	--Retribution Paladin
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
@@ -8155,22 +8167,20 @@ do
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
 		},
-		[71] = {	--Arms Warrior
+		["WARRIOR1"] = {	--Arms Warrior
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
-			["RaidCooldown"] = true,--Rallying Cry
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 		},
-		[73] = {	--Protection Warrior
+		["WARRIOR3"] = {	--Protection Warrior
 			["Tank"] = true,
 			["Melee"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
-			["RaidCooldown"] = true,--Rallying Cry (in 8.x)
 		},
-		[102] = {	--Balance Druid
+		["DRUID1"] = {	--Balance Druid
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
@@ -8181,8 +8191,9 @@ do
 			["RemovePoison"] = true,
 			["RemoveEnrage"] = true,
 		},
-		[103] = {	--Feral Druid
+		["DRUID2"] = {	--Feral Druid
 			["Dps"] = true,
+			["Tank"] = true
 			["Melee"] = true,
 			["MeleeDps"] = true,
 			["Physical"] = true,
@@ -8191,16 +8202,7 @@ do
 			["HasInterrupt"] = true,
 			["RemoveEnrage"] = true,
 		},
-		[104] = {	--Guardian Druid
-			["Tank"] = true,
-			["Melee"] = true,
-			["Physical"] = true,
-			["RemoveCurse"] = true,
-			["RemovePoison"] = true,
-			["HasInterrupt"] = true,
-			["RemoveEnrage"] = true,
-		},
-		[105] = {	-- Restoration Druid
+		["DRUID3"] = {	-- Restoration Druid
 			["Healer"] = true,
 			["Ranged"] = true,
 			["ManaUser"] = true,
@@ -8210,20 +8212,7 @@ do
 			["RemovePoison"] = true,
 			["RemoveEnrage"] = true,
 		},
-		[250] = {	--Blood DK
-			["Tank"] = true,
-			["Melee"] = true,
-			["Physical"] = true,
-			["HasInterrupt"] = true,
-		},
-		[251] = {	--Frost DK
-			["Dps"] = true,
-			["Melee"] = true,
-			["MeleeDps"] = true,
-			["Physical"] = true,
-			["HasInterrupt"] = true,
-		},
-		[253] = {	--Beastmaster Hunter
+		["HUNTER1"] = {	--Beastmaster Hunter
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
@@ -8231,22 +8220,23 @@ do
 			["HasInterrupt"] = true,
 			["RemoveEnrage"] = true,
 		},
-		[254] = {	--Markmanship Hunter Hunter
+		["HUNTER2"] = {	--Markmanship Hunter Hunter
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["RemoveEnrage"] = true,
 		},
-		[255] = {	--Survival Hunter (Legion+)
+		["HUNTER3"] = {	--Survival Hunter
 			["Dps"] = true,
-			["Melee"] = true,
-			["MeleeDps"] = true,
+			["Ranged"] = true,
+			["RangedDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
 			["RemoveEnrage"] = true,
 		},
-		[256] = {	--Discipline Priest
+		["PRIEST1"] = {	--Discipline Priest
 			["Healer"] = true,
 			["Ranged"] = true,
 			["ManaUser"] = true,
@@ -8256,7 +8246,7 @@ do
 			["RemoveDisease"] = true,
 			["MagicDispeller"] = true,
 		},
-		[258] = {	--Shadow Priest
+		["PRIEST3"] = {	--Shadow Priest
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
@@ -8267,7 +8257,7 @@ do
 			["HasInterrupt"] = true,
 			["RemoveDisease"] = true,
 		},
-		[259] = {	--Assassination Rogue
+		["ROGUE1"] = {	--Assassination Rogue
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
@@ -8275,7 +8265,7 @@ do
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
 		},
-		[262] = {	--Elemental Shaman
+		["SHAMAN1"] = {	--Elemental Shaman
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
@@ -8286,7 +8276,7 @@ do
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 		},
-		[263] = {	--Enhancement Shaman
+		["SHAMAN2"] = {	--Enhancement Shaman
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
@@ -8297,76 +8287,32 @@ do
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 		},
-		[264] = {	--Restoration Shaman
+		["SHAMAN3"] = {	--Restoration Shaman
 			["Healer"] = true,
 			["Ranged"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
-			["RaidCooldown"] = true,--Spirit Link Totem
 			["RemoveCurse"] = true,
 			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 		},
-		[265] = {	--Affliction Warlock
+		["WARLOCK1"] = {	--Affliction Warlock
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
-		},
-		[268] = {	--Brewmaster Monk
-			["Tank"] = true,
-			["Melee"] = true,
-			["Physical"] = true,
-			["RemovePoison"] = true,
-			["RemoveDisease"] = true,
-			["HasInterrupt"] = true,
-		},
-		[269] = {	--Windwalker Monk
-			["Dps"] = true,
-			["Melee"] = true,
-			["MeleeDps"] = true,
-			["Physical"] = true,
-			["RemovePoison"] = true,
-			["RemoveDisease"] = true,
-			["HasInterrupt"] = true,
-		},
-		[270] = {	--Mistweaver Monk
-			["Healer"] = true,
-			["Melee"] = true,
-			["Ranged"] = true,
-			["ManaUser"] = true,
-			["SpellCaster"] = true,
-			["RaidCooldown"] = true,--Revival
-			["RemovePoison"] = true,
-			["RemoveDisease"] = true,
-		},
-		[577] = {	--Havok Demon Hunter
-			["Dps"] = true,
-			["Melee"] = true,
-			["MeleeDps"] = true,
-			["Physical"] = true,
-			["HasInterrupt"] = true,
-			["MagicDispeller"] = true,
-		},
-		[581] = {	--Vengeance Demon Hunter
-			["Tank"] = true,
-			["Melee"] = true,
-			["Physical"] = true,
-			["HasInterrupt"] = true,
-			["MagicDispeller"] = true,
 		},
 	}
-	specRoleTable[63] = specRoleTable[62]--Frost Mage same as arcane
-	specRoleTable[64] = specRoleTable[62]--Fire Mage same as arcane
-	specRoleTable[72] = specRoleTable[71]--Fury Warrior same as Arms
-	specRoleTable[252] = specRoleTable[251]--Unholy DK same as frost
-	specRoleTable[257] = specRoleTable[256]--Holy Priest same as disc
-	specRoleTable[260] = specRoleTable[259]--Combat Rogue same as Assassination
-	specRoleTable[261] = specRoleTable[259]--Subtlety Rogue same as Assassination
-	specRoleTable[266] = specRoleTable[265]--Demonology Warlock same as Affliction
-	specRoleTable[267] = specRoleTable[265]--Destruction Warlock same as Affliction
+	specRoleTable["MAGE3"] = specRoleTable["MAGE1"]--Frost Mage same as arcane
+	specRoleTable["MAGE2"] = specRoleTable["MAGE1"]--Fire Mage same as arcane
+	specRoleTable["WARRIOR2"] = specRoleTable["WARRIOR1"]--Fury Warrior same as Arms
+	specRoleTable["PRIEST2"] = specRoleTable["PRIEST1"]--Holy Priest same as disc
+	specRoleTable["ROGUE2"] = specRoleTable["ROGUE1"]--Combat Rogue same as Assassination
+	specRoleTable["ROGUE3"] = specRoleTable["ROGUE1"]--Subtlety Rogue same as Assassination
+	specRoleTable["WARLOCK2"] = specRoleTable["WARLOCK1"]--Demonology Warlock same as Affliction
+	specRoleTable["WARLOCK3"] = specRoleTable["WARLOCK1"]--Destruction Warlock same as Affliction
 
 	--[[function bossModPrototype:GetRoleFlagValue(flag)
 		if not flag then return false end
@@ -8405,6 +8351,7 @@ do
 		return false
 	end
 
+	--External call Needs Review
 	function bossModPrototype:IsMeleeDps(uId)
 		if uId then--This version includes ONLY melee dps
 			local role = UnitGroupRolesAssigned(uId)
@@ -8412,15 +8359,13 @@ do
 				return false
 			end
 			local _, class = UnitClass(uId)
-			if class == "WARRIOR" or class == "ROGUE" or class == "DEATHKNIGHT" then
+			if class == "WARRIOR" or class == "ROGUE" then
 				return true
 			end
 			--Inspect throttle exists, so have to do it this way
-			if class == "DRUID" or class == "SHAMAN" or class == "PALADIN" or class == "MONK" or class == "HUNTER" then
+			if class == "DRUID" or class == "SHAMAN" or class == "PALADIN" then
 				local unitMaxPower = UnitPowerMax(uId)
-				--Mark and beast have 120 base focus, survival has 100 base focus. Not sure if this is best way to do it or if it breaks with talent/artifact weapon
-				--Elemental shaman have 100 unit power base, while enhancement have 150 power base, so a shaman with > 150 but less tha 35000 is the melee one
-				if (unitMaxPower < 101 and class == "HUNTER") or (unitMaxPower >= 150 and class == "SHAMAN" and unitMaxPower < 35000) or unitMaxPower < 35000 then
+				if unitMaxPower < 35000 then
 					return true
 				end
 			end
@@ -8436,10 +8381,11 @@ do
 		end
 	end
 
+	--External call Needs Review
 	function bossModPrototype:IsMelee(uId)
 		if uId then--This version includes monk healers as melee and tanks as melee
 			local _, class = UnitClass(uId)
-			if class == "WARRIOR" or class == "ROGUE" or class == "DEATHKNIGHT" or class == "MONK" then
+			if class == "WARRIOR" or class == "ROGUE" then
 				return true
 			end
 			--Inspect throttle exists, so have to do it this way
@@ -8507,14 +8453,14 @@ function bossModPrototype:IsTank()
 	if not currentSpecID then
 		DBM:SetCurrentSpecInfo()
 	end
-	local _, _, _, _, role = GetSpecializationInfoByID(currentSpecID)
-	if role == "TANK" then
+	if specRoleTable[currentSpecID]["Tank"] then
 		return true
 	else
 		return false
 	end
 end
 
+--External call Needs Review
 function bossModPrototype:IsDps(uId)
 	if uId then--External unit call.
 		if UnitGroupRolesAssigned(uId) == "DAMAGER" then
@@ -8525,14 +8471,14 @@ function bossModPrototype:IsDps(uId)
 	if not currentSpecID then
 		DBM:SetCurrentSpecInfo()
 	end
-	local _, _, _, _, role = GetSpecializationInfoByID(currentSpecID)
-	if role == "DAMAGER" then
+	if specRoleTable[currentSpecID]["Dps"] then
 		return true
 	else
 		return false
 	end
 end
 
+--External call Needs Review
 function bossModPrototype:IsHealer(uId)
 	if uId then--External unit call.
 		if UnitGroupRolesAssigned(uId) == "HEALER" then
@@ -8543,14 +8489,14 @@ function bossModPrototype:IsHealer(uId)
 	if not currentSpecID then
 		DBM:SetCurrentSpecInfo()
 	end
-	local _, _, _, _, role = GetSpecializationInfoByID(currentSpecID)
-	if role == "HEALER" then
+	if specRoleTable[currentSpecID]["Healer"] then
 		return true
 	else
 		return false
 	end
 end
 
+--Needs Review
 function bossModPrototype:IsTanking(unit, boss, isName, onlyRequested)
 	if isName then--Passed combat log name, so pull unit ID
 		unit = DBM:GetRaidUnitId(unit)
@@ -8587,6 +8533,7 @@ function bossModPrototype:IsTanking(unit, boss, isName, onlyRequested)
 	return false
 end
 
+--Needs Review
 function bossModPrototype:GetNumAliveTanks()
 	if not IsInGroup() then return 1 end--Solo raid, you're the "tank"
 	local count = 0

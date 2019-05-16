@@ -33,11 +33,7 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:OnCombatEnd(wipe)
-	if not wipe then
-		if DBM.Bars:GetBar(L.ArachnophobiaTimer) then
-			DBM.Bars:CancelBar(L.ArachnophobiaTimer) 
-		end	
-	end
+
 end
 
 function mod:SPELL_AURA_APPLIED(args)
