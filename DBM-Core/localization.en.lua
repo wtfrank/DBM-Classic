@@ -470,7 +470,7 @@ DBM_CORE_AUTO_TIMER_TEXTS = {
 	stage		= "Next Stage",
 	adds		= "Incoming Adds",
 	addscustom	= "Incoming Adds (%%s)",
-	roleplay	= GUILD_INTEREST_RP
+	roleplay	= "Roleplay"
 }
 
 DBM_CORE_AUTO_TIMER_OPTIONS = {
@@ -611,28 +611,28 @@ DBM_CORE_DUR_ENTRY					= "%s: Durability [%d percent] / Gear broken [%s]"
 DBM_CORE_LAG_FOOTER					= "No Response: %s"
 
 --Role Icons
-DBM_CORE_TANK_ICON			= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:6:21:7:27|t"
-DBM_CORE_HEALER_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:70:86:7:27|t"
-DBM_CORE_DAMAGE_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:39:55:7:27|t"
+DBM_CORE_TANK_ICON			= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:20:20:0:0:255:66:6:21:7:27|t"
+DBM_CORE_HEALER_ICON		= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:20:20:0:0:255:66:70:86:7:27|t"
+DBM_CORE_DAMAGE_ICON		= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:20:20:0:0:255:66:39:55:7:27|t"
 
-DBM_CORE_TANK_ICON_SMALL	= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:12:0:0:255:66:6:21:7:27|t"
-DBM_CORE_HEALER_ICON_SMALL	= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:12:0:0:255:66:70:86:7:27|t"
-DBM_CORE_DAMAGE_ICON_SMALL	= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:12:0:0:255:66:39:55:7:27|t"
+DBM_CORE_TANK_ICON_SMALL	= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:12:12:0:0:255:66:6:21:7:27|t"
+DBM_CORE_HEALER_ICON_SMALL	= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:12:12:0:0:255:66:70:86:7:27|t"
+DBM_CORE_DAMAGE_ICON_SMALL	= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:12:12:0:0:255:66:39:55:7:27|t"
 --Importance Icons
-DBM_CORE_HEROIC_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:22:22:0:0:255:66:102:118:7:27|t"
-DBM_CORE_DEADLY_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:22:22:0:0:255:66:133:153:7:27|t"
-DBM_CORE_IMPORTANT_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:168:182:7:27|t"
+DBM_CORE_HEROIC_ICON		= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:22:22:0:0:255:66:102:118:7:27|t"
+DBM_CORE_DEADLY_ICON		= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:22:22:0:0:255:66:133:153:7:27|t"
+DBM_CORE_IMPORTANT_ICON		= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:20:20:0:0:255:66:168:182:7:27|t"
 
-DBM_CORE_HEROIC_ICON_SMALL	= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:14:14:0:0:255:66:102:118:7:27|t"
-DBM_CORE_DEADLY_ICON_SMALL	= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:14:14:0:0:255:66:133:153:7:27|t"
-DBM_CORE_IMPORTANT_ICON_SMALL= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:12:12:0:0:255:66:168:182:7:27|t"
+DBM_CORE_HEROIC_ICON_SMALL	= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:14:14:0:0:255:66:102:118:7:27|t"
+DBM_CORE_DEADLY_ICON_SMALL	= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:14:14:0:0:255:66:133:153:7:27|t"
+DBM_CORE_IMPORTANT_ICON_SMALL= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:12:12:0:0:255:66:168:182:7:27|t"
 --Type Icons
-DBM_CORE_INTERRUPT_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:198:214:7:27|t"
-DBM_CORE_MAGIC_ICON			= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:229:247:7:27|t"
-DBM_CORE_POISON_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:39:55:40:58|t"
-DBM_CORE_DISEASE_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:70:86:40:58|t"
-DBM_CORE_CURSE_ICON			= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:6:21:40:58|t"
-DBM_CORE_ENRAGE_ICON		= "|TInterface\\EncounterJournal\\UI-EJ-Icons.blp:20:20:0:0:255:66:102:118:40:58|t"
+DBM_CORE_INTERRUPT_ICON		= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:20:20:0:0:255:66:198:214:7:27|t"
+DBM_CORE_MAGIC_ICON			= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:20:20:0:0:255:66:229:247:7:27|t"
+DBM_CORE_POISON_ICON		= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:20:20:0:0:255:66:39:55:40:58|t"
+DBM_CORE_DISEASE_ICON		= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:20:20:0:0:255:66:70:86:40:58|t"
+DBM_CORE_CURSE_ICON			= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:20:20:0:0:255:66:6:21:40:58|t"
+DBM_CORE_ENRAGE_ICON		= "|TInterface\\AddOns\\DBM-Core\\textures\\UI-EJ-Icons.blp:20:20:0:0:255:66:102:118:40:58|t"
 
 --LDB
 DBM_LDB_TOOLTIP_HELP1	= "Left-click to open DBM"
@@ -640,13 +640,13 @@ DBM_LDB_TOOLTIP_HELP2	= "Right-click to open config menu"
 
 DBM_LDB_LOAD_MODS		= "Load boss mods"
 
-DBM_LDB_CAT_BFA			= EXPANSION_NAME7
-DBM_LDB_CAT_LEG			= EXPANSION_NAME6
-DBM_LDB_CAT_WOD			= EXPANSION_NAME5
-DBM_LDB_CAT_MOP			= EXPANSION_NAME4
-DBM_LDB_CAT_CATA		= EXPANSION_NAME3
-DBM_LDB_CAT_WOTLK		= EXPANSION_NAME2
-DBM_LDB_CAT_BC			= EXPANSION_NAME1
+DBM_LDB_CAT_BFA			= "Battle for Azeroth"
+DBM_LDB_CAT_LEG			= "Legion"
+DBM_LDB_CAT_WOD			= "Warlords of Draenor"
+DBM_LDB_CAT_MOP			= "Mists of Pandaria"
+DBM_LDB_CAT_CATA		= "Cataclysm"
+DBM_LDB_CAT_WOTLK		= "Wrath of the Lich King"
+DBM_LDB_CAT_BC			= "Burning Crusade"
 DBM_LDB_CAT_CLASSIC 	= EXPANSION_NAME0
 DBM_LDB_CAT_OTHER		= "Other Boss Mods"
 
