@@ -13,13 +13,13 @@ L.OTabBosses	= "Bosses"
 L.OTabOptions	= GAMEOPTIONS_MENU
 
 L.TabCategory_Options	 	= "General Options"
-L.TabCategory_BFA	 		= EXPANSION_NAME7 or "Battle for Azeroth"
-L.TabCategory_LEG	 		= EXPANSION_NAME6
-L.TabCategory_WOD	 		= EXPANSION_NAME5
-L.TabCategory_MOP	 		= EXPANSION_NAME4
-L.TabCategory_CATA	 		= EXPANSION_NAME3
-L.TabCategory_WOTLK 		= EXPANSION_NAME2
-L.TabCategory_BC 			= EXPANSION_NAME1
+L.TabCategory_BFA	 		= "Battle for Azeroth"
+L.TabCategory_LEG	 		= "Legion"
+L.TabCategory_WOD	 		= "Warlords of Draenor"
+L.TabCategory_MOP	 		= "Mists of Pandaria"
+L.TabCategory_CATA	 		= "Cataclysm"
+L.TabCategory_WOTLK 		= "Wrath of the Lich King"
+L.TabCategory_BC 			= "Burning Crusade"
 L.TabCategory_CLASSIC		= EXPANSION_NAME0
 L.TabCategory_OTHER    		= "Other Boss Mods"
 
