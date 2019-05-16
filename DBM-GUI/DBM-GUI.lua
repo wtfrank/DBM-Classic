@@ -2692,23 +2692,15 @@ local function CreateOptionsMenu()
 		local Sounds = MixinSharedMedia3("sound", {
 			{	text	= L.NoSound,			value	= "" },
 			{	text	= "PvP Flag",			value 	= 8174, 		sound=true },--"Sound\\Spells\\PVPFlagTaken.ogg"
-			{	text	= "Blizzard",			value 	= 37666, 		sound=true },--"Sound\\interface\\UI_RaidBossWhisperWarning.ogg"
-			{	text	= "Beware!",			value 	= 15391, 		sound=true },--"Sound\\Creature\\AlgalonTheObserver\\UR_Algalon_BHole01.ogg"
+			--{	text	= "Blizzard",			value 	= 37666, 		sound=true },--"Sound\\interface\\UI_RaidBossWhisperWarning.ogg"
+			{	text	= "Beware!",			value 	= "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\UR_Algalon_BHole01.ogg", 		sound=true },
 			{	text	= "AirHorn",			value 	= "Interface\\AddOns\\DBM-Core\\sounds\\AirHorn.ogg", 		sound=true },
-			{	text	= "Destruction",		value 	= 12506, 		sound=true },--"Sound\\Creature\\KilJaeden\\KILJAEDEN02.ogg"
-			{	text	= "NotPrepared",		value 	= 11466, 		sound=true },--"Sound\\Creature\\Illidan\\BLACK_Illidan_04.ogg"
-			{	text	= "NotPrepared2",		value 	= 68563, 		sound=true },--"Sound\\Creature\\Illidan_Stormrage\\VO_703_Illidan_Stormrage_03.ogg"
-			{	text	= "RunAwayLittleGirl",	value 	= 9278, 		sound=true },--"Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg"
+			{	text	= "Destruction",		value 	= "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\KILJAEDEN02.ogg", 		sound=true },
+			{	text	= "NotPrepared",		value 	= "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\BLACK_Illidan_04.ogg", 		sound=true },
+			{	text	= "NotPrepared2",		value 	= "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\VO_703_Illidan_Stormrage_03.ogg", 		sound=true },
+			{	text	= "RunAwayLittleGirl",	value 	= "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\HoodWolfTransformPlayer01.ogg", 		sound=true },
 			{	text	= "NightElfBell",		value 	= 11742, 		sound=true },--"Sound\\Doodad\\BellTollNightElf.ogg"
-			--8.2 FIXME, move back to LSM when supported
-			{	text	= "Headless Horseman: Laugh", value = 11965, sound = true },
-			{	text	= "Yogg Saron: Laugh", value = 15757, sound = true },
-			{	text	= "Loatheb: I see you", value = 128466, sound = true },
-			{	text	= "Lady Malande: Flee", value = 11482, sound = true },
-			{	text	= "Milhouse: Light You Up", value = 49764, sound = true },
-			{	text	= "Void Reaver: Marked", value = 11213, sound = true },
-			{	text	= "Kaz'rogal: Marked", value = 11052, sound = true },
-			{	text	= "C'Thun: You Will Die!", value = 8585, sound = true }
+			{	text	= "Loatheb: I see you", value = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\LOA_NAXX_AGGRO02.ogg", sound = true },
 		})
 
 		local SpecialWarnSoundDropDown = specArea:CreateDropdown(L.SpecialWarnSound, Sounds, "DBM", "SpecialWarningSound", function(value)
