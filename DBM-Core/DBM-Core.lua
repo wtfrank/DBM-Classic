@@ -6509,7 +6509,7 @@ function DBM:SetCurrentSpecInfo()
 	local highestPointsSpent = 0
 	for i=1, MAX_TALENT_TABS do
 		if ( i <= numTabs ) then
-			name, iconTexture, pointsSpent = GetTalentTabInfo(i)
+			local name, iconTexture, pointsSpent = GetTalentTabInfo(i)
 			if pointsSpent > highestPointsSpent then
 				highestPointsSpent = pointsSpent
 				currentSpecID = playerClass..tostring(i)--Associate specID with class name and tabnumber (class is used because spec name is shared in some spots like "holy")
@@ -8191,7 +8191,7 @@ do
 		},
 		["DRUID2"] = {	--Feral Druid
 			["Dps"] = true,
-			["Tank"] = true
+			["Tank"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
 			["Physical"] = true,
@@ -8436,6 +8436,54 @@ do
 			return false
 		end
 	end
+
+	function bossModPrototype:IsTank()
+		--IsTanking already handles external calls, no need here.
+		if not currentSpecID then
+			DBM:SetCurrentSpecInfo()
+		end
+		if specRoleTable[currentSpecID]["Tank"] then
+			return true
+		else
+			return false
+		end
+	end
+
+	--External call Needs Review
+	function bossModPrototype:IsDps(uId)
+		if uId then--External unit call.
+			if UnitGroupRolesAssigned(uId) == "DAMAGER" then
+				return true
+			end
+			return false
+		end
+		if not currentSpecID then
+			DBM:SetCurrentSpecInfo()
+		end
+		if specRoleTable[currentSpecID]["Dps"] then
+			return true
+		else
+			return false
+		end
+	end
+
+	--External call Needs Review
+	function bossModPrototype:IsHealer(uId)
+		if uId then--External unit call.
+			if UnitGroupRolesAssigned(uId) == "HEALER" then
+				return true
+			end
+			return false
+		end
+		if not currentSpecID then
+			DBM:SetCurrentSpecInfo()
+		end
+		if specRoleTable[currentSpecID]["Healer"] then
+			return true
+		else
+			return false
+		end
+	end
 end
 
 function bossModPrototype:UnitClass(uId)
@@ -8444,54 +8492,6 @@ function bossModPrototype:UnitClass(uId)
 		return class
 	end
 	return playerClass--else return "player"
-end
-
-function bossModPrototype:IsTank()
-	--IsTanking already handles external calls, no need here.
-	if not currentSpecID then
-		DBM:SetCurrentSpecInfo()
-	end
-	if specRoleTable[currentSpecID]["Tank"] then
-		return true
-	else
-		return false
-	end
-end
-
---External call Needs Review
-function bossModPrototype:IsDps(uId)
-	if uId then--External unit call.
-		if UnitGroupRolesAssigned(uId) == "DAMAGER" then
-			return true
-		end
-		return false
-	end
-	if not currentSpecID then
-		DBM:SetCurrentSpecInfo()
-	end
-	if specRoleTable[currentSpecID]["Dps"] then
-		return true
-	else
-		return false
-	end
-end
-
---External call Needs Review
-function bossModPrototype:IsHealer(uId)
-	if uId then--External unit call.
-		if UnitGroupRolesAssigned(uId) == "HEALER" then
-			return true
-		end
-		return false
-	end
-	if not currentSpecID then
-		DBM:SetCurrentSpecInfo()
-	end
-	if specRoleTable[currentSpecID]["Healer"] then
-		return true
-	else
-		return false
-	end
 end
 
 --Needs Review
