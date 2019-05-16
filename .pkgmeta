@@ -12,4 +12,5 @@ move-folders:
 	DBM-Core/DBM-Azeroth: DBM-Azeroth
 	DBM-Core/DBM-BWL: DBM-BWL
 	DBM-Core/DBM-MC: DBM-MC
-
+	DBM-Core/DBM-Onyxia: DBM-Onyxia
+	DBM-Core/DBM-Naxx: DBM-Naxx
