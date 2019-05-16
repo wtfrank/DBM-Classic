@@ -6,4 +6,4 @@ move-folders:
     DBM-Core/DBM-GUI: DBM-GUI
     DBM-Core/DBM-StatusBarTimers: DBM-StatusBarTimers
     DBM-Core/DBM-Core: DBM-Core
-
+	DBM-Core/DBM-Party-Classic: DBM-Party-Classic
