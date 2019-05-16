@@ -499,7 +499,6 @@ local UnitExists, UnitIsDead, UnitIsFriend, UnitIsUnit = UnitExists, UnitIsDead,
 local GetSpellInfo, GetDungeonInfo, GetSpellTexture, GetSpellCooldown = GetSpellInfo, GetDungeonInfo, GetSpellTexture, GetSpellCooldown
 --local EJ_GetEncounterInfo, EJ_GetCreatureInfo, EJ_GetSectionInfo, GetSectionIconFlags = EJ_GetEncounterInfo, EJ_GetCreatureInfo, C_EncounterJournal.GetSectionInfo, C_EncounterJournal.GetSectionIconFlags
 local GetInstanceInfo = GetInstanceInfo
-local GetSpecialization, GetSpecializationInfo, GetSpecializationInfoByID = GetSpecialization, GetSpecializationInfo, GetSpecializationInfoByID
 local UnitDetailedThreatSituation = UnitDetailedThreatSituation
 local UnitIsGroupLeader, UnitIsGroupAssistant = UnitIsGroupLeader, UnitIsGroupAssistant
 local PlaySoundFile, PlaySound = PlaySoundFile, PlaySound
@@ -7208,6 +7207,7 @@ function DBM:Capitalize(str)
 end
 
 --copied from big wigs with permission from funkydude. Modified by MysticalOS
+--Needs Review, if UnitSetRole exists in classic update, if not, delete
 function DBM:RoleCheck(ignoreLoot)
 	local spec = GetSpecialization()
 	if not spec then return end
