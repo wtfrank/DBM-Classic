@@ -56,8 +56,6 @@ DBM_CORE_TRANSCRIPTOR_LOG_START		= "\"Transcriptor\"-Aufzeichnung gestartet."
 DBM_CORE_TRANSCRIPTOR_LOG_END		= "\"Transcriptor\"-Aufzeichnung beendet."
 
 DBM_CORE_MOVIE_SKIPPED				= "DBM hat versucht eine Videosequenz automatisch zu überspringen."
-DBM_CORE_BONUS_SKIPPED				= "DBM hat das Beutefenster für den Bonuswurf automatisch geschlossen. Tippe /dbmbonusroll binnen drei Minuten, um es bei Bedarf anzuzeigen."
-DBM_CORE_BONUS_EXPIRED				= "Du hast versucht mittels /dbmbonusroll ein Beutefenster für den Bonuswurf zu öffnen. Es ist derzeit aber leider kein Bonuswurf aktiv."
 
 DBM_CORE_AFK_WARNING				= "Du bist \"AFK\" und im Kampf (%d Prozent Gesundheit verbleibend), Alarmsound ausgelöst.  Entferne deine \"AFK\"-Markierung oder deaktiviere diese Alarmierung unter \"Sonstige Funktionen\", falls du nicht \"AFK\" bist."
 

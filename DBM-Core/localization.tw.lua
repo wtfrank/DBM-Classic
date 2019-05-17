@@ -57,8 +57,6 @@ DBM_CORE_TRANSCRIPTOR_LOG_START		= "Transcriptor開始記錄。"
 DBM_CORE_TRANSCRIPTOR_LOG_END		= "Transcriptor結束紀錄。"
 
 DBM_CORE_MOVIE_SKIPPED				= "DBM已嘗試自動略過場動畫。"
-DBM_CORE_BONUS_SKIPPED				= "DBM已自動關閉額外獎勵視窗。如果你需要這個視窗，在三分鐘內輸入/dbmbonusroll。"
-DBM_CORE_BONUS_EXPIRED				= "你已嘗試使用/dbmbonusroll開啟額外獎勵視窗但目前沒有額外獎勵。"
 
 DBM_CORE_AFK_WARNING				= "你正在AFK和戰鬥中(血量還剩餘%d百分比)所以發出警告。如果你沒在AFK，請清除AFK的標籤或是在額外功能禁用此選項。"
 

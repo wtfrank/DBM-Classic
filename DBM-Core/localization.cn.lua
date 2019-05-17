@@ -63,8 +63,6 @@ DBM_CORE_TRANSCRIPTOR_LOG_START		= "Transcriptor logging started."
 DBM_CORE_TRANSCRIPTOR_LOG_END		= "Transcriptor logging ended."
 
 DBM_CORE_MOVIE_SKIPPED				= "该场景已被跳过。"
-DBM_CORE_BONUS_SKIPPED				= "DBM已经自动关闭奖励拾取窗口。如果需要的话，3分钟内输入 /dbmbonusroll "
-DBM_CORE_BONUS_EXPIRED				= "你尝试着召回奖励拾取窗口但是目前并没有激活的奖励拾取。"
 
 DBM_CORE_AFK_WARNING				= "你在战斗中暂离(百分之%d生命值)。如果你真的没有暂离，动一下或者在'其他功能'中关闭本设置。"
 

@@ -17,7 +17,7 @@ L.TabCategory_Options		= "일반 설정"
 L.TabCategory_OTHER			= "기타 보스 모드"
 
 L.BossModLoaded 			= "%s 통계"
-L.BossModLoad_now 			= [[보스 모드가 로딩되지 않았습니다. 
+L.BossModLoad_now 			= [[보스 모드가 로딩되지 않았습니다.
 해당 인스턴스에 진입하면 로딩됩니다.
 아래 버튼을 클릭해서 모드를 직접 로딩할 수도 있습니다.]]
 
@@ -75,7 +75,7 @@ L.RaidWarnColor_1 			= "색상 1"
 L.RaidWarnColor_2 			= "색상 2"
 L.RaidWarnColor_3 			= "색상 3"
 L.RaidWarnColor_4 			= "색상 4"
-L.InfoRaidWarning			= [[공격대 경보 프레임의 위치와 색상을 설정할 수 있습니다. 
+L.InfoRaidWarning			= [[공격대 경보 프레임의 위치와 색상을 설정할 수 있습니다.
 본 프레임은 "플레이어 X가 Y에 걸렸습니다"와 같은 메시지를 표시하는데 사용됩니다.]]
 L.ColorResetted 			= "이 영역의 색상 설정을 초기화 합니다."
 L.ShowWarningsInChat 		= "대화창에서 경보 보기"
@@ -297,7 +297,6 @@ L.AfterFirst				= "인스턴스 던전에 있을 때 한번만 재생"
 L.Always					= "항상 끄기"
 L.CombatOnly				= "전투중 차단 (모든 전투)"
 L.RaidCombat				= "전투중 차단 (보스만)"
-L.HideBonusHeader			= "추가 전리품 주사위 굴림 창을 숨길 전리품 레벨..."
 L.TrivialContent			= "신화 미만 던전"--Basically anything below 340
 L.NormalRaider				= "신화+ 5단 미만 던전과 공격대 찾기 레이드"--Basically, anything below 355
 L.HeroicRaider				= "신화+ 10단 미만 던전과 영웅 미만 레이드와 격전지 이외 필드 레이드 보스"--Basically anything below 370
