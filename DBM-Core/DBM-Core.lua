@@ -3781,10 +3781,9 @@ do
 				self.Options.tempMusicSetting = nil
 				DBM:Debug("Restoring Sound_EnableMusic CVAR")
 			end
-			if self.Options.musicPlaying or self.Options.turtlePlaying then--Primarily so DBM doesn't call StopMusic unless DBM is one that started it. We don't want to screw with other addons
+			if self.Options.musicPlaying then--Primarily so DBM doesn't call StopMusic unless DBM is one that started it. We don't want to screw with other addons
 				StopMusic()
 				self.Options.musicPlaying = nil
-				self.Options.turtlePlaying = nil
 				DBM:Debug("Stopping music")
 			end
 			fireEvent("DBM_MusicStop", "ZoneOrCombatEndTransition")
