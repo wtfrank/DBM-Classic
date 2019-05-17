@@ -74,7 +74,7 @@ local playerName = UnitName("player")
 local GetRaidTargetIndex = GetRaidTargetIndex
 local UnitName = UnitName
 local UnitHealth, UnitPower, UnitPowerMax = UnitHealth, UnitPower, UnitPowerMax
-local UnitIsDeadOrGhost, UnitThreatSituation = UnitIsDeadOrGhost, UnitThreatSituation
+local UnitIsDeadOrGhost = UnitIsDeadOrGhost
 local UnitPosition = UnitPosition
 local twipe = table.wipe
 local select, tonumber = select, tonumber
@@ -659,23 +659,6 @@ local function updatePlayerDebuffStacks()
 	updateLines()
 end
 
-local function updatePlayerAggro()
-	twipe(lines)
-	local aggroType = value[1]
-	local tankIgnored = value[2]
-	for uId in DBM:GetGroupMembers() do
-		if tankIgnored and (UnitGroupRolesAssigned(uId) == "TANK" or GetPartyAssignment("MAINTANK", uId, 1)) then
-		else
-			local currentThreat = UnitThreatSituation(uId) or 0
-			if currentThreat >= aggroType then
-				lines[UnitName(uId)] = ""
-			end
-		end
-	end
-	updateLines()
-	updateIcons()
-end
-
 local function updatePlayerTargets()
 	twipe(lines)
 	local cId = value[1]
@@ -746,7 +729,6 @@ local events = {
 	["playerdebuffremaining"] = updatePlayerDebuffRemaining,
 	["playerbuffremaining"] = updatePlayerBuffRemaining,
 	["reverseplayerbaddebuff"] = updateReverseBadPlayerDebuffs,
-	["playeraggro"] = updatePlayerAggro,
 	["playerbuffstacks"] = updatePlayerBuffStacks,
 	["playerdebuffstacks"] = updatePlayerDebuffStacks,
 	["playertargets"] = updatePlayerTargets,
@@ -768,7 +750,6 @@ local friendlyEvents = {
 	["playerdebuffremaining"] = true,
 	["playerbuffremaining"] = true,
 	["reverseplayerbaddebuff"] = true,
-	["playeraggro"] = true,
 	["playerbuffstacks"] = true,
 	["playerdebuffstacks"] = true,
 	["playertargets"] = true
@@ -818,7 +799,7 @@ function onUpdate(frame, table)
 				end
 				linesShown = linesShown + 1
 				if (extraName or leftText) == playerName then--It's player.
-					if currentEvent == "health" or currentEvent == "playerpower" or currentEvent == "playerabsorb" or currentEvent == "playerbuff" or currentEvent == "playergooddebuff" or currentEvent == "playerbaddebuff" or currentEvent == "playerdebuffremaining" or currentEvent == "playerdebuffstacks" or currentEvent == "playerbuffremaining" or currentEvent == "playertargets" or currentEvent == "playeraggro" then--Red
+					if currentEvent == "health" or currentEvent == "playerpower" or currentEvent == "playerabsorb" or currentEvent == "playerbuff" or currentEvent == "playergooddebuff" or currentEvent == "playerbaddebuff" or currentEvent == "playerdebuffremaining" or currentEvent == "playerdebuffstacks" or currentEvent == "playerbuffremaining" or currentEvent == "playertargets" then--Red
 						frame:AddDoubleLine(icon or leftText, rightText, 255, 0, 0, 255, 255, 255)-- (leftText, rightText, left.R, left.G, left.B, right.R, right.G, right.B)
 					else--Green
 						frame:AddDoubleLine(icon or leftText, rightText, 0, 255, 0, 255, 255, 255)
@@ -900,7 +881,7 @@ function infoFrame:Show(maxLines, event, ...)
 		end
 	--If spellId is given as value one and it's not a byspellid event, convert to spellname
 	--this also allows spell name to be given by mod, since value 1 verifies it's a number
-	elseif type(value[1]) == "number" and event ~= "health" and event ~= "function" and event ~= "table" and event ~= "playertargets" and event ~= "playeraggro" and event ~= "playerpower" and event ~= "enemypower" and event ~= "test" then
+	elseif type(value[1]) == "number" and event ~= "health" and event ~= "function" and event ~= "table" and event ~= "playertargets" and event ~= "playerpower" and event ~= "enemypower" and event ~= "test" then
 		--Outside of "byspellid" functions, typical frames will still use spell NAME matching not spellID.
 		--This just determines if we convert the spell input to a spell Name, if a spellId was provided for a non byspellid infoframe
 		value[1] = DBM:GetSpellInfo(value[1])

@@ -431,7 +431,7 @@ local iconSetRevision = {}
 local iconSetPerson = {}
 local addsGUIDs = {}
 local targetEventsRegistered = false
-local targetMonitor = nil
+local targetMonitor, targetMonitorFilter = nil, nil
 local statusWhisperDisabled = false
 local statusGuildDisabled = false
 local dbmToc = 0
@@ -496,7 +496,7 @@ local UnitExists, UnitIsDead, UnitIsFriend, UnitIsUnit = UnitExists, UnitIsDead,
 local GetSpellInfo, GetDungeonInfo, GetSpellTexture, GetSpellCooldown = GetSpellInfo, GetDungeonInfo, GetSpellTexture, GetSpellCooldown
 --local EJ_GetEncounterInfo, EJ_GetCreatureInfo, EJ_GetSectionInfo, GetSectionIconFlags = EJ_GetEncounterInfo, EJ_GetCreatureInfo, C_EncounterJournal.GetSectionInfo, C_EncounterJournal.GetSectionIconFlags
 local GetInstanceInfo = GetInstanceInfo
-local UnitDetailedThreatSituation = UnitDetailedThreatSituation
+--local UnitDetailedThreatSituation = UnitDetailedThreatSituation
 local UnitIsGroupLeader, UnitIsGroupAssistant = UnitIsGroupLeader, UnitIsGroupAssistant
 local PlaySoundFile, PlaySound = PlaySoundFile, PlaySound
 local Ambiguate = Ambiguate
@@ -1827,8 +1827,7 @@ end
 ----------------------
 do
 	local function Pull(timer)
-		local LFGTankException = IsPartyLFG() and UnitGroupRolesAssigned("player") == "TANK"--Tanks in LFG need to be able to send pull timer even if someone refuses to pass lead. LFG locks roles so no one can abuse this.
-		if (DBM:GetRaidRank(playerName) == 0 and IsInGroup() and not LFGTankException) or select(2, IsInInstance()) == "pvp" or IsEncounterInProgress() then
+		if (DBM:GetRaidRank(playerName) == 0 and IsInGroup()) or select(2, IsInInstance()) == "pvp" or IsEncounterInProgress() then
 			return DBM:AddMsg(DBM_ERROR_NO_PERMISSION)
 		end
 		local targetName = (UnitExists("target") and UnitIsEnemy("player", "target")) and UnitName("target") or nil--Filter non enemies in case player isn't targetting bos but another player/pet
@@ -1839,7 +1838,7 @@ do
 		end
 	end
 	local function Break(timer)
-		if IsInGroup() and (DBM:GetRaidRank(playerName) == 0 or IsPartyLFG()) or IsEncounterInProgress() or select(2, IsInInstance()) == "pvp" then--No break timers if not assistant or if it's dungeon/raid finder/BG
+		if IsInGroup() and DBM:GetRaidRank(playerName) == 0 or IsEncounterInProgress() or select(2, IsInInstance()) == "pvp" then--No break timers if not assistant or if it's dungeon/raid finder/BG
 			DBM:AddMsg(DBM_ERROR_NO_PERMISSION)
 			return
 		end
@@ -2817,7 +2816,6 @@ do
 				inRaid = true
 				sendSync("H")
 				SendAddonMessage("BigWigs", versionQueryString:format(0, fakeBWHash), IsInGroup(2) and "INSTANCE_CHAT" or "RAID")
-				--self:Schedule(2, self.RoleCheck, false, self)
 				fireEvent("raidJoin", playerName)
 				if BigWigs and BigWigs.db.profile.raidicon and not self.Options.DontSetIcons and self:GetRaidRank() > 0 then--Both DBM and bigwigs have raid icon marking turned on.
 					self:AddMsg(DBM_CORE_BIGWIGS_ICON_CONFLICT)--Warn that one of them should be turned off to prevent conflict (which they turn off is obviously up to raid leaders preference, dbm accepts either or turned off to stop this alert)
@@ -2874,7 +2872,6 @@ do
 				inRaid = true
 				sendSync("H")
 				SendAddonMessage("BigWigs", versionQueryString:format(0, fakeBWHash), IsInGroup(2) and "INSTANCE_CHAT" or "PARTY")
-				--self:Schedule(2, self.RoleCheck, false, self)
 				fireEvent("partyJoin", playerName)
 			end
 			for i = 0, GetNumSubgroupMembers() do
@@ -3711,9 +3708,6 @@ function DBM:CHARACTER_POINTS_CHANGED()
 	self:SetCurrentSpecInfo()
 	if currentSpecID ~= lastSpecID then--Don't fire specchanged unless spec actually has changed.
 		self:SpecChanged()
-		--if IsInGroup() then
-			--self:RoleCheck(false)
-		--end
 	end
 end
 
@@ -4039,13 +4033,12 @@ do
 			self:Debug(uId.." changed targets to "..targetName)
 		end
 		--Active BossUnitTargetScanner
-		if targetMonitor and UnitExists(uId.."target") and UnitPlayerOrPetInRaid(uId.."target") then
+		if targetMonitor and targetMonitorFilter and UnitExists(uId.."target") and UnitPlayerOrPetInRaid(uId.."target") then
 			self:Debug("targetMonitor exists, target exists", 2)
 			local modId, unitId, returnFunc = string.split("\t", targetMonitor)
 			self:Debug("targetMonitor: "..modId..", "..unitId..", "..returnFunc, 2)
-			local tanking, status = UnitDetailedThreatSituation(unitId, unitId.."target")--Tanking may return 0 if npc is temporarily looking at an NPC (IE fracture) but status will still be 3 on true tank
-			if tanking or (status == 3) then
-				self:Debug("targetMonitor ending, it's a tank", 2)
+			if UnitIsUnit(targetMonitorFilter, unitId.."target") then
+				self:Debug("targetMonitor ending, it's targetMonitorFilter", 2)
 				return
 			end--It's a tank/highest threat, this method ignores tanks
 			local mod = self:GetModByName(modId)
@@ -4215,8 +4208,7 @@ do
 	local dummyMod -- dummy mod for the pull timer
 	syncHandlers["PT"] = function(sender, timer, lastMapID, target)
 		if DBM.Options.DontShowUserTimers then return end
-		local LFGTankException = IsPartyLFG() and UnitGroupRolesAssigned(sender) == "TANK"
-		if (DBM:GetRaidRank(sender) == 0 and IsInGroup() and not LFGTankException) or select(2, IsInInstance()) == "pvp" or IsEncounterInProgress() then
+		if (DBM:GetRaidRank(sender) == 0 and IsInGroup()) or select(2, IsInInstance()) == "pvp" or IsEncounterInProgress() then
 			return
 		end
 		if (lastMapID and tonumber(lastMapID) ~= LastInstanceMapID) or (not lastMapID and DBM.Options.DontShowPTNoID) then return end
@@ -6274,6 +6266,7 @@ do
 				eeSyncSender = {}
 				eeSyncReceived = 0
 				targetMonitor = nil
+				targetMonitorFilter = nil
 				self:CreatePizzaTimer(time, "", nil, nil, nil, nil, true)--Auto Terminate infinite loop timers on combat end
 				self:TransitionToDungeonBGM(false, true)
 				self:Schedule(22, self.TransitionToDungeonBGM, self)--
@@ -6321,16 +6314,9 @@ do
 	local autoLog = false
 	local autoTLog = false
 
-	local function isCurrentContent()
-		if LastInstanceMapID == 1861 or LastInstanceMapID == 2070 or LastInstanceMapID == 2096 then--BfA
-			return true
-		end
-		return false
-	end
-
 	function DBM:StartLogging(timer, checkFunc)
 		self:Unschedule(DBM.StopLogging)
-		if self.Options.LogOnlyRaidBosses and ((LastInstanceType ~= "raid") or IsPartyLFG() or not isCurrentContent()) then return end
+		if self.Options.LogOnlyRaidBosses and not IsInRaid() then return end
 		if self.Options.AutologBosses then--Start logging here to catch pre pots.
 			if not LoggingCombat() then
 				autoLog = true
@@ -7073,26 +7059,6 @@ function DBM:Capitalize(str)
 	return str:sub(1, numBytes):upper()..str:sub(numBytes + 1):lower()
 end
 
---copied from big wigs with permission from funkydude. Modified by MysticalOS
---Needs Review, if UnitSetRole exists in classic update, if not, delete
-function DBM:RoleCheck(ignoreLoot)
-	local spec = GetSpecialization()
-	if not spec then return end
-	local role = GetSpecializationRole(spec)
-	if not role then return end
-	local specID = GetLootSpecialization()
-	local _, _, _, _, lootrole = GetSpecializationInfoByID(specID)
-	if not InCombatLockdown() and not IsFalling() and ((IsPartyLFG() and (difficultyIndex == 14 or difficultyIndex == 15)) or not IsPartyLFG()) then
-		if UnitGroupRolesAssigned("player") ~= role then
-			UnitSetRole("player", role)
-		end
-	end
-	--Loot reminder even if spec isn't known or we are in LFR where we have a valid for role without us being ones that set us.
-	if not ignoreLoot and lootrole and (role ~= lootrole) and self.Options.RoleSpecAlert then
-		self:AddMsg(DBM_CORE_LOOT_SPEC_REMINDER:format(_G[role] or DBM_CORE_UNKNOWN, _G[lootrole]))
-	end
-end
-
 -- An anti spam function to throttle spammy events (e.g. SPELL_AURA_APPLIED on all group members)
 -- @param time the time to wait between two events (optional, default 2.5 seconds)
 -- @param id the id to distinguish different events (optional, only necessary if your mod keeps track of two different spam events at the same time)
@@ -7702,10 +7668,11 @@ do
 
 	function bossModPrototype:BossUnitTargetScannerAbort()
 		targetMonitor = nil
+		targetMonitorFilter = nil
 		DBM:Debug("Boss unit target scan should be aborting.", 3)
 	end
 
-	function bossModPrototype:BossUnitTargetScanner(unitId, returnFunc, scanTime)
+	function bossModPrototype:BossUnitTargetScanner(unitId, returnFunc, scanTime, filteredUnitID)
 		--UNIT_TARGET technique was originally used by DXE on heroic lich king back in wrath to give most accurate defile/shadow trap warnings. Recently bigwigs started using it.
 		--This is fastest and most accurate method for getting the target and probably should be used where it does work 100% of time.
 		--This method fails if boss is already looking at correct target!! This method needs to monitor a target change so it must start before that target change
@@ -7715,6 +7682,7 @@ do
 		local modId = self.id
 		local scanDuration = scanTime or 1.5
 		targetMonitor = modId.."\t"..unitId.."\t"..returnFunc
+		targetMonitorFilter = filteredUnitID
 		self:ScheduleMethod(scanDuration, "BossUnitTargetScannerAbort")--In case of BossUnitTargetScanner firing too late, and boss already having changed target before monitor started, it needs to abort after x seconds
 	end
 
@@ -7807,13 +7775,13 @@ do
 			if mobuId then--Have a valid mob unit ID
 				--First, use trust threat more than fallbackuId and see what we pull from it first.
 				--This is because for GetCurrentTank we want to know who is tanking it, not who it's targeting.
-				local unitId = (IsInRaid() and "raid") or "party"
+				--[[local unitId = (IsInRaid() and "raid") or "party"
 				for i = 0, GetNumGroupMembers() do
 					local id = (i == 0 and "target") or unitId..i
 					local tanking, status = UnitDetailedThreatSituation(id, mobuId)--Tanking may return 0 if npc is temporarily looking at an NPC (IE fracture) but status will still be 3 on true tank
 					if tanking or (status == 3) then uId = id end--Found highest threat target, make them uId
 					if uId then break end
-				end
+				end--]]
 				--Did not get anything useful from threat, so use who the boss was looking at, at time of cast (ie fallbackuId)
 				if fallbackuId and not uId then
 					uId = fallbackuId
@@ -7870,13 +7838,13 @@ do
 			if mobuId then--Have a valid mob unit ID
 				--First, use trust threat more than fallbackuId and see what we pull from it first.
 				--This is because for CheckTankDistance we want to know who is tanking it, not who it's targeting.
-				local unitId = (IsInRaid() and "raid") or "party"
+				--[[local unitId = (IsInRaid() and "raid") or "party"
 				for i = 0, GetNumGroupMembers() do
 					local id = (i == 0 and "target") or unitId..i
 					local tanking, status = UnitDetailedThreatSituation(id, mobuId)--Tanking may return 0 if npc is temporarily looking at an NPC (IE fracture) but status will still be 3 on true tank
 					if tanking or (status == 3) then uId = id end--Found highest threat target, make them uId
 					if uId then break end
-				end
+				end--]]
 				--Did not get anything useful from threat, so use who the boss was looking at, at time of cast (ie fallbackuId)
 				if fallbackuId and not uId then
 					uId = fallbackuId
@@ -8320,28 +8288,26 @@ function bossModPrototype:IsTanking(unit, boss, isName, onlyRequested)
 	end
 	--Prefer threat target first
 	if boss then--Only checking one bossID as requested
-		local tanking, status = UnitDetailedThreatSituation(unit, boss)
-		if tanking or (status == 3) then
+		local _, targetuid = self:GetBossTarget(UnitGUID(boss), true)
+		if UnitIsUnit(unit, targetuid) then
 			return true
 		end
 	else--Check all of them if one isn't defined
 		for i = 1, 5 do
-			--if UnitExists("boss"..i) then
-				local tanking, status = UnitDetailedThreatSituation(unit, "boss"..i)
-				if tanking or (status == 3) then
-					return true
-				end
-			--end
+			local _, targetuid = self:GetBossTarget(UnitGUID("boss"..i), true)
+			if UnitIsUnit(unit, targetuid) then
+				return true
+			end
 		end
 	end
 	if not onlyRequested then
-		--Use these as fallback if threat target not found
+		Use these as fallback if threat target not found
 		if GetPartyAssignment("MAINTANK", unit, 1) then
 			return true
 		end
-		if UnitGroupRolesAssigned(unit) == "TANK" then
-			return true
-		end
+		--if UnitGroupRolesAssigned(unit) == "TANK" then
+		--	return true
+		--end
 	end
 	return false
 end
@@ -8352,7 +8318,7 @@ function bossModPrototype:GetNumAliveTanks()
 	local count = 0
 	local uId = (IsInRaid() and "raid") or "party"
 	for i = 1, DBM:GetNumRealGroupMembers() do
-		if UnitGroupRolesAssigned(uId..i) == "TANK" and not UnitIsDeadOrGhost(uId..i) then
+		if GetPartyAssignment("MAINTANK", uId..i, 1) and not UnitIsDeadOrGhost(uId..i) then
 			count = count + 1
 		end
 	end
