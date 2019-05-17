@@ -8301,7 +8301,7 @@ function bossModPrototype:IsTanking(unit, boss, isName, onlyRequested)
 		end
 	end
 	if not onlyRequested then
-		Use these as fallback if threat target not found
+		--Use these as fallback if threat target not found
 		if GetPartyAssignment("MAINTANK", unit, 1) then
 			return true
 		end
