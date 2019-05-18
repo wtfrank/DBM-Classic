@@ -7,20 +7,19 @@ mod:SetEncounterID(793)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED",
-	"SPELL_CAST_SUCCESS"
+	"SPELL_AURA_APPLIED 24327 24328",
+	"SPELL_CAST_SUCCESS 24324"
 )
 
 local warnSiphonSoon	= mod:NewSoonAnnounce(24324)
-local warnInsanity		= mod:NewTargetAnnounce(24327)
-local warnBlood			= mod:NewTargetAnnounce(24328)
+local warnInsanity		= mod:NewTargetNoFilterAnnounce(24327, 4)
+local warnBlood			= mod:NewTargetAnnounce(24328, 2)
 
-local specWarnBlood		= mod:NewSpecialWarningYou(24328)
+local specWarnBlood		= mod:NewSpecialWarningMoveAway(24328, nil, nil, nil, 1, 2)
 
-local timerSiphon		= mod:NewNextTimer(90, 24324)
-local timerInsanity		= mod:NewTargetTimer(10, 24327)
-local timerInsanityCD	= mod:NewCDTimer(20, 24327)
-local timerBlood		= mod:NewTargetTimer(10, 24328)
+local timerSiphon		= mod:NewNextTimer(90, 24324, nil, nil, nil, 2)
+local timerInsanity		= mod:NewTargetTimer(10, 24327, nil, nil, nil, 5)
+local timerInsanityCD	= mod:NewCDTimer(20, 24327, nil, nil, nil, 3)
 
 local enrageTimer		= mod:NewBerserkTimer(585)
 
@@ -36,10 +35,11 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerInsanity:Start(args.destName)
 		timerInsanityCD:Start()
 	elseif args:IsSpellID(24328) then
-		warnBlood:Show(args.destName)
-		timerBlood:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnBlood:Show()
+			specWarnBlood:Play("runout")
+		else
+			warnBlood:Show(args.destName)
 		end
 	end
 end

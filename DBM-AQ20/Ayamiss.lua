@@ -14,7 +14,7 @@ mod:RegisterEventsInCombat(
 )
 
 local warnPhase2	= mod:NewPhaseAnnounce(2)
-local warnParalyze	= mod:NewTargetAnnounce(25725, 3)
+local warnParalyze	= mod:NewTargetNoFilterAnnounce(25725, 3)
 
 local timerParalyze	= mod:NewTargetTimer(10, 25725, nil, nil, nil, 3)
 

@@ -13,7 +13,7 @@ mod:RegisterEventsInCombat(
 )
 
 local warnSupreme		= mod:NewSpellAnnounce(25176, 3)
-local warnCyclone		= mod:NewTargetAnnounce(25189, 4)
+local warnCyclone		= mod:NewTargetNoFilterAnnounce(25189, 4)
 local warnVulnerable	= mod:NewAnnounce("WarnVulnerable", 3, "Interface\\Icons\\INV_Enchant_EssenceMagicLarge")
 
 local timerCyclone		= mod:NewTargetTimer(10, 25189, nil, nil, nil, 3)
@@ -28,11 +28,11 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpellID(25177, 25178, 25180, 25181, 25183) then
 		warnVulnerable:Show(args.spellName)
 		timerVulnerable:Show(args.spellName)
-	end	
+	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
 	if args.spellId == 25189 then
 		timerCyclone:Stop(args.destName)
-	end	
+	end
 end

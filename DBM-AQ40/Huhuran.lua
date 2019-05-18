@@ -15,7 +15,7 @@ mod:RegisterEventsInCombat(
 	"UNIT_HEALTH boss1"
 )
 
-local warnSting			= mod:NewTargetAnnounce(26180, 2)
+local warnSting			= mod:NewTargetNoFilterAnnounce(26180, 2, nil, "RemovePoison")
 local warnAcid			= mod:NewStackAnnounce(26050, 3, nil, "Tank", 2)
 local warnPoison		= mod:NewSpellAnnounce(26053, 3)
 local warnEnrage		= mod:NewSpellAnnounce(26051, 2, nil, "Tank", 2)
@@ -25,7 +25,7 @@ local warnBerserk		= mod:NewSpellAnnounce(26068, 2)
 local specWarnAcid		= mod:NewSpecialWarningStack(26050, nil, 10, nil, nil, 1, 6)
 local specWarnAcidTaunt	= mod:NewSpecialWarningTaunt(26050, nil, nil, nil, 1, 2)
 
-local timerSting		= mod:NewBuffFadesTimer(12, 26180, nil, nil, nil, 3, nil, DBM_CORE_POISON_ICON..DBM_CORE_DEADLY_ICON)
+local timerSting		= mod:NewBuffFadesTimer(12, 26180, nil, nil, nil, 5, nil, DBM_CORE_POISON_ICON..DBM_CORE_DEADLY_ICON)
 local timerStingCD		= mod:NewCDTimer(25, 26180, nil, nil, nil, 3, nil, DBM_CORE_POISON_ICON..DBM_CORE_DEADLY_ICON)
 local timerPoisonCD		= mod:NewCDTimer(11, 26053, nil, nil, nil, 3)
 local timerPoison		= mod:NewBuffFadesTimer(8, 26053)

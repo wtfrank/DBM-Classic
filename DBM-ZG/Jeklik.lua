@@ -7,31 +7,35 @@ mod:SetEncounterID(785)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START",
-	"SPELL_CAST_SUCCESS",
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_REMOVED"
+	"SPELL_CAST_START 23954",
+	"SPELL_CAST_SUCCESS 23918 22884",
+	"SPELL_AURA_APPLIED 23952",
+	"SPELL_AURA_REMOVED 23952"
 )
 
-local warnSonicBurst	= mod:NewSpellAnnounce(23918)
-local warnScreech		= mod:NewSpellAnnounce(22884)
-local warnPain			= mod:NewTargetAnnounce(23952)
-local warnHeal			= mod:NewCastAnnounce(23954, 4)
+local warnSonicBurst	= mod:NewSpellAnnounce(23918, 3)
+local warnScreech		= mod:NewSpellAnnounce(22884, 3)
+local warnPain			= mod:NewTargetNoFilterAnnounce(23952, 2, nil, "RemoveMagic|Healer")
 
-local timerSonicBurst	= mod:NewBuffActiveTimer(10, 23918)
-local timerScreech		= mod:NewBuffActiveTimer(4, 22884)
-local timerPain			= mod:NewTargetTimer(18, 23952)
-local timerHeal			= mod:NewCastTimer(4, 23954)
-local timerHealCD		= mod:NewNextTimer(20, 23954)
+local specWarnHeal		= mod:NewSpecialWarningInterrupt(23954, "HasInterrupt", nil, nil, 1, 2)
+
+local timerSonicBurst	= mod:NewBuffActiveTimer(10, 23918, nil, nil, nil, 5, nil, DBM_CORE_MAGIC_ICON)
+local timerScreech		= mod:NewBuffActiveTimer(4, 22884, nil, nil, nil, 3)
+local timerPain			= mod:NewTargetTimer(18, 23952, nil, "RemoveMagic|Healer", nil, 5, nil, DBM_CORE_MAGIC_ICON)
+local timerHeal			= mod:NewCastTimer(4, 23954, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
+local timerHealCD		= mod:NewNextTimer(20, 23954, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
 
 function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(23954) then
-		timerHeal:Start()
 		timerHealCD:Start()
-		warnHeal:Show()
+		timerHeal:Start()
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnHeal:Show(args.sourceName)
+			specWarnHeal:Play("kickcast")
+		end
 	end
 end
 
@@ -54,6 +58,6 @@ end
 
 function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(23952) then
-		timerPain:Cancel(args.destName)
+		timerPain:Stop(args.destName)
 	end
 end

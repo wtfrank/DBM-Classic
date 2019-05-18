@@ -12,11 +12,11 @@ mod:RegisterEventsInCombat(
 )
 
 local warnMark		= mod:NewTargetAnnounce(24210, 3)
-local warnPain		= mod:NewTargetAnnounce(24212, 2, nil, "Healer")
+local warnPain		= mod:NewTargetAnnounce(24212, 2, nil, "RemoveMagic|Healer")
 
 local specWarnMark	= mod:NewSpecialWarningYou(24210, nil, nil, nil, 1, 2)
 
-local timerPain		= mod:NewTargetTimer(18, 24212, nil, "Healer", nil, 3, nil, DBM_CORE_MAGIC_ICON)
+local timerPain		= mod:NewTargetTimer(18, 24212, nil, "RemoveMagic|Healer", nil, 3, nil, DBM_CORE_MAGIC_ICON)
 
 function mod:OnCombatStart(delay)
 end

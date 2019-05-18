@@ -11,12 +11,13 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 24314 24318 16856"
 )
 
+--TODO, actual timer for abilities. Tank swap for mortal?
 local warnFrenzy	= mod:NewSpellAnnounce(24318, 3, nil, "Tank|Healer")
-local warnGaze		= mod:NewTargetAnnounce(24314, 2)
-local warnMortal	= mod:NewTargetAnnounce(16856)
+local warnGaze		= mod:NewTargetNoFilterAnnounce(24314, 2)
+local warnMortal	= mod:NewTargetNoFilterAnnounce(16856, 2, nil, "Tank|Healer")
 
-local timerGaze 	= mod:NewTargetTimer(6, 24314)
-local timerMortal	= mod:NewTargetTimer(5, 16856)
+local timerGaze 	= mod:NewTargetTimer(6, 24314, nil, nil, nil, 3)
+local timerMortal	= mod:NewTargetTimer(5, 16856, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON)
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpellID(24314) then

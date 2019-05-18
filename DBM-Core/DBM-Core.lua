@@ -7457,13 +7457,13 @@ end
 --checkCooldown should never be passed with skip or COUNT interrupt warnings. It should be passed with any other interrupt filter
 function bossModPrototype:CheckInterruptFilter(sourceGUID, force, checkCooldown, ignoreTandF)
 	if DBM.Options.FilterInterrupt2 == "None" and not force then return true end--user doesn't want to use interrupt filter, always return true
-	--Pummel, Mind Freeze, Counterspell, Kick, Skull Bash, Rebuke, Silence, Wind Shear, Disrupt, Solar Beam
+	--Pummel, Counterspell, Kick, Silence
 	local InterruptAvailable = true
 	local requireCooldown = checkCooldown
 	if (DBM.Options.FilterInterrupt2 == "onlyTandF") or self.isTrashMod and (DBM.Options.FilterInterrupt2 == "TandFandBossCooldown") then
 		requireCooldown = false
 	end
-	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(47528)) ~= 0 or (GetSpellCooldown(282151)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(106839)) ~= 0 or (GetSpellCooldown(96231)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 or (GetSpellCooldown(57994)) ~= 0 or (GetSpellCooldown(183752)) ~= 0 or (GetSpellCooldown(78675)) ~= 0) then
+	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(15487)) ~= 0 then
 		InterruptAvailable = false--checkCooldown check requested and player has no spell that can interrupt available
 	end
 	if InterruptAvailable and (ignoreTandF or UnitGUID("target") == sourceGUID or UnitGUID("focus") == sourceGUID) then
@@ -7474,10 +7474,10 @@ end
 
 function bossModPrototype:CheckDispelFilter()
 	if not DBM.Options.FilterDispel then return true end
-	--Druid: Nature's Cure (88423), Remove Corruption (2782), Monk: Detox (115450) Monk: Detox (218164), Priest: Purify (527) Priest: Purify Disease (213634), Paladin: Cleanse (4987), Shaman: Cleanse Spirit (51886), Purify Spirit (77130), Mage: Remove Curse (475), Warlock: Singe Magic (89808)
+	--Druid: Remove Corruption (2782), Priest: Purify (527), Paladin: Cleanse (4987), Mage: Remove Curse (475)
 	--start, duration, enable = GetSpellCooldown
 	--start & duration == 0 if spell not on cd
-	if (GetSpellCooldown(88423)) ~= 0 or (GetSpellCooldown(2782)) ~= 0 or (GetSpellCooldown(115450)) ~= 0 or (GetSpellCooldown(218164)) ~= 0 or (GetSpellCooldown(527)) ~= 0 or (GetSpellCooldown(213634)) ~= 0 or (GetSpellCooldown(4987)) ~= 0 or (GetSpellCooldown(51886)) ~= 0 or (GetSpellCooldown(77130)) ~= 0 or (GetSpellCooldown(475)) ~= 0 or (GetSpellCooldown(89808)) ~= 0 then
+	if (GetSpellCooldown(2782)) ~= 0 or (GetSpellCooldown(527)) ~= 0 or (GetSpellCooldown(4987)) ~= 0 or (GetSpellCooldown(475)) ~= 0 then
 		return false
 	end
 	return true
@@ -7874,7 +7874,8 @@ do
 		["RemoveDisease"] = true,--from ally
 		["RemoveEnrage"] = true,--Can remove enemy enrage. returned in 8.x!
 		["RemoveCurse"] = true,--from ally
-		["MagicDispeller"] = true,--from ENEMY, not debuffs on players. use "Healer" for ally magic dispels. ALL healers can do that.
+		["RemoveMagic"] = true,--from ally
+		["MagicDispeller"] = true,--from ENEMY, not debuffs on players. use "RemoveMagic" for ally magic dispels.
 		["HasInterrupt"] = true,--Has an interrupt that is 24 seconds or less CD that is BASELINE (not a talent)
 		["HasImmunity"] = true,--Has an immunity that can prevent or remove a spell effect (not just one that reduces damage like turtle or dispursion)
 	}]]
@@ -7888,7 +7889,6 @@ do
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
-			["MagicDispeller"] = true,
 			["HasInterrupt"] = true,
 			["HasImmunity"] = true,
 			["RemoveCurse"] = true,
@@ -7901,6 +7901,7 @@ do
 			["RaidCooldown"] = true,--Devotion Aura
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
+			["RemoveMagic"] = true,
 			["HasImmunity"] = true,
 		},
 		["PALADIN2"] = {	--Protection Paladin
@@ -7910,7 +7911,7 @@ do
 			["Physical"] = true,
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
-			["HasInterrupt"] = true,
+			["RemoveMagic"] = true,
 			["HasImmunity"] = true,
 		},
 		["PALADIN3"] = {	--Retribution Paladin
@@ -7921,7 +7922,7 @@ do
 			["Physical"] = true,
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
-			["HasInterrupt"] = true,
+			["RemoveMagic"] = true,
 			["HasImmunity"] = true,
 		},
 		["WARRIOR1"] = {	--Arms Warrior
@@ -7936,6 +7937,7 @@ do
 			["Melee"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["MagicDispeller"] = IsSpellKnown(23922) and true or false,--Shield Slam Rank 1 talent tree talent (assumed if rank 1 is known, any rank is known)
 		},
 		["DRUID1"] = {	--Balance Druid
 			["Dps"] = true,
@@ -7945,8 +7947,6 @@ do
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
 			["RemoveCurse"] = true,
-			["RemovePoison"] = true,
-			["RemoveEnrage"] = true,
 		},
 		["DRUID2"] = {	--Feral Druid
 			["Dps"] = true,
@@ -7955,9 +7955,6 @@ do
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["RemoveCurse"] = true,
-			["RemovePoison"] = true,
-			["HasInterrupt"] = true,
-			["RemoveEnrage"] = true,
 		},
 		["DRUID3"] = {	-- Restoration Druid
 			["Healer"] = true,
@@ -7966,32 +7963,30 @@ do
 			["SpellCaster"] = true,
 			["RaidCooldown"] = true,--Tranquility
 			["RemoveCurse"] = true,
-			["RemovePoison"] = true,
-			["RemoveEnrage"] = true,
 		},
 		["HUNTER1"] = {	--Beastmaster Hunter
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
 			["Physical"] = true,
-			["HasInterrupt"] = true,
 			["RemoveEnrage"] = true,
+			["ManaUser"] = true,
 		},
 		["HUNTER2"] = {	--Markmanship Hunter Hunter
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
 			["Physical"] = true,
-			["HasInterrupt"] = true,
 			["RemoveEnrage"] = true,
+			["ManaUser"] = true,
 		},
 		["HUNTER3"] = {	--Survival Hunter
 			["Dps"] = true,
 			["Ranged"] = true,
 			["RangedDps"] = true,
 			["Physical"] = true,
-			["HasInterrupt"] = true,
 			["RemoveEnrage"] = true,
+			["ManaUser"] = true,
 		},
 		["PRIEST1"] = {	--Discipline Priest
 			["Healer"] = true,
@@ -8000,8 +7995,8 @@ do
 			["SpellCaster"] = true,
 			["CasterDps"] = true,--Iffy. Technically yes, but this can't be used to determine eligable target for dps only debuffs
 			["RaidCooldown"] = true,--Power Word: Barrier(Discipline) / Divine Hymn (Holy)
-			["RemoveDisease"] = true,
 			["MagicDispeller"] = true,
+			["RemoveMagic"] = true,
 		},
 		["PRIEST3"] = {	--Shadow Priest
 			["Dps"] = true,
@@ -8011,8 +8006,8 @@ do
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
 			["MagicDispeller"] = true,
-			["HasInterrupt"] = true,
-			["RemoveDisease"] = true,
+			["RemoveMagic"] = true,
+			["HasInterrupt"] = IsSpellKnown(15487) and true or false,--Silence is a talent tree talent
 		},
 		["ROGUE1"] = {	--Assassination Rogue
 			["Dps"] = true,
@@ -8020,7 +8015,6 @@ do
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
-			["HasImmunity"] = true,
 		},
 		["SHAMAN1"] = {	--Elemental Shaman
 			["Dps"] = true,
@@ -8029,9 +8023,6 @@ do
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["CasterDps"] = true,
-			["RemoveCurse"] = true,
-			["MagicDispeller"] = true,
-			["HasInterrupt"] = true,
 		},
 		["SHAMAN2"] = {	--Enhancement Shaman
 			["Dps"] = true,
@@ -8040,18 +8031,12 @@ do
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["Physical"] = true,
-			["RemoveCurse"] = true,
-			["MagicDispeller"] = true,
-			["HasInterrupt"] = true,
 		},
 		["SHAMAN3"] = {	--Restoration Shaman
 			["Healer"] = true,
 			["Ranged"] = true,
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
-			["RemoveCurse"] = true,
-			["MagicDispeller"] = true,
-			["HasInterrupt"] = true,
 		},
 		["WARLOCK1"] = {	--Affliction Warlock
 			["Dps"] = true,
@@ -10137,7 +10122,7 @@ do
 			return self:Start(nil, timer, ...) -- first argument is optional!
 		end
 		if not self.option or self.mod.Options[self.option] then
-			if self.type and self.type:find("count") and not self.allowdouble then--cdcount, nextcount. remove previous timer.
+			if self.type and (self.type == "cdcount" or self.type == "nextcount") and not self.allowdouble then--remove previous timer.
 				for i = #self.startedTimers, 1, -1 do
 					if DBM.Options.AutoCorrectTimer or (DBM.Options.DebugMode and DBM.Options.DebugLevel > 1) then
 						local bar = DBM.Bars:GetBar(self.startedTimers[i])

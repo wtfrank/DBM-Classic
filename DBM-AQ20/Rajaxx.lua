@@ -14,7 +14,7 @@ mod:RegisterEvents(--An exception to not use incombat events, cause boss might n
 )
 
 local warnWave			= mod:NewAnnounce("WarnWave", 2, "Interface\\Icons\\Spell_Nature_WispSplode")
-local warnOrder			= mod:NewTargetAnnounce(25471)
+local warnOrder			= mod:NewTargetNoFilterAnnounce(25471)
 local warnCloud			= mod:NewSpellAnnounce(26550)
 local warnThundercrash	= mod:NewSpellAnnounce(25599)
 

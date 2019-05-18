@@ -7,11 +7,9 @@ mod:SetEncounterID(788)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START",
-	"SPELL_CAST_SUCCESS",
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_REMOVED",
-	"SPELL_SUMMON"
+	"SPELL_CAST_SUCCESS 24684 24699 24699",
+	"SPELL_AURA_APPLIED 24664 8269",
+	"SPELL_SUMMON 24684 24699"
 )
 
 local warnIllusions	= mod:NewSpellAnnounce(24728)
@@ -21,10 +19,9 @@ local warnFrenzy	= mod:NewSpellAnnounce(8269)
 local warnVanish	= mod:NewSpellAnnounce(24699)
 local warnCloud		= mod:NewSpellAnnounce(24683)
 
-local timerSleep	= mod:NewBuffActiveTimer(6, 24664)
-local timerCloud	= mod:NewBuffActiveTimer(15, 24683)
+local timerSleep	= mod:NewBuffActiveTimer(6, 24664, nil, nil, nil, 3)
+local timerCloud	= mod:NewBuffActiveTimer(15, 24683, nil, nil, nil, 3)
 
-local spamSleep = 0
 function mod:OnCombatStart(delay)
 end
 
@@ -40,7 +37,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(24664) and GetTime() - spamSleep > 5 then
+	if args:IsSpellID(24664) and self:AntiSpam(3, 1) then
 		warnSleep:Show()
 		timerSleep:Start()
 	elseif args:IsSpellID(8269) then

@@ -16,7 +16,7 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO, special warning optimizing?
-local warnMindControl	= mod:NewTargetAnnounce(785, 4)
+local warnMindControl	= mod:NewTargetNoFilterAnnounce(785, 4)
 local warnTeleport		= mod:NewSpellAnnounce(20449, 3)
 local warnSummon		= mod:NewSpellAnnounce(747, 3)
 local warnSummonSoon	= mod:NewSoonAnnounce(747, 2)

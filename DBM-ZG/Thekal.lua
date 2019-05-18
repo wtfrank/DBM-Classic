@@ -5,34 +5,39 @@ mod:SetRevision(("$Revision$"):sub(12, -3))
 
 mod:SetCreatureID(14509, 11348, 11347)
 mod:SetEncounterID(789)
+mod:SetBossHPInfoToHighest()
 mod:RegisterCombat("combat")
 mod:RegisterKill("yell", L.YellKill)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START",
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_REMOVED",
-	"SPELL_SUMMON",
+	"SPELL_CAST_START 24208",
+	"SPELL_AURA_APPLIED 21060 12540",
+	"SPELL_AURA_REMOVED 21060 12540",
+	"SPELL_SUMMON 24813",
 	"CHAT_MSG_MONSTER_EMOTE",
 	"CHAT_MSG_MONSTER_YELL"
 )
 
 local warnSimulKill		= mod:NewAnnounce("WarnSimulKill", 1, 24173)
-local warnHeal			= mod:NewCastAnnounce(24208)
-local warnBlind			= mod:NewTargetAnnounce(21060)
-local warnGouge			= mod:NewTargetAnnounce(12540)
+local warnBlind			= mod:NewTargetAnnounce(21060, 2)
+local warnGouge			= mod:NewTargetAnnounce(12540, 2)
 local warnPhase2		= mod:NewPhaseAnnounce(2)
-local warnAdds			= mod:NewSpellAnnounce(24183)
+local warnAdds			= mod:NewSpellAnnounce(24183, 3)
+
+local specWarnHeal		= mod:NewSpecialWarningInterrupt(24208, "HasInterrupt", nil, nil, 1, 2)
 
 local timerSimulKill	= mod:NewTimer(15, "TimerSimulKill", 24173)
-local timerHeal			= mod:NewCastTimer(4, 24208)
-local timerBlind		= mod:NewTargetTimer(10, 21060)
-local timerGouge		= mod:NewTargetTimer(4, 12540)
+local timerHeal			= mod:NewCastTimer(4, 24208, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
+local timerBlind		= mod:NewTargetTimer(10, 21060, nil, nil, nil, 3)
+local timerGouge		= mod:NewTargetTimer(4, 12540, nil, nil, nil, 3)
 
 function mod:SPELL_CAST_START(args)
 	if args:IsSpellID(24208) then
-		warnHeal:Show()
 		timerHeal:Start()
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnHeal:Show(args.sourceName)
+			specWarnHeal:Play("kickcast")
+		end
 	end
 end
 
@@ -82,6 +87,6 @@ function mod:OnSync(msg, arg)
 		end
 	elseif msg == "YellPhase2" then
 		warnPhase2:Show()
-		timerSimulKill:Cancel()
+		timerSimulKill:Stop()
 	end
 end

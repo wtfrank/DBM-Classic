@@ -7,23 +7,23 @@ mod:SetEncounterID(792)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_REMOVED",
-	"SPELL_CAST_SUCCESS",
-	"SPELL_SUMMON"
+	"SPELL_AURA_APPLIED 24306 17172 24261",
+	"SPELL_AURA_REMOVED 17172",
+	"SPELL_CAST_SUCCESS 24466",
+	"SPELL_SUMMON 24309 24262"
 )
 
-local warnDelusion		= mod:NewTargetAnnounce(24306)
-local warnHex			= mod:NewTargetAnnounce(17172)
-local warnHealingWard	= mod:NewSpellAnnounce(24309)
-local warnBrainTotem	= mod:NewSpellAnnounce(24262)
-local warnBrainWash		= mod:NewTargetAnnounce(24261)
-local warnBanish		= mod:NewTargetAnnounce(24466)
+local warnDelusion			= mod:NewTargeNoFilterAnnounce(24306, 2, nil, "RemoveCurse")
+local warnHex				= mod:NewTargeNoFilterAnnounce(17172, 2, nil, "RemoveMagic|Healer")
+local warnBrainWash			= mod:NewTargeNoFilterAnnounce(24261, 4)
+local warnBanish			= mod:NewTargeNoFilterAnnounce(24466, 2)
 
-local specWarnDelusion	= mod:NewSpecialWarningYou(24306)
+local specWarnHealingWard	= mod:NewSpecialWarningSwitch(24309, "Dps", nil, nil, 1, 2)
+local specWarnBrainTotem	= mod:NewSpecialWarningSwitch(24262, "Dps", nil, nil, 1, 2)
+local specWarnDelusion		= mod:NewSpecialWarningYou(24306, nil, nil, nil, 1, 2)--Don't remember why this has special warning, but trusting 2011 me
 
-local timerHex			= mod:NewTargetTimer(5, 17172)
-local timerDelusion		= mod:NewTargetTimer(20, 24306)
+local timerHex				= mod:NewTargetTimer(5, 17172, nil, "RemoveMagic|Healer", nil, 5, nil, DBM_CORE_MAGIC_ICON)
+local timerDelusion			= mod:NewTargetTimer(20, 24306, nil, "RemoveCurse", nil, 5, nil, DBM_CORE_CURSE_ICON)
 
 function mod:OnCombatStart(delay)
 end
@@ -31,9 +31,11 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpellID(24306) then
 		timerDelusion:Start(args.destName)
-		warnDelusion:Show(args.destName)
 		if args:IsPlayer() then
 			specWarnDelusion:Show()
+			specWarnDelusion:Play("targetyou")
+		else
+			warnDelusion:Show(args.destName)
 		end
 	elseif args:IsSpellID(17172) then
 		timerHex:Start(args.destName)
@@ -45,7 +47,7 @@ end
 
 function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(17172) then
-		timerHex:Cancel(args.destName)
+		timerHex:Stop(args.destName)
 	end
 end
 
@@ -57,8 +59,10 @@ end
 
 function mod:SPELL_SUMMON(args)
 	if args:IsSpellID(24309) then
-		warnHealingWard:Show()
+		specWarnHealingWard:Show()
+		specWarnHealingWard:Play("attacktotem")
 	elseif args:IsSpellID(24262) then
-		warnBrainTotem:Show()
+		specWarnBrainTotem:Show()
+		specWarnBrainTotem:Play("attacktotem")
 	end
 end

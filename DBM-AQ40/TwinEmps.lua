@@ -13,7 +13,7 @@ mod:RegisterEventsInCombat(
 )
 
 --Add warning for classic to actually swap for strike? boss taunt immune though.
-local warnStrike			= mod:NewTargetAnnounce(26613, 3, nil, "Tank|Healer")
+local warnStrike			= mod:NewTargetNoFilterAnnounce(26613, 3, nil, "Tank|Healer")
 local warnTeleport			= mod:NewSpellAnnounce(800, 3)
 local warnExplodeBug		= mod:NewSpellAnnounce(804, 2, nil, false)
 local warnMutateBug			= mod:NewSpellAnnounce(802, 2, nil, false)

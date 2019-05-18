@@ -9,11 +9,7 @@ L = DBM:GetModLocalization("Venoxis")
 L:SetGeneralLocalization{
 	name = "Sumo sacerdote Venoxis"
 }
-L:SetWarningLocalization{
-	warnPhase2Soon	= "Fase 2 pronto"
-}
 L:SetOptionLocalization{
-	warnPhase2Soon	= "Anunciar cuando la fase 2 esté a punto de comenzar",
 	RangeFrame		= "Mostrar distancia"
 }
 

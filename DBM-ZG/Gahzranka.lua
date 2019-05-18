@@ -10,6 +10,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 16099 22421"
 )
 
+--Correct Geyser ID? this one says hydrospawn in diremaul
 local warnBreath	= mod:NewCastAnnounce(16099)
 local warnGeyser	= mod:NewCastAnnounce(22421)
 

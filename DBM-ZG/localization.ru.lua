@@ -10,11 +10,7 @@ L = DBM:GetModLocalization("Venoxis")
 L:SetGeneralLocalization{
 	name = "Верховный жрец Веноксис"
 }
-L:SetWarningLocalization{
-	warnPhase2Soon	= "Скоро 2-ая фаза"
-}
 L:SetOptionLocalization{
-	warnPhase2Soon	= "Объявлять о скором начале 2-ой фазы",
 	RangeFrame		= "Показывать окно дистанции"
 }
 
