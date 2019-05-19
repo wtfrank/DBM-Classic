@@ -9,25 +9,27 @@ mod:SetZone()
 mod:RegisterCombat("combat_yell", L.Pull)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 243712",
-	"SPELL_AURA_APPLIED 243713 243723 156598",
-	"SPELL_AURA_APPLIED_DOSE 243713"
+--	"SPELL_CAST_START 243712",
+--	"SPELL_AURA_APPLIED 243713 243723 156598",
+--	"SPELL_AURA_APPLIED_DOSE 243713"
 )
 
 --TODO, maybe add yells for classic version, for timewalking version, it just doens't matter if marks don't run out
-local warnVoidBolt				= mod:NewStackAnnounce(243713, 2, nil, "Tank")
-local warningFrenzy				= mod:NewSpellAnnounce(156598, 3)
-local warningMark				= mod:NewTargetAnnounce(243723, 4)
-local warningShadowBoltVolley	= mod:NewSpellAnnounce(243712, 2)
+--TODO, needs valid spellIds for Classic
+--local warnVoidBolt				= mod:NewStackAnnounce(243713, 2, nil, "Tank")
+--local warningFrenzy				= mod:NewSpellAnnounce(156598, 3)
+--local warningMark				= mod:NewTargetAnnounce(243723, 4)
+--local warningShadowBoltVolley	= mod:NewSpellAnnounce(243712, 2)
 
-local specWarnMark				= mod:NewSpecialWarningMoveAway(243723, nil, nil, nil, 1, 2)
+--local specWarnMark				= mod:NewSpecialWarningMoveAway(243723, nil, nil, nil, 1, 2)
 
-local timerVoidBoltCD			= mod:NewCDTimer(27.8, 243713, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--Iffy
-local timerMarkCD				= mod:NewCDTimer(19.1, 243723, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
+--local timerVoidBoltCD			= mod:NewCDTimer(27.8, 243713, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--Iffy
+--local timerMarkCD				= mod:NewCDTimer(19.1, 243723, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
 --local timerShadowBoltVolleyCD	= mod:NewCDTimer(7.6, 243712, nil, nil, nil, 2)
 
 --mod:AddReadyCheckOption(48620, false)
 
+--[[
 function mod:OnCombatStart(delay, yellTriggered)
 	if yellTriggered then
 		timerVoidBoltCD:Start(8.3-delay)
@@ -61,3 +63,4 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
+--]]

@@ -8,6 +8,7 @@ mod:SetZone()
 
 mod:RegisterCombat("combat_yell", L.Pull)
 
+--[[
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 243401",
 	"SPELL_CAST_SUCCESS 243399",
@@ -17,6 +18,7 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO, maybe taunt special warnings for classic version when it matters more.
+--TODO, needs valid spellIds for Classic
 local warnNoxiousBreath			= mod:NewStackAnnounce(243401, 2, nil, "Tank")
 local warningLightningWave		= mod:NewSpellAnnounce(243610, 3)
 
@@ -67,3 +69,4 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
 		timerLightningWaveCD:Start()
 	end
 end
+--]]

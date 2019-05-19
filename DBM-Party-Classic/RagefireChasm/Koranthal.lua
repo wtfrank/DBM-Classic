@@ -8,11 +8,12 @@ mod:SetEncounterID(1444)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 119300"
+--	"SPELL_CAST_START 119300"
 )
 
-local specWarnTwistedElements			= mod:NewSpecialWarningInterrupt(119300, "HasInterrupt", nil, nil, 1, 2)
+--local specWarnTwistedElements			= mod:NewSpecialWarningInterrupt(119300, "HasInterrupt", nil, nil, 1, 2)
 
+--[[
 function mod:SPELL_CAST_START(args)
 	if args.spellId == 119300 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
 		specWarnTwistedElements:Show(args.sourceName)
@@ -20,7 +21,6 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
---[[
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 32346 then
 		warningSoul:Show(args.destName)

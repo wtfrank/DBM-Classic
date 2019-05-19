@@ -8,6 +8,7 @@ mod:SetZone()
 
 mod:RegisterCombat("combat_yell", L.Pull)
 
+--[[
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 243401",
 	"SPELL_CAST_SUCCESS 243399",
@@ -16,6 +17,7 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO, maybe taunt special warnings for classic version when it matters more.
+--TODO, Needs valid spellIDs for Classic
 local warnNoxiousBreath			= mod:NewStackAnnounce(243401, 2, nil, "Tank")
 
 local specWarnSleepingFog		= mod:NewSpecialWarningDodge(243399, nil, nil, nil, 2, 2)
@@ -63,3 +65,4 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
+--]]

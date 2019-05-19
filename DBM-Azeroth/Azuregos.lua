@@ -8,12 +8,14 @@ mod:SetZone()
 
 mod:RegisterCombat("combat_yell", L.Pull)
 
+--[[
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 243784 243789",
 	"SPELL_CAST_SUCCESS 243835"
 )
 
 --TODO, maybe add yells for classic version, for timewalking version, it just doens't matter if marks don't run out
+--TODO, needs valid spellIds for Classic
 local warningFrostBreath		= mod:NewSpellAnnounce(243789, 3)
 
 local specWarnArcaneVacuum		= mod:NewSpecialWarningSpell(243784, nil, nil, nil, 2, 5)
@@ -52,3 +54,4 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerReflectionCD:Start()
 	end
 end
+--]]

@@ -8,14 +8,14 @@ mod:SetModelID(10729)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 28884 57467",
+	"SPELL_CAST_START 28884",
 	"SPELL_CAST_SUCCESS 28832 28833 28834 28835",
 	"SPELL_AURA_APPLIED_DOSE 28832 28833 28834 28835"
 )
 
 --TODO, first marks
 local warnMarkSoon				= mod:NewAnnounce("WarningMarkSoon", 1, 28835, false)
-local warnMeteor				= mod:NewSpellAnnounce(57467, 4)
+local warnMeteor				= mod:NewSpellAnnounce(28884, 4)
 
 local specWarnMarkOnPlayer		= mod:NewSpecialWarning("SpecialWarningMarkOnPlayer", nil, nil, nil, 1, 6)
 
@@ -28,7 +28,7 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(28884, 57467) then
+	if args:IsSpellID(28884) then
 		warnMeteor:Show()
 	end
 end

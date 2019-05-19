@@ -13,10 +13,10 @@ mod:RegisterEventsInCombat(
 	"SPELL_SUMMON 24309 24262"
 )
 
-local warnDelusion			= mod:NewTargeNoFilterAnnounce(24306, 2, nil, "RemoveCurse")
-local warnHex				= mod:NewTargeNoFilterAnnounce(17172, 2, nil, "RemoveMagic|Healer")
-local warnBrainWash			= mod:NewTargeNoFilterAnnounce(24261, 4)
-local warnBanish			= mod:NewTargeNoFilterAnnounce(24466, 2)
+local warnDelusion			= mod:NewTargetNoFilterAnnounce(24306, 2, nil, "RemoveCurse")
+local warnHex				= mod:NewTargetNoFilterAnnounce(17172, 2, nil, "RemoveMagic|Healer")
+local warnBrainWash			= mod:NewTargetNoFilterAnnounce(24261, 4)
+local warnBanish			= mod:NewTargetNoFilterAnnounce(24466, 2)
 
 local specWarnHealingWard	= mod:NewSpecialWarningSwitch(24309, "Dps", nil, nil, 1, 2)
 local specWarnBrainTotem	= mod:NewSpecialWarningSwitch(24262, "Dps", nil, nil, 1, 2)

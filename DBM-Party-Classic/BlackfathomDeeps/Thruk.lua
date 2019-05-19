@@ -8,18 +8,18 @@ mod:SetEncounterID(1675)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 149913"
+--	"SPELL_CAST_START 149913"
 )
 
-local specWarnFillet			= mod:NewSpecialWarningRun(149955, "Melee", nil, nil, 4, 2)
+--local specWarnFillet			= mod:NewSpecialWarningRun(149955, "Melee", nil, nil, 4, 2)
 
-local timerFilletCD				= mod:NewAITimer(180, 149955, nil, nil, nil, 2)
+--local timerFilletCD				= mod:NewAITimer(180, 149955, nil, nil, nil, 2)
 
 function mod:OnCombatStart(delay)
-	timerFilletCD:Start(1-delay)
+--	timerFilletCD:Start(1-delay)
 end
 
-
+--[[
 function mod:SPELL_CAST_START(args)
 	if args.spellId == 149913 then
 		if not DBM:UnitDebuff("player", 149910) then
@@ -30,7 +30,6 @@ function mod:SPELL_CAST_START(args)
 	end
 end
 
---[[
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 32346 then
 		warningSoul:Show(args.destName)
