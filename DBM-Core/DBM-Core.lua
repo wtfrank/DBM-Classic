@@ -182,9 +182,7 @@ DBM.DefaultOptions = {
 	AFKHealthWarning = false,
 	AutoReplySound = true,
 	HideObjectivesFrame = true,
-	HideGarrisonToasts = true,
-	HideGuildChallengeUpdates = true,
-	HideQuestTooltips = true,
+	--HideQuestTooltips = true,
 	HideTooltips = false,
 	DisableSFX = false,
 	EnableModels = true,
@@ -262,7 +260,6 @@ DBM.DefaultOptions = {
 	DontShowInfoFrame = false,
 	DontShowHudMap2 = false,
 	DontShowNameplateIcons = false,
-	DontShowNameplateLines = false,
 	DontPlayCountdowns = false,
 	DontSendYells = false,
 	BlockNoteShare = false,
@@ -286,9 +283,7 @@ DBM.DefaultOptions = {
 	LastRevision = 0,
 	DebugMode = false,
 	DebugLevel = 1,
-	RoleSpecAlert = true,
-	CheckGear = true,
-	WorldBossAlert = false,
+	WorldBossAlert = true,
 	AutoAcceptFriendInvite = false,
 	AutoAcceptGuildInvite = false,
 	FakeBWVersion = false,
@@ -473,7 +468,7 @@ local UnitExists, UnitIsDead, UnitIsFriend, UnitIsUnit = UnitExists, UnitIsDead,
 local GetSpellInfo, GetDungeonInfo, GetSpellTexture, GetSpellCooldown = GetSpellInfo, GetDungeonInfo, GetSpellTexture, GetSpellCooldown
 --local EJ_GetEncounterInfo, EJ_GetCreatureInfo, EJ_GetSectionInfo, GetSectionIconFlags = EJ_GetEncounterInfo, EJ_GetCreatureInfo, C_EncounterJournal.GetSectionInfo, C_EncounterJournal.GetSectionIconFlags
 local GetInstanceInfo = GetInstanceInfo
---local UnitDetailedThreatSituation = UnitDetailedThreatSituation
+--local UnitDetailedThreatSituation = UnitDetailedThreatSituation--Added in wrath DO NOT REMOVE MIGHT NEED ONE DAY
 local UnitIsGroupLeader, UnitIsGroupAssistant = UnitIsGroupLeader, UnitIsGroupAssistant
 local PlaySoundFile, PlaySound = PlaySoundFile, PlaySound
 local Ambiguate = Ambiguate
@@ -842,7 +837,7 @@ do
 					local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8
 					event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 = strsplit(" ", event)
 					if not arg1 and event:sub(event:len() - 10) ~= "_UNFILTERED" then -- no arguments given, support for legacy mods
-						eventWithArgs = event .. " boss1 boss2 boss3 boss4 boss5 target focus"
+						eventWithArgs = event .. " boss1 boss2 boss3 boss4 boss5 target"--focus
 						event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 = strsplit(" ", eventWithArgs)
 					end
 					if event:sub(event:len() - 10) == "_UNFILTERED" then
@@ -938,7 +933,7 @@ do
 		for k, v in pairs(self.shortTermRegisterEvents) do
 			if v:sub(0, 5) == "UNIT_" and v:sub(v:len() - 10) ~= "_UNFILTERED" and not v:find(" ") and v ~= "UNIT_DIED" and v ~= "UNIT_DESTROYED" then
 				-- legacy event, oh noes
-				self.shortTermRegisterEvents[k] = v .. " boss1 boss2 boss3 boss4 boss5 target focus"
+				self.shortTermRegisterEvents[k] = v .. " boss1 boss2 boss3 boss4 boss5 target"--focus
 			end
 		end
 		self.shortTermEventsRegistered = 1
@@ -1351,7 +1346,7 @@ do
 				"BOSS_KILL",
 				"UNIT_DIED",
 				"UNIT_DESTROYED",
-				"UNIT_HEALTH mouseover target focus player",
+				"UNIT_HEALTH mouseover target player",--focus
 				"CHAT_MSG_WHISPER",
 				"CHAT_MSG_BN_WHISPER",
 				"CHAT_MSG_MONSTER_YELL",
@@ -2076,8 +2071,8 @@ do
 				local uId
 				if target:upper() == "TARGET" and UnitExists("target") then
 					uId = "target"
-				elseif target:upper() == "FOCUS" and UnitExists("focus") then
-					uId = "focus"
+				--elseif target:upper() == "FOCUS" and UnitExists("focus") then
+				--	uId = "focus"
 				else--Try to use it as player name
 					uId = DBM:GetRaidUnitId(target)
 				end
@@ -2151,9 +2146,9 @@ do
 				elseif subCmd:upper() == "TARGET" then
 					DBM.Arrow:ShowRunTo("target")
 					success = true
-				elseif subCmd:upper() == "FOCUS" then
-					DBM.Arrow:ShowRunTo("focus")
-					success = true
+				--elseif subCmd:upper() == "FOCUS" then
+				--	DBM.Arrow:ShowRunTo("focus")
+				--	success = true
 				elseif subCmd:upper() == "MAP" then
 					DBM.Arrow:ShowRunTo(yNum, zNum, 0, nil, true)
 					success = true
@@ -3703,6 +3698,7 @@ do
 
 	function DBM:PARTY_INVITE_REQUEST(sender)
 		--First off, if you are in queue for something, lets not allow guildies or friends boot you from it.
+		--TODO, REMOVE if GetLFGMode gets removed in clasic
 		if IsInInstance() or GetLFGMode(1) or GetLFGMode(2) or GetLFGMode(3) or GetLFGMode(4) or GetLFGMode(5) then return end
 		--First check realID
 		if self.Options.AutoAcceptFriendInvite then
@@ -3828,7 +3824,7 @@ do
 		LastInstanceMapID = mapID
 		LastGroupSize = instanceGroupSize
 		difficultyIndex = difficulty
-		if instanceType == "none" or C_Garrison:IsOnGarrisonMap() then
+		if instanceType == "none" then
 			LastInstanceType = "none"
 			if not targetEventsRegistered then
 				self:RegisterShortTermEvents("UPDATE_MOUSEOVER_UNIT")
@@ -4262,23 +4258,6 @@ do
 			end
 		end
 		DBM:StartLogging(timer, checkForActualPull)
-		if DBM.Options.CheckGear then
-			local bagilvl, equippedilvl = GetAverageItemLevel()
-			local difference = bagilvl - equippedilvl
-			local weapon = GetInventoryItemLink("player", 16)
-			local fishingPole = false
-			if weapon then
-				local _, _, _, _, _, _, type = GetItemInfo(weapon)
-				if type and type == DBM_CORE_GEAR_FISHING_POLE then
-					fishingPole = true
-				end
-			end
-			if IsInRaid() and difference >= 40 then
-				dummyMod.geartext:Show(DBM_CORE_GEAR_WARNING:format(floor(difference)))
-			elseif IsInRaid() and (not weapon or fishingPole) then
-				dummyMod.geartext:Show(DBM_CORE_GEAR_WARNING_WEAPON)
-			end
-		end
 	end
 
 	do
@@ -6327,7 +6306,7 @@ end
 --TODO C_IslandsQueue.GetIslandDifficultyInfo(), if 38-40 don't work
 function DBM:GetCurrentInstanceDifficulty()
 	local _, instanceType, difficulty, difficultyName, _, _, _, _, instanceGroupSize = GetInstanceInfo()
-	if difficulty == 0 or (difficulty == 1 and instanceType == "none") or C_Garrison:IsOnGarrisonMap() then--draenor field returns 1, causing world boss mod bug.
+	if difficulty == 0 or (difficulty == 1 and instanceType == "none") then--draenor field returns 1, causing world boss mod bug.
 		return "worldboss", RAID_INFO_WORLD_BOSS.." - ", difficulty, instanceGroupSize
 	elseif difficulty == 1 then
 		return "normal5", difficultyName.." - ", difficulty, instanceGroupSize
@@ -6823,26 +6802,19 @@ do
 	end
 	function DBM:HideBlizzardEvents(toggle, custom)
 		if toggle == 1 then
-			if self.Options.HideQuestTooltips then
+			--[[if self.Options.HideQuestTooltips then
 				self.Options.tempQuestCVar = tonumber(GetCVar("showQuestTrackingTooltips")) or 1
 				if self.Options.tempQuestCVar == 1 then
 					SetCVar("showQuestTrackingTooltips", 0)
 				else
 					self.Options.tempQuestCVar = nil--Don't actually need it
 				end
-			end
+			end--]]
 			if (self.Options.HideBossEmoteFrame2 or custom) and not testBuild then
 				DisableEvent(RaidBossEmoteFrame, "RAID_BOSS_EMOTE")
 				DisableEvent(RaidBossEmoteFrame, "RAID_BOSS_WHISPER")
 				DisableEvent(RaidBossEmoteFrame, "CLEAR_BOSS_EMOTES")
 				SOUNDKIT.UI_RAID_BOSS_WHISPER_WARNING = 999999--Since blizzard can still play the sound via RaidBossEmoteFrame_OnEvent (line 148) via encounter scripts in certain cases despite the frame having no registered events
-			end
-			if self.Options.HideGarrisonToasts or custom then
-				DisableEvent(AlertFrame, "GARRISON_MISSION_FINISHED")
-				DisableEvent(AlertFrame, "GARRISON_BUILDING_ACTIVATABLE")
-			end
-			if self.Options.HideGuildChallengeUpdates or custom then
-				DisableEvent(AlertFrame, "GUILD_CHALLENGE_COMPLETED")
 			end
 		elseif toggle == 0 then
 			if self.Options.tempQuestCVar then
@@ -6855,13 +6827,6 @@ do
 				EnableEvent(RaidBossEmoteFrame, "RAID_BOSS_WHISPER")
 				EnableEvent(RaidBossEmoteFrame, "CLEAR_BOSS_EMOTES")
 				SOUNDKIT.UI_RAID_BOSS_WHISPER_WARNING = 37666--restore it
-			end
-			if self.Options.HideGarrisonToasts then
-				EnableEvent(AlertFrame, "GARRISON_MISSION_FINISHED")
-				EnableEvent(AlertFrame, "GARRISON_BUILDING_ACTIVATABLE")
-			end
-			if self.Options.HideGuildChallengeUpdates then
-				EnableEvent(AlertFrame, "GUILD_CHALLENGE_COMPLETED")
 			end
 		end
 	end
@@ -7110,7 +7075,7 @@ do
 		if id and not neverFilter[id] then
 			DBM:Debug("PLAY_MOVIE fired for ID: "..id, 2)
 			local isInstance, instanceType = IsInInstance()
-			if not isInstance or C_Garrison:IsOnGarrisonMap() or instanceType == "scenario" or DBM.Options.MovieFilter2 == "Never" or DBM.Options.MovieFilter2 == "OnlyFight" and not IsEncounterInProgress() then return end
+			if not isInstance or instanceType == "scenario" or DBM.Options.MovieFilter2 == "Never" or DBM.Options.MovieFilter2 == "OnlyFight" and not IsEncounterInProgress() then return end
 			if DBM.Options.MovieFilter2 == "Block" or (self.Options.MovieFilter2 == "AfterFirst" or self.Options.MovieFilter2 == "OnlyFight") and DBM.Options.MoviesSeen[id] then
 				MovieFrame:Hide()--can only just hide movie frame safely now, which means can't stop audio anymore :\
 				DBM:AddMsg(DBM_CORE_MOVIE_SKIPPED)
@@ -7123,7 +7088,7 @@ do
 	function DBM:CINEMATIC_START()
 		self:Debug("CINEMATIC_START fired", 2)
 		local isInstance, instanceType = IsInInstance()
-		if not isInstance or C_Garrison:IsOnGarrisonMap() or instanceType == "scenario" or self.Options.MovieFilter2 == "Never" or DBM.Options.MovieFilter2 == "OnlyFight" and not IsEncounterInProgress() then return end
+		if not isInstance or instanceType == "scenario" or self.Options.MovieFilter2 == "Never" or DBM.Options.MovieFilter2 == "OnlyFight" and not IsEncounterInProgress() then return end
 		local currentMapID = C_Map.GetBestMapForUnit("player")
 		if not currentMapID then return end--Protection from map failures in zones that have no maps yet
 		if self.Options.MovieFilter2 == "Block" or (self.Options.MovieFilter2 == "AfterFirst" or self.Options.MovieFilter2 == "OnlyFight") and self.Options.MoviesSeen[currentMapID] then
@@ -7314,7 +7279,7 @@ function bossModPrototype:RegisterEventsInCombat(...)
 	for k, v in pairs(self.inCombatOnlyEvents) do
 		if v:sub(0, 5) == "UNIT_" and v:sub(v:len() - 10) ~= "_UNFILTERED" and not v:find(" ") and v ~= "UNIT_DIED" and v ~= "UNIT_DESTROYED" then
 			-- legacy event, oh noes
-			self.inCombatOnlyEvents[k] = v .. " boss1 boss2 boss3 boss4 boss5 target focus"
+			self.inCombatOnlyEvents[k] = v .. " boss1 boss2 boss3 boss4 boss5 target"--focus
 		end
 	end
 end
@@ -7433,7 +7398,7 @@ function bossModPrototype:CheckInterruptFilter(sourceGUID, force, checkCooldown,
 	if requireCooldown and ((GetSpellCooldown(6552)) ~= 0 or (GetSpellCooldown(2139)) ~= 0 or (GetSpellCooldown(1766)) ~= 0 or (GetSpellCooldown(15487)) ~= 0) then
 		InterruptAvailable = false--checkCooldown check requested and player has no spell that can interrupt available
 	end
-	if InterruptAvailable and (ignoreTandF or UnitGUID("target") == sourceGUID or UnitGUID("focus") == sourceGUID) then
+	if InterruptAvailable and (ignoreTandF or UnitGUID("target") == sourceGUID) then--focus
 		return true
 	end
 	return false
@@ -7488,7 +7453,7 @@ bossModPrototype.GetUnitIdFromGUID = DBM.GetUnitIdFromGUID
 
 do
 	local bossTargetuIds = {
-		"boss1", "boss2", "boss3", "boss4", "boss5", "focus", "target"
+		"boss1", "boss2", "boss3", "boss4", "boss5", "target"--focus
 	}
 	local targetScanCount = {}
 	local repeatedScanEnabled = {}
@@ -7596,7 +7561,7 @@ do
 		end
 		if uid then
 			local cid = DBM:GetUnitCreatureId(uid)
-			if cid == 24207 or cid == 80258 or cid == 87519 then--filter army of the dead/Garrison Footman (basically same thing as army)
+			if cid == 24207 then--filter army of the dead
 				return nil, nil, nil
 			end
 		end
@@ -8263,11 +8228,11 @@ function DBM:GetBossHP(cId)
 		local hp = UnitHealth(uId) / UnitHealthMax(uId) * 100
 		bossHealth[cId] = hp
 		return hp, uId, UnitName(uId)
-	elseif self:GetCIDFromGUID(UnitGUID("focus")) == cId and UnitHealthMax("focus") ~= 0 then
-		if bossHealth[cId] and (UnitHealth("focus") == 0  and not UnitIsDead("focus")) then return bossHealth[cId], "focus", UnitName("focus") end--Return last non 0 value if value is 0, since it's last valid value we had.
-		local hp = UnitHealth("focus") / UnitHealthMax("focus") * 100
-		bossHealth[cId] = hp
-		return hp, "focus", UnitName("focus")
+	--elseif self:GetCIDFromGUID(UnitGUID("focus")) == cId and UnitHealthMax("focus") ~= 0 then
+		--if bossHealth[cId] and (UnitHealth("focus") == 0  and not UnitIsDead("focus")) then return bossHealth[cId], "focus", UnitName("focus") end--Return last non 0 value if value is 0, since it's last valid value we had.
+		--local hp = UnitHealth("focus") / UnitHealthMax("focus") * 100
+		--bossHealth[cId] = hp
+		--return hp, "focus", UnitName("focus")
 	else
 		for i = 1, 5 do
 			local unitID = "boss"..i
@@ -8303,11 +8268,11 @@ function DBM:GetBossHPByGUID(guid)
 		local hp = UnitHealth(uId) / UnitHealthMax(uId) * 100
 		bossHealth[guid] = hp
 		return hp, uId, UnitName(uId)
-	elseif UnitGUID("focus") == guid and UnitHealthMax("focus") ~= 0 then
-		if bossHealth[guid] and (UnitHealth("focus") == 0  and not UnitIsDead("focus")) then return bossHealth[guid], "focus", UnitName("focus") end--Return last non 0 value if value is 0, since it's last valid value we had.
-		local hp = UnitHealth("focus") / UnitHealthMax("focus") * 100
-		bossHealth[guid] = hp
-		return hp, "focus", UnitName("focus")
+	--elseif UnitGUID("focus") == guid and UnitHealthMax("focus") ~= 0 then
+		--if bossHealth[guid] and (UnitHealth("focus") == 0  and not UnitIsDead("focus")) then return bossHealth[guid], "focus", UnitName("focus") end--Return last non 0 value if value is 0, since it's last valid value we had.
+		--local hp = UnitHealth("focus") / UnitHealthMax("focus") * 100
+		--bossHealth[guid] = hp
+		--return hp, "focus", UnitName("focus")
 	else
 		for i = 1, 5 do
 			local unitID = "boss"..i
