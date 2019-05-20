@@ -123,13 +123,14 @@ DBM_CORE_OPTION_TIMER_COMBAT		= "전투 시작 타이머 바 보기"
 DBM_CORE_BAD						= "바닥"
 
 DBM_CORE_OPTION_CATEGORY_TIMERS		= "바"
+--Sub cats for "announce" object
 DBM_CORE_OPTION_CATEGORY_WARNINGS	= "일반 알림"
 DBM_CORE_OPTION_CATEGORY_WARNINGS_YOU	= "개인 알림"
 DBM_CORE_OPTION_CATEGORY_WARNINGS_OTHER	= "대상 관련 알림"
 DBM_CORE_OPTION_CATEGORY_WARNINGS_ROLE	= "역할 관련 알림"
 
 DBM_CORE_OPTION_CATEGORY_SOUNDS		= "음성"
---Sub cats for "announce" object
+--Misc object broken down into sub cats
 DBM_CORE_OPTION_CATEGORY_DROPDOWNS		= "드롭다운 옵션"
 DBM_CORE_OPTION_CATEGORY_YELLS			= "말풍선"
 DBM_CORE_OPTION_CATEGORY_NAMEPLATES		= "이름표"
@@ -177,6 +178,7 @@ DBM_CORE_DPMCORE						= "경고: Deadly PvP 모드는 더이상 개발되지 않
 DBM_CORE_DBMLDB							= "경고: DBM-LDB는 이제 DBM-Core에 편입되었습니다. 같이 사용해도 문제가 생기는건 아니지만 가급적 애드온 폴더에서 'DBM-LDB' 폴더를 삭제하는걸 권장합니다"
 DBM_CORE_UPDATE_REQUIRES_RELAUNCH		= "경고: 지금 업데이트한 DBM은 게임 클라이언트를 완전히 재시작하기 전까진 정상 작동하지 않습니다. 이 업데이트엔 새 파일이 포함되어 있거나 UI 재시작으로는 로딩할 수 없는 .toc 파일의 변경 사항이 있습니다. 클라이언트 재시작 없이 사용할 경우 오류가 발생하거나 작동하지 않을 수 있습니다."
 DBM_CORE_OUT_OF_DATE_NAG				= "현재 사용중인 Deadly Boss Mods 버전이 오래되었습니다. 업데이트를 해야 이 전투의 중요한 알림이나 타이머 그리고 공격대원 모두가 보는 외침 등이 빠지지 않게 나옵니다."
+DBM_CORE_CLASSIC_ONLY					= "경고: 이 DBM은 월드 오브 워크래프트: 클래식 전용 버전입니다. 삭제하시고 최신 WoW 버전용 DBM을 설치하세요."
 
 DBM_CORE_MOVABLE_BAR				= "드래그 하세요!"
 
@@ -446,6 +448,7 @@ DBM_CORE_AUTO_TIMER_TEXTS.nextspecial		= "다음 특수 능력"
 DBM_CORE_AUTO_TIMER_TEXTS.stage			= "다음 단계"
 DBM_CORE_AUTO_TIMER_TEXTS.adds			= "쫄 등장"
 DBM_CORE_AUTO_TIMER_TEXTS.addscustom		= "쫄 등장 (%%s)"
+DBM_CORE_AUTO_TIMER_TEXTS.roleplay		= "롤플레이"
 
 DBM_CORE_AUTO_TIMER_OPTIONS.target		= "$spell:%s 디버프 타이머 바 보기"
 DBM_CORE_AUTO_TIMER_OPTIONS.cast		= "$spell:%s 시전 타이머 바 보기"
@@ -577,6 +580,13 @@ DBM_LDB_TOOLTIP_HELP2	= "오른쪽 클릭으로 설정 메뉴 열기"
 
 DBM_LDB_LOAD_MODS		= "보스 모드 로드"
 
+DBM_LDB_CAT_BFA			= "격전의 아제로스"
+DBM_LDB_CAT_LEG			= "군단"
+DBM_LDB_CAT_WOD			= "드레노어의 전쟁군주"
+DBM_LDB_CAT_MOP			= "판다리아의 안개"
+DBM_LDB_CAT_CATA		= "대격변"
+DBM_LDB_CAT_WOTLK		= "리치 왕의 분노"
+DBM_LDB_CAT_BC			= "불타는 성전"
 DBM_LDB_CAT_OTHER		= "그 외 보스 모드"
 
 DBM_LDB_CAT_GENERAL		= "일반"
