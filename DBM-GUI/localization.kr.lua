@@ -3,17 +3,21 @@ if GetLocale() ~= "koKR" then return end
 if not DBM_GUI_Translations then DBM_GUI_Translations = {} end
 local L = DBM_GUI_Translations
 
---L.MainFrame = "Deadly Boss Mods"
-
 L.TranslationByPrefix		= "번역: "
 L.TranslationBy 			= "Elnarfim"
 L.Website					= "디스코드 채널 |cFF73C2FBhttps://discord.gg/deadlybossmods|r를 방문해 보세요. 트위터 팔로우 @deadlybossmods 또는 @MysticalOS"
-L.WebsiteButton				= "디스코드"
+L.WebsiteButton				= "웹사이트"
 
 L.OTabBosses	= "보스"
---L.OTabOptions	= GAMEOPTIONS_MENU
 
 L.TabCategory_Options		= "일반 설정"
+L.TabCategory_BFA	 		= "격전의 아제로스"
+L.TabCategory_LEG	 		= "군단"
+L.TabCategory_WOD	 		= "드레노어의 전쟁군주"
+L.TabCategory_MOP	 		= "판다리아의 안개"
+L.TabCategory_CATA	 		= "대격변"
+L.TabCategory_WOTLK 		= "리치 왕의 분노"
+L.TabCategory_BC 			= "불타는 성전"
 L.TabCategory_OTHER			= "기타 보스 모드"
 
 L.BossModLoaded 			= "%s 통계"
@@ -105,7 +109,6 @@ L.CombatMessages			= "전투 메시지 설정"
 L.ShowEngageMessage 		= "대화창에 전투 시작 메시지 표시"
 L.ShowDefeatMessage 		= "대화창에 처치/전멸 메시지 표시"
 L.ShowGuildMessages 		= "대화창에 길드 레이드 전투 시작/보스 처치/전멸 메시지 표시"
-L.ShowGuildMessagesPlus		= "길드팟 신화+ 전투 시작/보스 처치/전멸 메시지도 표시 (길드 레이드 옵션 체크 필요)"
 L.WhisperMessages			= "귓속말 메시지 설정"
 L.AutoRespond 				= "전투중 귓속말 자동 응답"
 L.EnableStatus 				= "'status' 라는 귓속말을 받으면 자동 응답"
@@ -231,8 +234,6 @@ L.EventEngageMusic			= "보스 전투 도중 재생할 배경음 설정"
 L.Area_EventSoundsExtras	= "이벤트 효과음 설정"
 L.EventMusicCombined		= "던전과 보스 전투 배경음에 모든 음악 사용 (변경사항을 적용하려면 UI 리로드 필요)"
 L.Area_EventSoundsFilters	= "이벤트 효과음 필터 적용 조건"
-L.EventFilterDungMythicMusic= "신화/신화+ 난이도에선 던전 배경음을 재생하지 않음"
-L.EventFilterMythicMusic	= "신화/신화+ 난이도에선 보스 전투 배경음을 재생하지 않음"
 
 -- Tab: Global Filter
 L.Panel_SpamFilter			= "DBM 전역 기능 끄기 및 필터"
@@ -248,7 +249,6 @@ L.SpamBlockNoRangeFrame		= "거리 창 표시 안함"
 L.SpamBlockNoInfoFrame		= "정보 창 표시 안함"
 L.SpamBlockNoHudMap			= "HUD 표시 안함"
 L.SpamBlockNoNameplate		= "이름표 오라 표시 안함 (완전히 작동 중단)"
-L.SpamBlockNoNameplateLines	= "이름표 오라에 선 표시 안함 (오라 아이콘은 계속 표시됨)"
 L.SpamBlockNoCountdowns		= "초읽기 효과음 재생 안함"
 L.SpamBlockNoYells			= "대화 알림 사용 안함"
 L.SpamBlockNoNoteSync		= "메모 공유 수락 안함"
@@ -285,27 +285,19 @@ L.Panel_HideBlizzard		= "블리자드 기능 끄기 및 숨김"
 L.Area_HideBlizzard			= "블리자드 기능 끄기 및 숨김 설정"
 L.HideBossEmoteFrame		= "보스 전투중 보스 감정표현 숨기기"
 L.HideWatchFrame			= "추적중인 업적이 없고 신화+ 난이도가 아니라면 보스 전투시 퀘스트 추적 프레임을 숨깁니다."
-L.HideGarrisonUpdates		= "보스 전투중 주둔지 팝업 알림 숨기기"
-L.HideGuildChallengeUpdates	= "보스 전투중 길드 도전 과제 알림 숨기기"
-L.HideQuestTooltips			= "보스 전투중 툴팁에서 퀘스트 정보 숨기기"
+--L.HideQuestTooltips			= "보스 전투중 툴팁에서 퀘스트 정보 숨기기"
 L.HideTooltips				= "보스 전투중 모든 툴팁 숨기기"
 L.DisableSFX				= "보스 전투중 소리 채널 (효과음) 끄기"
-L.DisableCinematics			= "게임 내 영상 끄기"
-L.OnlyFight					= "전투중일 때 한번만 재생"
-L.AfterFirst				= "인스턴스 던전에 있을 때 한번만 재생"
+--L.DisableCinematics			= "게임 내 영상 끄기"
+--L.OnlyFight					= "전투중일 때 한번만 재생"
+--L.AfterFirst				= "인스턴스 던전에 있을 때 한번만 재생"
 L.Always					= "항상 끄기"
 L.CombatOnly				= "전투중 차단 (모든 전투)"
 L.RaidCombat				= "전투중 차단 (보스만)"
-L.TrivialContent			= "신화 미만 던전"--Basically anything below 340
-L.NormalRaider				= "신화+ 5단 미만 던전과 공격대 찾기 레이드"--Basically, anything below 355
-L.HeroicRaider				= "신화+ 10단 미만 던전과 영웅 미만 레이드와 격전지 이외 필드 레이드 보스"--Basically anything below 370
-L.MythicRaider				= "신화 레이드 미만 모든 보스"--Basically anything below 385
 
 L.Panel_ExtraFeatures		= "기타 기능"
 --
 L.Area_ChatAlerts			= "텍스트 알림 설정"
-L.RoleSpecAlert				= "공격대에 들어왔을 때 현재 전문화와 설정된 전리품 전문화가 맞지 않으면 알림 메시지 표시"
-L.CheckGear					= "풀링 타이머가 나오면 착용 장비 알림 메시지 표시 (착용 아이템 레벨이 소지한 아이템 레벨보다 40 이상 낮거나 주무기가 장착되어 있지 않은 경우)"
 L.WorldBossAlert			= "현재 서버에서 친구나 길드원이 필드 보스 전투를 시작하면 메시지 표시 (전송자가 연합 서버라면 부정확합니다)"
 --
 L.Area_SoundAlerts			= "효과음/점멸 알림 설정"
@@ -325,9 +317,9 @@ L.AutologBosses				= "보스 전투시 블리자드 전투 기록 자동 활성�
 L.AdvancedAutologBosses		= "Transcriptor 사용시 보스 전투 기록 자동 활성화"
 L.LogOnlyRaidBosses			= "현재 확장팩의 레이드 보스만 기록하기 (공격대 찾기/파티/시나리오/구 컨텐츠 제외)"
 --
-L.Area_3rdParty				= "써드파티 애드온 설정"
-L.ShowBBOnCombatStart		= "전투 시작시 Big Brother 버프 검사 실행"
-L.BigBrotherAnnounceToRaid	= "Big Brother 버프 검사 결과를 공격대에 알림"
+--L.Area_3rdParty				= "써드파티 애드온 설정"
+--L.ShowBBOnCombatStart		= "전투 시작시 Big Brother 버프 검사 실행"
+--L.BigBrotherAnnounceToRaid	= "Big Brother 버프 검사 결과를 공격대에 알림"
 L.Area_Invite				= "초대 설정"
 L.AutoAcceptFriendInvite	= "친구의 파티/공격대 초대 자동 수락"
 L.AutoAcceptGuildInvite		= "길드원의 파티/공격대 초대 자동 수락"
