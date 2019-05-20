@@ -761,6 +761,89 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
+--  Shadowfang Keep (15)  --
+-----------------------------
+--  Rethilgore  --
+-----------------------------
+L = DBM:GetModLocalization("Rethilgore")
+
+L:SetGeneralLocalization{
+	name 		= "Rethilgore"
+}
+
+-----------------------------
+--  Razorclaw the Butcher  --
+-----------------------------
+L = DBM:GetModLocalization("RazorclawtheButcher")
+
+L:SetGeneralLocalization{
+	name 		= "Razorclaw the Butcher"
+}
+
+-----------------------------
+--  Baron Silverlaine  --
+-----------------------------
+L = DBM:GetModLocalization("BaronSilverlaine")
+
+L:SetGeneralLocalization{
+	name 		= "Baron Silverlaine"
+}
+
+-----------------------------
+--  Commander Springvale  --
+-----------------------------
+L = DBM:GetModLocalization("CommanderSpringvale")
+
+L:SetGeneralLocalization{
+	name 		= "Commander Springvale"
+}
+
+-----------------------------
+--  Odo the Blindwatcher  --
+-----------------------------
+L = DBM:GetModLocalization("OdotheBlindwatcher")
+
+L:SetGeneralLocalization{
+	name 		= "Odo the Blindwatcher"
+}
+
+-----------------------------
+--  Deathsworn Captain  --
+-----------------------------
+L = DBM:GetModLocalization("DeathswornCaptain")
+
+L:SetGeneralLocalization{
+	name 		= "Deathsworn Captain"
+}
+
+-----------------------------
+--  Fenrus the Devourer  --
+-----------------------------
+L = DBM:GetModLocalization("FenrustheDevourer")
+
+L:SetGeneralLocalization{
+	name 		= "Fenrus the Devourer"
+}
+
+-----------------------------
+--  Wolf Master Nandos  --
+-----------------------------
+L = DBM:GetModLocalization("WolfMasterNandos")
+
+L:SetGeneralLocalization{
+	name 		= "Wolf Master Nandos"
+}
+
+-----------------------------
+--  Archmage Arugal  --
+-----------------------------
+L = DBM:GetModLocalization("ArchmageArugal")
+
+L:SetGeneralLocalization{
+	name 		= "Archmage Arugal"
+}
+
+-------------------------
 --  Wailing Caverns 240J/43M (13L/17C)  --
 -----------------------------
 --  Lady Anacondra  --

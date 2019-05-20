@@ -127,6 +127,16 @@ StormwindStockaid\Hogger.lua
 StormwindStockaid\LordOverheat.lua
 StormwindStockaid\Moloch.lua
 
+Shadowfangkeep\Rethilgore.lua
+Shadowfangkeep\RazorclawtheButcher.lua
+Shadowfangkeep\BaronSilverlaine.lua
+Shadowfangkeep\CommanderSpringvale.lua
+Shadowfangkeep\OdotheBlindwatcher.lua
+Shadowfangkeep\DeathswornCaptain.lua
+Shadowfangkeep\FenrustheDevourer.lua
+Shadowfangkeep\WolfMasterNandos.lua
+Shadowfangkeep\ArchmageArugal.lua
+
 WailingCaverns\LadyAnacondra.lua
 WailingCaverns\LordPythas.lua
 WailingCaverns\LordCobrahn.lua
