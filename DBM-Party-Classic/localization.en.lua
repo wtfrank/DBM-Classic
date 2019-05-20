@@ -215,7 +215,74 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Dire Maul-230J/429M (3)  --
+--  Deadmines (3)  --
+-----------------------------
+--  Rhahk'Zor  --
+-----------------------------
+L = DBM:GetModLocalization("RhahkZor")
+
+L:SetGeneralLocalization{
+	name 		= "Rhahk'Zor"
+}
+-----------------------------
+--  Miner Johnson  --
+-----------------------------
+L = DBM:GetModLocalization("MinerJohnson")
+
+L:SetGeneralLocalization{
+	name 		= "Miner Johnson"
+}
+-----------------------------
+--  Sneed's Shredder  --
+-----------------------------
+L = DBM:GetModLocalization("SneedsShredder")
+
+L:SetGeneralLocalization{
+	name 		= "Sneed's Shredder"
+}
+-----------------------------
+--  Gilnid  --
+-----------------------------
+L = DBM:GetModLocalization("Gilnid")
+
+L:SetGeneralLocalization{
+	name 		= "Gilnid"
+}
+-----------------------------
+--  Mr. Smite  --
+-----------------------------
+L = DBM:GetModLocalization("MrSmite")
+
+L:SetGeneralLocalization{
+	name 		= "Mr. Smite"
+}
+-----------------------------
+--  Captain Greenskin  --
+-----------------------------
+L = DBM:GetModLocalization("CaptainGreenskin")
+
+L:SetGeneralLocalization{
+	name 		= "Captain Greenskin"
+}
+-----------------------------
+--  Edwin Van Cleef  --
+-----------------------------
+L = DBM:GetModLocalization("EdwinVanCleef")
+
+L:SetGeneralLocalization{
+	name 		= "Edwin Van Cleef"
+}
+-----------------------------
+--  Cookie  --
+-----------------------------
+L = DBM:GetModLocalization("Cookie")
+
+L:SetGeneralLocalization{
+	name 		= "Cookie"
+}
+
+-------------------------
+--  Dire Maul-230J/429M (4)  --
 -----------------------------
 --  Zevrim Thornhoof  --
 -----------------------------
@@ -346,7 +413,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Gnomeregan-231J/90M (4)  --
+--  Gnomeregan-231J/90M (5)  --
 -----------------------------
 --  Grubbis  --
 -----------------------------
@@ -389,7 +456,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Lower Blackrock Spire-229J/229M (5)  --
+--  Lower Blackrock Spire-229J/229M (6)  --
 -----------------------------
 --  Highlord Omokk  --
 -----------------------------
@@ -464,7 +531,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Maraudon-232J/349M (6)  --
+--  Maraudon-232J/349M (7)  --
 -----------------------------
 --  Noxxion  --
 -----------------------------
@@ -540,40 +607,40 @@ L:SetGeneralLocalization{
 -------------------------
 --  Ragefire Chasm (7)  --
 -----------------------------
---  Adarogg  --
+--  Oggleflint  --
 -----------------------------
-L = DBM:GetModLocalization(694)
+L = DBM:GetModLocalization("Oggleflint")
 
 L:SetGeneralLocalization{
-	name 		= "Adarogg"
+	name 		= "Oggleflint"
 }
 -----------------------------
---  Dark Shaman Koranthal  --
+--  Taragaman the Hungerer  --
 -----------------------------
-L = DBM:GetModLocalization(695)
+L = DBM:GetModLocalization("Taragaman")
 
 L:SetGeneralLocalization{
-	name 		= "Dark Shaman Koranthal"
+	name 		= "Taragaman the Hungerer"
 }
 -----------------------------
---  Slagmaw  --
+--  Jergosh the Invoker  --
 -----------------------------
-L = DBM:GetModLocalization(696)
+L = DBM:GetModLocalization("Jergosh")
 
 L:SetGeneralLocalization{
-	name 		= "Slagmaw"
+	name 		= "Jergosh the Invoker"
 }
 -----------------------------
---  Lava Guard Gordoth  --
+--  Bazzalan  --
 -----------------------------
-L = DBM:GetModLocalization(697)
+L = DBM:GetModLocalization("Bazzalan")
 
 L:SetGeneralLocalization{
-	name 		= "Lava Guard Gordoth"
+	name 		= "Bazzalan"
 }
 
 -------------------------
---  Razorfen Downs -233J/129M (8)  --
+--  Razorfen Downs -233J/129M (9)  --
 -----------------------------
 --  Aarux  --
 -----------------------------
@@ -620,7 +687,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Razorfen Downs -234J/47M (9)  --
+--  Razorfen Downs -234J/47M (10)  --
 -----------------------------
 --  Hunter Bonetusk  --
 -----------------------------
@@ -667,7 +734,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Stormwind Stockaid (10)  --
+--  Stormwind Stockaid (12)  --
 -----------------------------
 --  Hogger  --
 -----------------------------
