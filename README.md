@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/DeadlyBossMods/DeadlyBossMods.svg?branch=master)](https://travis-ci.org/DeadlyBossMods/DeadlyBossMods)
+[![Build Status](https://travis-ci.org/DeadlyBossMods/DBM-Classic.svg?branch=master)](https://travis-ci.org/DeadlyBossMods/DBM-Classic)
 [![DeadlyBossMods on Discord](https://img.shields.io/badge/discord-DeadlyBossMods-738bd7.svg?style=flat)](https://discord.gg/DeadlyBossMods) 
 
 [![Patreon](https://media.forgecdn.net/attachments/76/25/patreon-medium-button.png)](https://www.patreon.com/deadlybossmods)
@@ -8,24 +8,10 @@
 <p><strong><a href="https://www.deadlybossmods.com/forum/viewtopic.php?f=7&amp;t=428#p1180">https://www.deadlybossmods.com/forum/viewtopic.php?f=7&amp;t=428#p1180</a></strong></p>
 <h2 id="w-suggestions-support-forums"><strong>Some basic DBM setup/advanced features guides</strong></h2>
 <p><a href="https://www.deadlybossmods.com/forum/viewforum.php?f=7">https://www.deadlybossmods.com/forum/viewforum.php?f=7</a></p>
-<h2 id="w-old-content-mods-are-split-into-multiple-packages"><strong>Old Content mods are split into multiple packages</strong></h2>
-<p>Older content is split into multiple addons to reduce mod update size. These are often far less updated as DBM Core packages and are better as optional extra packages. You can get them here:</p>
-<ul>
-<li><a href="https://wow.curseforge.com/projects/deadly-boss-mods-dbm-legion">Legion Raid Mods</a></li>
-<li><a href="https://wow.curseforge.com/projects/deadly-boss-mods-wod">Warlords of Draenor Raid Mods</a></li>
-<li><a href="https://wow.curseforge.com/projects/deadly-boss-mods-mop">Mists of Pandaria Raid Mods</a></li>
-<li><a href="https://wow.curseforge.com/projects/deadly-boss-mods-cataclysm-mods">Cataclysm Raid Mods</a></li>
-<li><a href="https://wow.curseforge.com/projects/deadly-boss-mods-wotlk">Wrath of the Lich King Raid Mods</a></li>
-<li><a href="https://wow.curseforge.com/projects/dbm-bc">Burning Crusade and Vanilla Raid Mods</a></li>
-<li><a href="https://wow.curseforge.com/projects/deadly-boss-mods-dbm-dungeons">5 man Dungeon Mods</a></li>
-</ul>
 <h2 id="w-additional-mods"><strong>Additional Mods</strong></h2>
 <ul>
 <li><a href="http://wow.curseforge.com/addons/dbm-victorysounds">Victory Sounds</a></li>
 <li><a href="http://wow.curseforge.com/addons/dbm-spelltimers">SpellTimers</a></li>
-<li><a href="http://wow.curseforge.com/addons/dbm-archaeology">DBM-Archaeology</a></li>
-<li><a href="https://wow.curseforge.com/projects/dbm-challenges">DBM-Challenges</a></li>
-<li><a href="http://wow.curseforge.com/addons/dbm-timeless-isle/">DBM-TimelessIsle</a></li>
 </ul>
 <h2><strong>Countdown Packs</strong></h2>
 <ul>
