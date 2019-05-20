@@ -1,15 +1,15 @@
-local mod	= DBM:NewMod(1143, "DBM-Party-Classic", 9, 233)
+local mod	= DBM:NewMod(474, "DBM-Party-Classic", 17, 240)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision("@file-date-integer@")
-mod:SetCreatureID(74435)
-mod:SetEncounterID(1664)
+mod:SetCreatureID(3671)
+mod:SetEncounterID(585)
 
 mod:RegisterCombat("combat")
 
---[[
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START"
+	"SPELL_CAST_START 8040 23381",
+	"SPELL_AURA_APPLIED 8040"
 )
 
 local warningDruidSlumber			= mod:NewTargetNoFilterAnnounce(8040, 2)
@@ -43,4 +43,3 @@ function mod:SPELL_AURA_APPLIED(args)
 		warningDruidSlumber:Show(args.destName)
 	end
 end
---]]
