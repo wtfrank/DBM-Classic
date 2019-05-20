@@ -14,12 +14,12 @@ mod:RegisterEventsInCombat(
 --TODO, fix range to one classic actually supports
 local timerChainedBoltCD			= mod:NewAITimer(180, 6254, nil, nil, nil, 3)
 
-mod:AddRangeFrameOption(6, 6254)
+mod:AddRangeFrameOption(10, 6254)
 
 function mod:OnCombatStart(delay)
 	timerChainedBoltCD:Start(1-delay)
 	if self.Options.RangeFrame then
-		DBM.RangeCheck:Show(6)
+		DBM.RangeCheck:Show(10)
 	end
 end
 

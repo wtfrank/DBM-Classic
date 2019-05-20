@@ -736,28 +736,52 @@ L:SetGeneralLocalization{
 -------------------------
 --  Stormwind Stockaid (12)  --
 -----------------------------
---  Hogger  --
+--  Targorr the Dread  --
 -----------------------------
-L = DBM:GetModLocalization(464)
+L = DBM:GetModLocalization("Targorr")
 
 L:SetGeneralLocalization{
-	name 		= "Hogger"
+	name 		= "Targorr the Dread"
 }
 -----------------------------
---  Lord Overheat  --
+--  Kam Deepfury  --
 -----------------------------
-L = DBM:GetModLocalization(465)
+L = DBM:GetModLocalization("KamDeepfury")
 
 L:SetGeneralLocalization{
-	name 		= "Lord Overheat"
+	name 		= "Kam Deepfuryd"
 }
 -----------------------------
---  Randolph Moloch  --
+--  Hamhock  --
 -----------------------------
-L = DBM:GetModLocalization(466)
+L = DBM:GetModLocalization("Hamhock")
 
 L:SetGeneralLocalization{
-	name 		= "Randolph Moloch"
+	name 		= "Hamhock"
+}
+-----------------------------
+--  Bazil Thredd  --
+-----------------------------
+L = DBM:GetModLocalization("BazilThredd")
+
+L:SetGeneralLocalization{
+	name 		= "Bazil Thredd"
+}
+-----------------------------
+--  Dextren Ward  --
+-----------------------------
+L = DBM:GetModLocalization("DextrenWard")
+
+L:SetGeneralLocalization{
+	name 		= "Dextren Ward"
+}
+-----------------------------
+--  Bruegal Ironknuckle  --
+-----------------------------
+L = DBM:GetModLocalization("BruegalIronknuckle")
+
+L:SetGeneralLocalization{
+	name 		= "Bruegal Ironknuckle"
 }
 
 -------------------------
@@ -884,10 +908,19 @@ L:SetGeneralLocalization{
 -----------------------------
 --  Skum  --
 -----------------------------
-L = DBM:GetModLocalization(479)
+L = DBM:GetModLocalization(478)
 
 L:SetGeneralLocalization{
 	name 		= "Skum"
+}
+
+-----------------------------
+--  Lord Serpentis  --
+-----------------------------
+L = DBM:GetModLocalization(479)
+
+L:SetGeneralLocalization{
+	name 		= "Lord Serpentis"
 }
 
 -----------------------------

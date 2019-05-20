@@ -123,9 +123,12 @@ RazorfenKraul\WarlordRamtusk.lua
 RazorfenKraul\Groyat.lua
 RazorfenKraul\CharlgaRazorflank.lua
 
-StormwindStockaid\Hogger.lua
-StormwindStockaid\LordOverheat.lua
-StormwindStockaid\Moloch.lua
+StormwindStockaid\Targorr.lua
+StormwindStockaid\KamDeepfury.lua
+StormwindStockaid\Hamhock.lua
+StormwindStockaid\BazilThredd.lua
+StormwindStockaid\DextrenWard.lua
+StormwindStockaid\BruegalIronknuckle.lua
 
 Shadowfangkeep\Rethilgore.lua
 Shadowfangkeep\RazorclawtheButcher.lua
