@@ -27,13 +27,12 @@ localization.de.lua
 localization.kr.lua
 localization.tw.lua
 localization.es.lua
+
 BlackfathomDeeps\GhamooRa.lua
-BlackfathomDeeps\Domina.lua
-BlackfathomDeeps\Korul.lua
-BlackfathomDeeps\Thruk.lua
-BlackfathomDeeps\Guardian.lua
-BlackfathomDeeps\Gore.lua
-BlackfathomDeeps\Bathiel.lua
+BlackfathomDeeps\LadySerevess.lua
+BlackfathomDeeps\Gelihast.lua
+BlackfathomDeeps\TwilightLordKelris.lua
+BlackfathomDeeps\OldSerrakis.lua
 BlackfathomDeeps\Akumai.lua
 
 BlackrockDepths\Gerstahn.lua
@@ -111,11 +110,12 @@ RagefireChasm\Taragaman.lua
 RagefireChasm\Jergosh.lua
 RagefireChasm\Bazzalan.lua
 
-RazorfenDowns\Aarux.lua
-RazorfenDowns\MordressFireEye.lua
-RazorfenDowns\Mushlump.lua
-RazorfenDowns\DeathSpeakerBlackhorn.lua
-RazorfenDowns\AmnenartheColdbringer.lua
+RazorfenDowns\Tutenkash.lua
+RazorfenDowns\MordreshFireEye.lua
+RazorfenDowns\Glutton.lua
+RazorfenDowns\Ragglesnout.lua
+RazorfenDowns\AmnennartheColdbringer.lua
+RazorfenDowns\PlaguemawtheRotting.lua
 
 RazorfenKraul\HunterBonetusk.lua
 RazorfenKraul\Roogug.lua

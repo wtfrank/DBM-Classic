@@ -5,63 +5,47 @@ local L
 -----------------------------
 --  Ghamoo-Ra  --
 -----------------------------
-L = DBM:GetModLocalization(368)
+L = DBM:GetModLocalization("GhamooRa")
 
 L:SetGeneralLocalization{
 	name 		= "Ghamoo-Ra"
 }
 -----------------------------
---  Domina  --
+--  Lady Serevess  --
 -----------------------------
-L = DBM:GetModLocalization(436)
+L = DBM:GetModLocalization("LadySerevess")
 
 L:SetGeneralLocalization{
-	name 		= "Domina"
+	name 		= "Lady Sarevess"
 }
 -----------------------------
---  Subjugator Kor'ul  --
+--  Gelihast  --
 -----------------------------
-L = DBM:GetModLocalization(426)
+L = DBM:GetModLocalization("Gelihast")
 
 L:SetGeneralLocalization{
-	name 		= "Subjugator Kor'ul"
+	name 		= "Gelihast"
 }
 -----------------------------
---  Thruk  --
+--  Old Serra'kis  --
 -----------------------------
-L = DBM:GetModLocalization(1145)
+L = DBM:GetModLocalization("OldSerrakis")
 
 L:SetGeneralLocalization{
-	name 		= "Thruk"
+	name 		= "Old Serra'kis"
 }
 -----------------------------
---  Guardian of the Deep  --
+--  Twilight Lord Kelris  --
 -----------------------------
-L = DBM:GetModLocalization(447)
+L = DBM:GetModLocalization("TwilightLordKelris")
 
 L:SetGeneralLocalization{
-	name 		= "Guardian of the Deep"
-}
------------------------------
---  Executioner Gore  --
------------------------------
-L = DBM:GetModLocalization(1144)
-
-L:SetGeneralLocalization{
-	name 		= "Executioner Gore"
-}
------------------------------
---  Twilight Lord Bathiel  --
------------------------------
-L = DBM:GetModLocalization(437)
-
-L:SetGeneralLocalization{
-	name 		= "Twilight Lord Bathiel"
+	name 		= "Twilight Lord Kelris"
 }
 -----------------------------
 --  Aku'mai  --
 -----------------------------
-L = DBM:GetModLocalization(444)
+L = DBM:GetModLocalization("Akumai")
 
 L:SetGeneralLocalization{
 	name 		= "Aku'mai"
@@ -642,52 +626,61 @@ L:SetGeneralLocalization{
 -------------------------
 --  Razorfen Downs -233J/129M (9)  --
 -----------------------------
---  Aarux  --
+--  Tuten'kash  --
 -----------------------------
-L = DBM:GetModLocalization(1142)
+L = DBM:GetModLocalization("Tutenkash")
 
 L:SetGeneralLocalization{
-	name 		= "Aarux"
+	name 		= "Tuten'kash"
 }
 
 -----------------------------
 --  Mordress Fire Eye  --
 -----------------------------
-L = DBM:GetModLocalization(433)
+L = DBM:GetModLocalization("MordreshFireEye")
 
 L:SetGeneralLocalization{
 	name 		= "Mordress Fire Eye"
 }
 
 -----------------------------
---  Mushlump  --
+--  Glutton  --
 -----------------------------
-L = DBM:GetModLocalization(1143)
+L = DBM:GetModLocalization("Glutton")
 
 L:SetGeneralLocalization{
-	name 		= "Mushlump"
+	name 		= "Glutton"
 }
 
 -----------------------------
---  Death Speaker Blackhorn  --
+--  Ragglesnout  --
 -----------------------------
-L = DBM:GetModLocalization(1146)
+L = DBM:GetModLocalization("Ragglesnout")
 
 L:SetGeneralLocalization{
-	name 		= "Death Speaker Blackhorn"
+	name 		= "Ragglesnout"
 }
 
 -----------------------------
 --  Amnenar the Coldbringer  --
 -----------------------------
-L = DBM:GetModLocalization(1141)
+L = DBM:GetModLocalization("AmnennartheColdbringer")
 
 L:SetGeneralLocalization{
 	name 		= "Amnenar the Coldbringer"
 }
 
+-----------------------------
+--  PlaguemawtheRotting  --
+-----------------------------
+L = DBM:GetModLocalization("PlaguemawtheRotting")
+
+L:SetGeneralLocalization{
+	name 		= "Plaguemaw the Rotting"
+}
+
 -------------------------
---  Razorfen Downs -234J/47M (10)  --
+--  Razorfen Kraul -234J/47M (10)  --
 -----------------------------
 --  Hunter Bonetusk  --
 -----------------------------
