@@ -727,6 +727,71 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
+--  Scarlet Monastery (11)  --
+-----------------------------
+--  Interrogator Vishas  --
+-----------------------------
+L = DBM:GetModLocalization("InterrogatorVishas")
+
+L:SetGeneralLocalization{
+	name 		= "Interrogator Vishas"
+}
+
+-----------------------------
+--  Bloodmage Thalnos  --
+-----------------------------
+L = DBM:GetModLocalization("BloodmageThalnos")
+
+L:SetGeneralLocalization{
+	name 		= "Bloodmage Thalnos"
+}
+
+-----------------------------
+--  Houndmaster Loksey  --
+-----------------------------
+L = DBM:GetModLocalization("HoundmasterLoksey")
+
+L:SetGeneralLocalization{
+	name 		= "Houndmaster Loksey"
+}
+
+-----------------------------
+--  Arcanist Doan  --
+-----------------------------
+L = DBM:GetModLocalization("ArcanistDoan")
+
+L:SetGeneralLocalization{
+	name 		= "Arcanist Doan"
+}
+
+-----------------------------
+--  Herod  --
+-----------------------------
+L = DBM:GetModLocalization("Herod")
+
+L:SetGeneralLocalization{
+	name 		= "Herod"
+}
+
+-----------------------------
+--  Mograine & Whitemane  --
+-----------------------------
+L = DBM:GetModLocalization("Mograine_and_Whitemane")
+
+L:SetGeneralLocalization{
+	name 		= "Mograine & Whitemane"
+}
+
+-----------------------------
+--  High Inquisitor Fairbanks  --
+-----------------------------
+L = DBM:GetModLocalization("Fairbanks")
+
+L:SetGeneralLocalization{
+	name 		= "High Inquisitor Fairbanks"
+}
+
+-------------------------
 --  Stormwind Stockaid (12)  --
 -----------------------------
 --  Targorr the Dread  --
