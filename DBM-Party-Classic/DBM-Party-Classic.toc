@@ -123,6 +123,14 @@ RazorfenKraul\WarlordRamtusk.lua
 RazorfenKraul\Groyat.lua
 RazorfenKraul\CharlgaRazorflank.lua
 
+ScarletMonastery\InterrogatorVishas.lua
+ScarletMonastery\BloodmageThalnos.lua
+ScarletMonastery\HoundmasterLoksey.lua
+ScarletMonastery\ArcanistDoan.lua
+ScarletMonastery\Herod.lua
+ScarletMonastery\Mograine_and_Whitemane.lua
+ScarletMonastery\HighInquisitorFairbanks.lua
+
 StormwindStockaid\Targorr.lua
 StormwindStockaid\KamDeepfury.lua
 StormwindStockaid\Hamhock.lua
