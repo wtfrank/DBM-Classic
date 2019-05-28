@@ -6815,11 +6815,11 @@ do
 			testMod = self:NewMod("TestMod")
 			self:GetModLocalization("TestMod"):SetGeneralLocalization{ name = "Test Mod" }
 			testWarning1 = testMod:NewAnnounce("%s", 1, "136116")
-			testWarning2 = testMod:NewAnnounce("%s", 2, "136194")
+			testWarning2 = testMod:NewAnnounce("%s", 2, "136221")
 			testWarning3 = testMod:NewAnnounce("%s", 3, "135826")
 			testTimer1 = testMod:NewTimer(20, "%s", "136116", nil, nil)
 			testTimer2 = testMod:NewTimer(20, "%s ", "134170", nil, nil, 1)
-			testTimer3 = testMod:NewTimer(20, "%s  ", "136194", nil, nil, 3, DBM_CORE_MAGIC_ICON, nil, 1, 4)--inlineIcon, keep, countdown, countdownMax
+			testTimer3 = testMod:NewTimer(20, "%s  ", "136221", nil, nil, 3, DBM_CORE_MAGIC_ICON, nil, 1, 4)--inlineIcon, keep, countdown, countdownMax
 			testTimer4 = testMod:NewTimer(20, "%s   ", "136116", nil, nil, 4, DBM_CORE_INTERRUPT_ICON)
 			testTimer5 = testMod:NewTimer(20, "%s    ", "135826", nil, nil, 2, DBM_CORE_HEALER_ICON, nil, 3, 4)--inlineIcon, keep, countdown, countdownMax
 			testTimer6 = testMod:NewTimer(20, "%s     ", "136116", nil, nil, 5, DBM_CORE_TANK_ICON, nil, 2, 4)--inlineIcon, keep, countdown, countdownMax
@@ -10639,89 +10639,6 @@ do
 			end
 		end
 		return pformat(DBM_CORE_AUTO_TIMER_TEXTS[timerType], spellName)
-	end
-end
-
-------------------------------
---  Berserk/Combat Objects  --
-------------------------------
-do
-	local enragePrototype = {}
-	local mt = {__index = enragePrototype}
-
-	function enragePrototype:Start(timer)
-		timer = timer or self.timer or 600
-		timer = timer <= 0 and self.timer - timer or timer
-		self.bar:SetTimer(timer)
-		self.bar:Start()
-		if self.warning1 then
-			if timer > 660 then self.warning1:Schedule(timer - 600, 10, DBM_CORE_MIN) end
-			if timer > 300 then self.warning1:Schedule(timer - 300, 5, DBM_CORE_MIN) end
-			if timer > 180 then self.warning2:Schedule(timer - 180, 3, DBM_CORE_MIN) end
-		end
-		if self.warning2 then
-			if timer > 60 then self.warning2:Schedule(timer - 60, 1, DBM_CORE_MIN) end
-			if timer > 30 then self.warning2:Schedule(timer - 30, 30, DBM_CORE_SEC) end
-			if timer > 10 then self.warning2:Schedule(timer - 10, 10, DBM_CORE_SEC) end
-		end
-		if self.countdown then
-			if not DBM.Options.DontPlayPTCountdown then
-				self.countdown:Start(timer)
-			end
-		end
-	end
-
-	function enragePrototype:Schedule(t)
-		return self.owner:Schedule(t, self.Start, self)
-	end
-
-	function enragePrototype:Cancel()
-		self.owner:Unschedule(self.Start, self)
-		if self.warning1 then
-			self.warning1:Cancel()
-		end
-		if self.warning2 then
-			self.warning2:Cancel()
-		end
-		if self.countdown then
-			self.countdown:Cancel()
-		end
-		self.bar:Stop()
-	end
-	enragePrototype.Stop = enragePrototype.Cancel
-
-	function bossModPrototype:NewBerserkTimer(timer, text, barText, barIcon)
-		timer = timer or 600
-		local warning1 = self:NewAnnounce(text or DBM_CORE_GENERIC_WARNING_BERSERK, 1, nil, "warning_berserk", false)
-		local warning2 = self:NewAnnounce(text or DBM_CORE_GENERIC_WARNING_BERSERK, 4, nil, "warning_berserk", false)
-		local bar = self:NewTimer(timer, barText or DBM_CORE_GENERIC_TIMER_BERSERK, barIcon or 28131, nil, "timer_berserk")
-		local obj = setmetatable(
-			{
-				warning1 = warning1,
-				warning2 = warning2,
-				bar = bar,
-				timer = timer,
-				owner = self
-			},
-			mt
-		)
-		return obj
-	end
-
-	function bossModPrototype:NewCombatTimer(timer, text, barText, barIcon)
-		timer = timer or 10
-		local bar = self:NewTimer(timer, barText or DBM_CORE_GENERIC_TIMER_COMBAT, barIcon or "132349", nil, "timer_combat")
-		local countdown = self:NewCountdown(0, 0, nil, false, nil, true)
-		local obj = setmetatable(
-			{
-				bar = bar,
-				timer = timer,
-				countdown = countdown,
-				owner = self
-			},
-			mt
-		)
-		return obj
 	end
 end
 
