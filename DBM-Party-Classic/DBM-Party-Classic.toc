@@ -148,6 +148,15 @@ Shadowfangkeep\FenrustheDevourer.lua
 Shadowfangkeep\WolfMasterNandos.lua
 Shadowfangkeep\ArchmageArugal.lua
 
+Uldaman\Revelosh.lua
+Uldaman\TheLostDwarves.lua
+Uldaman\Ironaya.lua
+Uldaman\ObsidianSentinel.lua
+Uldaman\AncientStoneKeeper.lua
+Uldaman\GalgannFirehammer.lua
+Uldaman\Grimlok.lua
+Uldaman\Archaedas.lua
+
 WailingCaverns\LadyAnacondra.lua
 WailingCaverns\LordPythas.lua
 WailingCaverns\LordCobrahn.lua
