@@ -3001,6 +3001,7 @@ local function CreateOptionsMenu()
 			DBM.Options.CountdownVoice = value
 			DBM:PlayCountSound(1, DBM.Options.CountdownVoice)
 			DBM:BuildVoiceCountdownCache()
+			DBM:BuildVoiceCountdownCacheTwo()
 		end)
 		CountSoundDropDown:SetPoint("TOPLEFT", spokenGeneralArea.frame, "TOPLEFT", 0, -20)
 
@@ -3008,6 +3009,7 @@ local function CreateOptionsMenu()
 			DBM.Options.CountdownVoice2 = value
 			DBM:PlayCountSound(1, DBM.Options.CountdownVoice2)
 			DBM:BuildVoiceCountdownCache()
+			DBM:BuildVoiceCountdownCacheTwo()
 		end)
 		CountSoundDropDown2:SetPoint("LEFT", CountSoundDropDown, "RIGHT", 50, 0)
 
@@ -3015,6 +3017,7 @@ local function CreateOptionsMenu()
 			DBM.Options.CountdownVoice3v2 = value
 			DBM:PlayCountSound(1, DBM.Options.CountdownVoice3v2)
 			DBM:BuildVoiceCountdownCache()
+			DBM:BuildVoiceCountdownCacheTwo()
 		end)
 		CountSoundDropDown3:SetPoint("TOPLEFT", CountSoundDropDown, "TOPLEFT", 0, -45)
 
