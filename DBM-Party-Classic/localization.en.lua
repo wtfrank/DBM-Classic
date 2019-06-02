@@ -682,45 +682,72 @@ L:SetGeneralLocalization{
 -------------------------
 --  Razorfen Kraul -234J/47M (10)  --
 -----------------------------
---  Hunter Bonetusk  --
------------------------------
-L = DBM:GetModLocalization(896)
-
-L:SetGeneralLocalization{
-	name 		= "Hunter Bonetusk"
-}
-
------------------------------
 --  Roogug  --
 -----------------------------
-L = DBM:GetModLocalization(895)
+L = DBM:GetModLocalization("Roogug")
 
 L:SetGeneralLocalization{
 	name 		= "Roogug"
 }
 
 -----------------------------
---  Warlord Ramtusk  --
+--  Aggem Thorncurse  --
 -----------------------------
-L = DBM:GetModLocalization(899)
+L = DBM:GetModLocalization("AggemThorncurse")
 
 L:SetGeneralLocalization{
-	name 		= "Warlord Ramtusk"
+	name 		= "Aggem Thorncurse"
 }
 
 -----------------------------
---  Groyat, the Blind Hunter  --
+--  Death Speaker Jargba  --
 -----------------------------
-L = DBM:GetModLocalization(900)
+L = DBM:GetModLocalization("DeathSpeakerJargba")
 
 L:SetGeneralLocalization{
-	name 		= "Groyat, the Blind Hunter"
+	name 		= "Death Speaker Jargba"
+}
+
+-----------------------------
+--  Overload Ramtusk  --
+-----------------------------
+L = DBM:GetModLocalization("OverlordRamtusk")
+
+L:SetGeneralLocalization{
+	name 		= "Overload Ramtusk"
+}
+
+-----------------------------
+--  Agathelos the Raging  --
+-----------------------------
+L = DBM:GetModLocalization("AgathelostheRaging")
+
+L:SetGeneralLocalization{
+	name 		= "Agathelos the Raging"
+}
+
+-----------------------------
+--  Blind Hunter  --
+-----------------------------
+L = DBM:GetModLocalization("BlindHunter")
+
+L:SetGeneralLocalization{
+	name 		= "Blind Hunter"
+}
+
+-----------------------------
+--  Earthcaller Halmgar  --
+-----------------------------
+L = DBM:GetModLocalization("EarthcallerHalmgar")
+
+L:SetGeneralLocalization{
+	name 		= "Earthcaller Halmgar"
 }
 
 -----------------------------
 --  Charlga Razorflank  --
 -----------------------------
-L = DBM:GetModLocalization(901)
+L = DBM:GetModLocalization("CharlgaRazorflank")
 
 L:SetGeneralLocalization{
 	name 		= "Charlga Razorflank"

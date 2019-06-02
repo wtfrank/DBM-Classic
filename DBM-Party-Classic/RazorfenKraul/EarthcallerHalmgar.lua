@@ -1,8 +1,8 @@
-local mod	= DBM:NewMod("Roogug", "DBM-Party-Classic", 10)
+local mod	= DBM:NewMod("EarthcallerHalmgar", "DBM-Party-Classic", 10)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision("@file-date-integer@")
-mod:SetCreatureID(6168)
+mod:SetCreatureID(4842)
 --mod:SetEncounterID(438)
 
 mod:RegisterCombat("combat")
@@ -11,6 +11,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 8270"
 )
 
+--Guide mentions a totem, but no data for it in wowhead
 local warningSummonEarthRumbler		= mod:NewSpellAnnounce(8270, 2)
 
 local timerSummonEarthRumblerCD		= mod:NewAITimer(180, 8270, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON)

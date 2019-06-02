@@ -117,10 +117,13 @@ RazorfenDowns\Ragglesnout.lua
 RazorfenDowns\AmnennartheColdbringer.lua
 RazorfenDowns\PlaguemawtheRotting.lua
 
-RazorfenKraul\HunterBonetusk.lua
 RazorfenKraul\Roogug.lua
-RazorfenKraul\WarlordRamtusk.lua
-RazorfenKraul\Groyat.lua
+RazorfenKraul\AggemThorncurse.lua
+RazorfenKraul\DeathSpeakerJargba.lua
+RazorfenKraul\OverlordRamtusk.lua
+RazorfenKraul\AgathelostheRaging.lua
+RazorfenKraul\BlindHunter.lua
+RazorfenKraul\EarthcallerHalmgar.lua
 RazorfenKraul\CharlgaRazorflank.lua
 
 ScarletMonastery\InterrogatorVishas.lua

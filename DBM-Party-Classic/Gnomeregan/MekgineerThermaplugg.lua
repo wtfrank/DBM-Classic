@@ -8,49 +8,23 @@ mod:SetEncounterID(382)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 93655",
-	"SPELL_CAST_SUCCESS 74720",
-	"SPELL_AURA_APPLIED 74720"
+	"SPELL_CAST_SUCCESS 10101 11130 11518 11521 11798 11524 11526 11527"
 )
 
---local warningSoul	= mod:NewTargetAnnounce(32346, 2)
-local wowTOC = DBM:GetTOC()
-local specWarnSteamBlast, timerSteamBlastCD
-local warningPound, timerPoundCD
-if wowTOC >= 20000 then--Not classic, only initialize these warnings/timers on retail
-	warningPound				= mod:NewTargetAnnounce(32346, 2)
+local warningKnockAway			= mod:NewSpellAnnounce(10101, 2)
+local warningActivateBomb		= mod:NewSpellAnnounce(11518, 2)
 
-	specWarnSteamBlast			= mod:NewSpecialWarningInterrupt(93655, "HasInterrupt", nil, nil, 1, 2)
-
-	timerSteamBlastCD			= mod:NewAITimer(180, 93655, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
-	timerPoundCD				= mod:NewAITimer(180, 74720, nil, "Tank|Healer", nil, 5, nil, DBM_CORE_TANK_ICON)
-end
+local timerKnockAwayCD			= mod:NewAITimer(180, 10101, nil, nil, nil, 2)
 
 function mod:OnCombatStart(delay)
-	if timerSteamBlastCD then
-		timerSteamBlastCD:Start(1-delay)
-		timerPoundCD:Start(1-delay)
-	end
-end
-
-function mod:SPELL_CAST_START(args)
-	if args.spellId == 93655 then
-		timerSteamBlastCD:Start()
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnSteamBlast:Show(args.sourceName)
-			specWarnSteamBlast:Play("kickcast")
-		end
-	end
+	timerKnockAwayCD:Start(1-delay)
 end
 
 function mod:SPELL_CAST_SUCESS(args)
-	if args.spellId == 74720 then
-		timerSteamBlastCD:Start()
-	end
-end
-
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 74720 then
-		warningPound:Show(args.destName)
+	if args.spellId == 10101 or args.spellId == 11130 then
+		warningKnockAway:Show()
+		timerKnockAwayCD:Start()
+	elseif (args.spellId == 11518 or args.spellId == 11521 or args.spellId == 11798 or args.spellId == 11524 or args.spellId == 11526 or args.spellId == 11527) and self:AntiSpam(3, 1) then
+		warningActivateBomb:Show()
 	end
 end

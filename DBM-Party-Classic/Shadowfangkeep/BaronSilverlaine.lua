@@ -7,26 +7,26 @@ mod:SetCreatureID(3887)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 23224",
-	"SPELL_AURA_APPLIED 23224"
+	"SPELL_CAST_START 7068",
+	"SPELL_AURA_APPLIED 7068"
 )
 
-local warningVeilofShadow			= mod:NewTargetNoFilterAnnounce(23224, 2)
+local warningVeilofShadow			= mod:NewTargetNoFilterAnnounce(7068, 2)
 
-local timerVeilofShadowCD			= mod:NewAITimer(180, 23224, nil, nil, nil, 3, nil, DBM_CORE_CURSE_ICON)
+local timerVeilofShadowCD			= mod:NewAITimer(180, 7068, nil, nil, nil, 3, nil, DBM_CORE_CURSE_ICON)
 
 function mod:OnCombatStart(delay)
 	timerVeilofShadowCD:Start(1-delay)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args.spellId == 23224 then
+	if args.spellId == 7068 then
 		timerVeilofShadowCD:Start()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 23224 then
+	if args.spellId == 7068 then
 		warningVeilofShadow:Show(args.destName)
 	end
 end
