@@ -20,7 +20,6 @@ DBM_COPY_URL_DIALOG					= "URL 복사"
 --Post Patch 7.1
 DBM_CORE_NO_RANGE					= "거리 레이더를 인스턴스 던전에서 사용할 수 없습니다. 예전의 텍스트 방식 거리창으로 대체됩니다."
 DBM_CORE_NO_ARROW					= "화살표 기능을 인스턴스 던전에서 사용할 수 없습니다"
-DBM_CORE_ARROW_SUMMONED				= "DBM 화살표가 작동되었습니다. 화살표가 작동하지 않는다면 설치한 다른 써드파티 애드온에 작동 방식이 설정되어 있는 것입니다"
 DBM_CORE_NO_HUD						= "HUD 기능을 인스턴스 던전에서 사용할 수 없습니다"
 
 DBM_CORE_DYNAMIC_DIFFICULTY_CLUMP	= "현재 공격대 규모에 맞는 필요한 플레이어 숫자 관련 정보가 부족하여 DBM이 이 전투에서 동적 거리창을 비활성화 했습니다."
@@ -36,22 +35,14 @@ DBM_CORE_MOD_AVAILABLE				= "이 지역에서 %s|1을;를; 사용할 수 있습�
 DBM_CORE_COMBAT_STARTED				= "%s 전투 시작. 행운을 빕니다! :)";
 DBM_CORE_COMBAT_STARTED_IN_PROGRESS	= "%s 전투 진행 도중 참가했습니다. 행운을 빕니다! :)"
 DBM_CORE_GUILD_COMBAT_STARTED		= "길드가 %s 전투를 시작했습니다."
-DBM_CORE_SCENARIO_STARTED			= "%s 시작. 행운을 빕니다! :)";
-DBM_CORE_SCENARIO_STARTED_IN_PROGRESS	= "%s 시나리오 진행 도중 참가하였습니다. 행운을 빕니다! :)"
 DBM_CORE_BOSS_DOWN					= "%s|1이;가; %s만에 쓰러졌습니다!"
 DBM_CORE_BOSS_DOWN_I				= "%s|1이;가; 쓰러졌습니다! 총 %d회 승리했습니다."
 DBM_CORE_BOSS_DOWN_L				= "%s|1이;가; %s만에 쓰러졌습니다! 지난번 처치 기록은 %s, 가장 빠른 기록은 %s 입니다. 총 %d회 승리했습니다."
 DBM_CORE_BOSS_DOWN_NR				= "%s|1이;가; %s만에 쓰러졌습니다! 신기록입니다! (이전 기록은 %s) 총 %d회 승리했습니다."
 DBM_CORE_GUILD_BOSS_DOWN			= "길드가 %s|1을;를; %s만에 물리쳤습니다!"
-DBM_CORE_SCENARIO_COMPLETE			= "%s|1을;를; %s만에 완료했습니다!"
-DBM_CORE_SCENARIO_COMPLETE_I		= "%s|1을;를; 완료했습니다! 총 %d회 완료했습니다."
-DBM_CORE_SCENARIO_COMPLETE_L		= "%s|1을;를; %s만에 완료했습니다! 지난번 완료 기록은 %s, 가장 빠른 기록은 %s 입니다. 총 %d회 완료했습니다."
-DBM_CORE_SCENARIO_COMPLETE_NR		= "%s|1을;를; %s만에 완료했습니다! 신기록입니다! (이전 기록은 %s) 총 %d회 완료했습니다."
 DBM_CORE_COMBAT_ENDED_AT			= "%s (%s) 전투에서 %s만에 전멸했습니다."
 DBM_CORE_COMBAT_ENDED_AT_LONG		= "%s (%s) 전투에서 %s만에 전멸했습니다. 현재 난이도에서 총 %d회 전멸했습니다."
 DBM_CORE_GUILD_COMBAT_ENDED_AT		= "길드가 %s (%s)에서 %s만에 전멸했습니다."
-DBM_CORE_SCENARIO_ENDED_AT			= "%s|1이;가; %s만에 끝났습니다."
-DBM_CORE_SCENARIO_ENDED_AT_LONG		= "%s|1이;가; %s만에 끝났습니다. 현재 난이도에서 총 %d회 실패했습니다."
 DBM_CORE_COMBAT_STATE_RECOVERED		= "%s 전투가 %s전에 시작됐습니다. 타이머 복구중..."
 DBM_CORE_TRANSCRIPTOR_LOG_START		= "Transcriptor 기록이 시작됐습니다."
 DBM_CORE_TRANSCRIPTOR_LOG_END		= "Transcriptor 기록이 종료됐습니다."
@@ -144,12 +135,6 @@ DBM_CORE_WHISPER_COMBAT_END_KILL			= "%s님이 %s 전투에서 승리했습니�
 DBM_CORE_WHISPER_COMBAT_END_KILL_STATS		= "%s님이 %s 전투에서 승리했습니다! 총 %d회 승리했습니다."
 DBM_CORE_WHISPER_COMBAT_END_WIPE_AT			= "%s님이 %s %s에서 전멸했습니다."
 DBM_CORE_WHISPER_COMBAT_END_WIPE_STATS_AT	= "%s님이 %s %s에서 전멸했습니다. 이 난이도에서 총 %d회 전멸했습니다."
---Scenarios (no percents. words like "fighting" or "wipe" changed to better fit scenarios)
-DBM_CORE_AUTO_RESPOND_WHISPER_SCENARIO		= "%s님이 %s 시나리오를 진행중입니다. (%d/%d 생존)"
-DBM_CORE_WHISPER_SCENARIO_END_KILL			= "%s님이 %s 시나리오를 완료했습니다!"
-DBM_CORE_WHISPER_SCENARIO_END_KILL_STATS	= "%s님이 %s 시나리오를 완료했습니다! 이 난이도를 %d회 완료했습니다!"
-DBM_CORE_WHISPER_SCENARIO_END_WIPE			= "%s님이 %s 시나리오를 완료하지 못했습니다."
-DBM_CORE_WHISPER_SCENARIO_END_WIPE_STATS	= "%s님이 %s 시나리오를 완료하지 못했습니다. 이 난이도를 총 %d회 실패했습니다."
 
 DBM_CORE_VERSIONCHECK_HEADER		= "보스 모드 - 버전"
 DBM_CORE_VERSIONCHECK_ENTRY_NO_DBM	= "%s: 설치된 보스 모드 없음"

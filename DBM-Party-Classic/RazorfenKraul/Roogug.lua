@@ -1,37 +1,27 @@
-local mod	= DBM:NewMod(895, "DBM-Party-Classic", 9, 234)
+local mod	= DBM:NewMod("Roogug", "DBM-Party-Classic", 10)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision("@file-date-integer@")
-mod:SetCreatureID(74948)
-mod:SetEncounterID(438)
+mod:SetCreatureID(6168)
+--mod:SetEncounterID(438)
 
 mod:RegisterCombat("combat")
 
---[[
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START"
+	"SPELL_CAST_SUCCESS 8270"
 )
 
---local warningSoul	= mod:NewTargetAnnounce(32346, 2)
+local warningSummonEarthRumbler		= mod:NewSpellAnnounce(8270, 2)
 
-local specWarnMaddeningCall			= mod:NewSpecialWarningInterrupt(86620, "HasInterrupt", nil, nil, 1, 2)
-
-local timerMaddeningCallCD			= mod:NewAITimer(180, 86620, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
+local timerSummonEarthRumblerCD		= mod:NewAITimer(180, 8270, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON)
 
 function mod:OnCombatStart(delay)
-	timerMaddeningCallCD:Start(1-delay)
+	timerSummonEarthRumblerCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_START(args)
-	timerMaddeningCallCD:Start()
-	if args.spellId == 86620 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnMaddeningCall:Show(args.sourceName)
-		specWarnMaddeningCall:Play("kickcast")
+function mod:SPELL_CAST_SUCCESS(args)
+	if args.spellId == 8270 then
+		warningSummonEarthRumbler:Show()
+		timerSummonEarthRumblerCD:Start()
 	end
 end
-
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 32346 then
-		warningSoul:Show(args.destName)
-	end
-end--]]

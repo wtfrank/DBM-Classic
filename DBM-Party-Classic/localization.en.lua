@@ -5,63 +5,47 @@ local L
 -----------------------------
 --  Ghamoo-Ra  --
 -----------------------------
-L = DBM:GetModLocalization(368)
+L = DBM:GetModLocalization("GhamooRa")
 
 L:SetGeneralLocalization{
 	name 		= "Ghamoo-Ra"
 }
 -----------------------------
---  Domina  --
+--  Lady Serevess  --
 -----------------------------
-L = DBM:GetModLocalization(436)
+L = DBM:GetModLocalization("LadySerevess")
 
 L:SetGeneralLocalization{
-	name 		= "Domina"
+	name 		= "Lady Sarevess"
 }
 -----------------------------
---  Subjugator Kor'ul  --
+--  Gelihast  --
 -----------------------------
-L = DBM:GetModLocalization(426)
+L = DBM:GetModLocalization("Gelihast")
 
 L:SetGeneralLocalization{
-	name 		= "Subjugator Kor'ul"
+	name 		= "Gelihast"
 }
 -----------------------------
---  Thruk  --
+--  Old Serra'kis  --
 -----------------------------
-L = DBM:GetModLocalization(1145)
+L = DBM:GetModLocalization("OldSerrakis")
 
 L:SetGeneralLocalization{
-	name 		= "Thruk"
+	name 		= "Old Serra'kis"
 }
 -----------------------------
---  Guardian of the Deep  --
+--  Twilight Lord Kelris  --
 -----------------------------
-L = DBM:GetModLocalization(447)
+L = DBM:GetModLocalization("TwilightLordKelris")
 
 L:SetGeneralLocalization{
-	name 		= "Guardian of the Deep"
-}
------------------------------
---  Executioner Gore  --
------------------------------
-L = DBM:GetModLocalization(1144)
-
-L:SetGeneralLocalization{
-	name 		= "Executioner Gore"
-}
------------------------------
---  Twilight Lord Bathiel  --
------------------------------
-L = DBM:GetModLocalization(437)
-
-L:SetGeneralLocalization{
-	name 		= "Twilight Lord Bathiel"
+	name 		= "Twilight Lord Kelris"
 }
 -----------------------------
 --  Aku'mai  --
 -----------------------------
-L = DBM:GetModLocalization(444)
+L = DBM:GetModLocalization("Akumai")
 
 L:SetGeneralLocalization{
 	name 		= "Aku'mai"
@@ -215,7 +199,74 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Dire Maul-230J/429M (3)  --
+--  Deadmines (3)  --
+-----------------------------
+--  Rhahk'Zor  --
+-----------------------------
+L = DBM:GetModLocalization("RhahkZor")
+
+L:SetGeneralLocalization{
+	name 		= "Rhahk'Zor"
+}
+-----------------------------
+--  Miner Johnson  --
+-----------------------------
+L = DBM:GetModLocalization("MinerJohnson")
+
+L:SetGeneralLocalization{
+	name 		= "Miner Johnson"
+}
+-----------------------------
+--  Sneed's Shredder  --
+-----------------------------
+L = DBM:GetModLocalization("SneedsShredder")
+
+L:SetGeneralLocalization{
+	name 		= "Sneed's Shredder"
+}
+-----------------------------
+--  Gilnid  --
+-----------------------------
+L = DBM:GetModLocalization("Gilnid")
+
+L:SetGeneralLocalization{
+	name 		= "Gilnid"
+}
+-----------------------------
+--  Mr. Smite  --
+-----------------------------
+L = DBM:GetModLocalization("MrSmite")
+
+L:SetGeneralLocalization{
+	name 		= "Mr. Smite"
+}
+-----------------------------
+--  Captain Greenskin  --
+-----------------------------
+L = DBM:GetModLocalization("CaptainGreenskin")
+
+L:SetGeneralLocalization{
+	name 		= "Captain Greenskin"
+}
+-----------------------------
+--  Edwin Van Cleef  --
+-----------------------------
+L = DBM:GetModLocalization("EdwinVanCleef")
+
+L:SetGeneralLocalization{
+	name 		= "Edwin Van Cleef"
+}
+-----------------------------
+--  Cookie  --
+-----------------------------
+L = DBM:GetModLocalization("Cookie")
+
+L:SetGeneralLocalization{
+	name 		= "Cookie"
+}
+
+-------------------------
+--  Dire Maul-230J/429M (4)  --
 -----------------------------
 --  Zevrim Thornhoof  --
 -----------------------------
@@ -346,7 +397,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Gnomeregan-231J/90M (4)  --
+--  Gnomeregan-231J/90M (5)  --
 -----------------------------
 --  Grubbis  --
 -----------------------------
@@ -389,7 +440,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Lower Blackrock Spire-229J/229M (5)  --
+--  Lower Blackrock Spire-229J/229M (6)  --
 -----------------------------
 --  Highlord Omokk  --
 -----------------------------
@@ -464,7 +515,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Maraudon-232J/349M (6)  --
+--  Maraudon-232J/349M (7)  --
 -----------------------------
 --  Noxxion  --
 -----------------------------
@@ -540,155 +591,513 @@ L:SetGeneralLocalization{
 -------------------------
 --  Ragefire Chasm (7)  --
 -----------------------------
---  Adarogg  --
+--  Oggleflint  --
 -----------------------------
-L = DBM:GetModLocalization(694)
+L = DBM:GetModLocalization("Oggleflint")
 
 L:SetGeneralLocalization{
-	name 		= "Adarogg"
+	name 		= "Oggleflint"
 }
 -----------------------------
---  Dark Shaman Koranthal  --
+--  Taragaman the Hungerer  --
 -----------------------------
-L = DBM:GetModLocalization(695)
+L = DBM:GetModLocalization("Taragaman")
 
 L:SetGeneralLocalization{
-	name 		= "Dark Shaman Koranthal"
+	name 		= "Taragaman the Hungerer"
 }
 -----------------------------
---  Slagmaw  --
+--  Jergosh the Invoker  --
 -----------------------------
-L = DBM:GetModLocalization(696)
+L = DBM:GetModLocalization("Jergosh")
 
 L:SetGeneralLocalization{
-	name 		= "Slagmaw"
+	name 		= "Jergosh the Invoker"
 }
 -----------------------------
---  Lava Guard Gordoth  --
+--  Bazzalan  --
 -----------------------------
-L = DBM:GetModLocalization(697)
+L = DBM:GetModLocalization("Bazzalan")
 
 L:SetGeneralLocalization{
-	name 		= "Lava Guard Gordoth"
+	name 		= "Bazzalan"
 }
 
 -------------------------
---  Razorfen Downs -233J/129M (8)  --
+--  Razorfen Downs -233J/129M (9)  --
 -----------------------------
---  Aarux  --
+--  Tuten'kash  --
 -----------------------------
-L = DBM:GetModLocalization(1142)
+L = DBM:GetModLocalization("Tutenkash")
 
 L:SetGeneralLocalization{
-	name 		= "Aarux"
+	name 		= "Tuten'kash"
 }
 
 -----------------------------
 --  Mordress Fire Eye  --
 -----------------------------
-L = DBM:GetModLocalization(433)
+L = DBM:GetModLocalization("MordreshFireEye")
 
 L:SetGeneralLocalization{
 	name 		= "Mordress Fire Eye"
 }
 
 -----------------------------
---  Mushlump  --
+--  Glutton  --
 -----------------------------
-L = DBM:GetModLocalization(1143)
+L = DBM:GetModLocalization("Glutton")
 
 L:SetGeneralLocalization{
-	name 		= "Mushlump"
+	name 		= "Glutton"
 }
 
 -----------------------------
---  Death Speaker Blackhorn  --
+--  Ragglesnout  --
 -----------------------------
-L = DBM:GetModLocalization(1146)
+L = DBM:GetModLocalization("Ragglesnout")
 
 L:SetGeneralLocalization{
-	name 		= "Death Speaker Blackhorn"
+	name 		= "Ragglesnout"
 }
 
 -----------------------------
 --  Amnenar the Coldbringer  --
 -----------------------------
-L = DBM:GetModLocalization(1141)
+L = DBM:GetModLocalization("AmnennartheColdbringer")
 
 L:SetGeneralLocalization{
 	name 		= "Amnenar the Coldbringer"
 }
 
--------------------------
---  Razorfen Downs -234J/47M (9)  --
 -----------------------------
---  Hunter Bonetusk  --
+--  PlaguemawtheRotting  --
 -----------------------------
-L = DBM:GetModLocalization(896)
+L = DBM:GetModLocalization("PlaguemawtheRotting")
 
 L:SetGeneralLocalization{
-	name 		= "Hunter Bonetusk"
+	name 		= "Plaguemaw the Rotting"
 }
 
+-------------------------
+--  Razorfen Kraul -234J/47M (10)  --
 -----------------------------
 --  Roogug  --
 -----------------------------
-L = DBM:GetModLocalization(895)
+L = DBM:GetModLocalization("Roogug")
 
 L:SetGeneralLocalization{
 	name 		= "Roogug"
 }
 
 -----------------------------
---  Warlord Ramtusk  --
+--  Aggem Thorncurse  --
 -----------------------------
-L = DBM:GetModLocalization(899)
+L = DBM:GetModLocalization("AggemThorncurse")
 
 L:SetGeneralLocalization{
-	name 		= "Warlord Ramtusk"
+	name 		= "Aggem Thorncurse"
 }
 
 -----------------------------
---  Groyat, the Blind Hunter  --
+--  Death Speaker Jargba  --
 -----------------------------
-L = DBM:GetModLocalization(900)
+L = DBM:GetModLocalization("DeathSpeakerJargba")
 
 L:SetGeneralLocalization{
-	name 		= "Groyat, the Blind Hunter"
+	name 		= "Death Speaker Jargba"
+}
+
+-----------------------------
+--  Overload Ramtusk  --
+-----------------------------
+L = DBM:GetModLocalization("OverlordRamtusk")
+
+L:SetGeneralLocalization{
+	name 		= "Overload Ramtusk"
+}
+
+-----------------------------
+--  Agathelos the Raging  --
+-----------------------------
+L = DBM:GetModLocalization("AgathelostheRaging")
+
+L:SetGeneralLocalization{
+	name 		= "Agathelos the Raging"
+}
+
+-----------------------------
+--  Blind Hunter  --
+-----------------------------
+L = DBM:GetModLocalization("BlindHunter")
+
+L:SetGeneralLocalization{
+	name 		= "Blind Hunter"
+}
+
+-----------------------------
+--  Earthcaller Halmgar  --
+-----------------------------
+L = DBM:GetModLocalization("EarthcallerHalmgar")
+
+L:SetGeneralLocalization{
+	name 		= "Earthcaller Halmgar"
 }
 
 -----------------------------
 --  Charlga Razorflank  --
 -----------------------------
-L = DBM:GetModLocalization(901)
+L = DBM:GetModLocalization("CharlgaRazorflank")
 
 L:SetGeneralLocalization{
 	name 		= "Charlga Razorflank"
 }
 
 -------------------------
---  Stormwind Stockaid (10)  --
+--  Scarlet Monastery (11)  --
 -----------------------------
---  Hogger  --
+--  Interrogator Vishas  --
 -----------------------------
-L = DBM:GetModLocalization(464)
+L = DBM:GetModLocalization("InterrogatorVishas")
 
 L:SetGeneralLocalization{
-	name 		= "Hogger"
+	name 		= "Interrogator Vishas"
+}
+
+-----------------------------
+--  Bloodmage Thalnos  --
+-----------------------------
+L = DBM:GetModLocalization("BloodmageThalnos")
+
+L:SetGeneralLocalization{
+	name 		= "Bloodmage Thalnos"
+}
+
+-----------------------------
+--  Houndmaster Loksey  --
+-----------------------------
+L = DBM:GetModLocalization("HoundmasterLoksey")
+
+L:SetGeneralLocalization{
+	name 		= "Houndmaster Loksey"
+}
+
+-----------------------------
+--  Arcanist Doan  --
+-----------------------------
+L = DBM:GetModLocalization("ArcanistDoan")
+
+L:SetGeneralLocalization{
+	name 		= "Arcanist Doan"
+}
+
+-----------------------------
+--  Herod  --
+-----------------------------
+L = DBM:GetModLocalization("Herod")
+
+L:SetGeneralLocalization{
+	name 		= "Herod"
+}
+
+-----------------------------
+--  Mograine & Whitemane  --
+-----------------------------
+L = DBM:GetModLocalization("Mograine_and_Whitemane")
+
+L:SetGeneralLocalization{
+	name 		= "Mograine & Whitemane"
+}
+
+-----------------------------
+--  High Inquisitor Fairbanks  --
+-----------------------------
+L = DBM:GetModLocalization("Fairbanks")
+
+L:SetGeneralLocalization{
+	name 		= "High Inquisitor Fairbanks"
+}
+
+-------------------------
+--  Stormwind Stockaid (12)  --
+-----------------------------
+--  Targorr the Dread  --
+-----------------------------
+L = DBM:GetModLocalization("Targorr")
+
+L:SetGeneralLocalization{
+	name 		= "Targorr the Dread"
 }
 -----------------------------
---  Lord Overheat  --
+--  Kam Deepfury  --
 -----------------------------
-L = DBM:GetModLocalization(465)
+L = DBM:GetModLocalization("KamDeepfury")
 
 L:SetGeneralLocalization{
-	name 		= "Lord Overheat"
+	name 		= "Kam Deepfuryd"
 }
 -----------------------------
---  Randolph Moloch  --
+--  Hamhock  --
 -----------------------------
-L = DBM:GetModLocalization(466)
+L = DBM:GetModLocalization("Hamhock")
 
 L:SetGeneralLocalization{
-	name 		= "Randolph Moloch"
+	name 		= "Hamhock"
+}
+-----------------------------
+--  Bazil Thredd  --
+-----------------------------
+L = DBM:GetModLocalization("BazilThredd")
+
+L:SetGeneralLocalization{
+	name 		= "Bazil Thredd"
+}
+-----------------------------
+--  Dextren Ward  --
+-----------------------------
+L = DBM:GetModLocalization("DextrenWard")
+
+L:SetGeneralLocalization{
+	name 		= "Dextren Ward"
+}
+-----------------------------
+--  Bruegal Ironknuckle  --
+-----------------------------
+L = DBM:GetModLocalization("BruegalIronknuckle")
+
+L:SetGeneralLocalization{
+	name 		= "Bruegal Ironknuckle"
+}
+
+-------------------------
+--  Shadowfang Keep (15)  --
+-----------------------------
+--  Rethilgore  --
+-----------------------------
+L = DBM:GetModLocalization("Rethilgore")
+
+L:SetGeneralLocalization{
+	name 		= "Rethilgore"
+}
+
+-----------------------------
+--  Razorclaw the Butcher  --
+-----------------------------
+L = DBM:GetModLocalization("RazorclawtheButcher")
+
+L:SetGeneralLocalization{
+	name 		= "Razorclaw the Butcher"
+}
+
+-----------------------------
+--  Baron Silverlaine  --
+-----------------------------
+L = DBM:GetModLocalization("BaronSilverlaine")
+
+L:SetGeneralLocalization{
+	name 		= "Baron Silverlaine"
+}
+
+-----------------------------
+--  Commander Springvale  --
+-----------------------------
+L = DBM:GetModLocalization("CommanderSpringvale")
+
+L:SetGeneralLocalization{
+	name 		= "Commander Springvale"
+}
+
+-----------------------------
+--  Odo the Blindwatcher  --
+-----------------------------
+L = DBM:GetModLocalization("OdotheBlindwatcher")
+
+L:SetGeneralLocalization{
+	name 		= "Odo the Blindwatcher"
+}
+
+-----------------------------
+--  Deathsworn Captain  --
+-----------------------------
+L = DBM:GetModLocalization("DeathswornCaptain")
+
+L:SetGeneralLocalization{
+	name 		= "Deathsworn Captain"
+}
+
+-----------------------------
+--  Fenrus the Devourer  --
+-----------------------------
+L = DBM:GetModLocalization("FenrustheDevourer")
+
+L:SetGeneralLocalization{
+	name 		= "Fenrus the Devourer"
+}
+
+-----------------------------
+--  Wolf Master Nandos  --
+-----------------------------
+L = DBM:GetModLocalization("WolfMasterNandos")
+
+L:SetGeneralLocalization{
+	name 		= "Wolf Master Nandos"
+}
+
+-----------------------------
+--  Archmage Arugal  --
+-----------------------------
+L = DBM:GetModLocalization("ArchmageArugal")
+
+L:SetGeneralLocalization{
+	name 		= "Archmage Arugal"
+}
+
+-------------------------
+--  Wailing Caverns 229J/70M (12L/16C)  --
+-----------------------------
+--  Revelosh  --
+-----------------------------
+L = DBM:GetModLocalization(467)
+
+L:SetGeneralLocalization{
+	name 		= "Revelosh"
+}
+-----------------------------
+--  The Lost Dwarves  --
+-----------------------------
+L = DBM:GetModLocalization(468)
+
+L:SetGeneralLocalization{
+	name 		= "The Lost Dwarves"
+}
+-----------------------------
+--  Ironaya  --
+-----------------------------
+L = DBM:GetModLocalization(469)
+
+L:SetGeneralLocalization{
+	name 		= "Ironaya"
+}
+-----------------------------
+--  Obsidian Sentinel  --
+-----------------------------
+L = DBM:GetModLocalization(748)
+
+L:SetGeneralLocalization{
+	name 		= "Obsidian Sentinel"
+}
+-----------------------------
+--  Ancient Stone Keeper  --
+-----------------------------
+L = DBM:GetModLocalization(470)
+
+L:SetGeneralLocalization{
+	name 		= "Ancient Stone Keeper"
+}
+-----------------------------
+--  Galgann Firehammer  --
+-----------------------------
+L = DBM:GetModLocalization(471)
+
+L:SetGeneralLocalization{
+	name 		= "Galgann Firehammer"
+}
+-----------------------------
+--  Grimlok  --
+-----------------------------
+L = DBM:GetModLocalization(472)
+
+L:SetGeneralLocalization{
+	name 		= "Grimlok"
+}
+-----------------------------
+--  Archaedas  --
+-----------------------------
+L = DBM:GetModLocalization(473)
+
+L:SetGeneralLocalization{
+	name 		= "Archaedas"
+}
+
+-------------------------
+--  Wailing Caverns 240J/43M (13L/17C)  --
+-----------------------------
+--  Lady Anacondra  --
+-----------------------------
+L = DBM:GetModLocalization(474)
+
+L:SetGeneralLocalization{
+	name 		= "Lady Anacondra"
+}
+
+-----------------------------
+--  Lord Pythas  --
+-----------------------------
+L = DBM:GetModLocalization(476)
+
+L:SetGeneralLocalization{
+	name 		= "Lord Pythas"
+}
+
+-----------------------------
+--  Lord Cobrahn  --
+-----------------------------
+L = DBM:GetModLocalization(475)
+
+L:SetGeneralLocalization{
+	name 		= "Lord Cobrahn"
+}
+
+-----------------------------
+--  Kresh  --
+-----------------------------
+L = DBM:GetModLocalization(477)
+
+L:SetGeneralLocalization{
+	name 		= "Kresh"
+}
+
+-----------------------------
+--  Skum  --
+-----------------------------
+L = DBM:GetModLocalization(478)
+
+L:SetGeneralLocalization{
+	name 		= "Skum"
+}
+
+-----------------------------
+--  Lord Serpentis  --
+-----------------------------
+L = DBM:GetModLocalization(479)
+
+L:SetGeneralLocalization{
+	name 		= "Lord Serpentis"
+}
+
+-----------------------------
+--  Veran the Everliving  --
+-----------------------------
+L = DBM:GetModLocalization(480)
+
+L:SetGeneralLocalization{
+	name 		= "Veran the Everliving"
+}
+
+-----------------------------
+--  Mutanus the Devourer  --
+-----------------------------
+L = DBM:GetModLocalization(481)
+
+L:SetGeneralLocalization{
+	name 		= "Mutanus the Devourer"
+}
+
+-----------------------------
+--  Deviate Faerie Dragon  --
+-----------------------------
+L = DBM:GetModLocalization("DeviateFaerie")
+
+L:SetGeneralLocalization{
+	name 		= "Deviate Faerie Dragon"
 }

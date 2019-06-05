@@ -1,29 +1,39 @@
-local mod	= DBM:NewMod(444, "DBM-Party-Classic", 1, 227)
+local mod	= DBM:NewMod("Akumai", "DBM-Party-Classic", 1)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision("@file-date-integer@")
-mod:SetCreatureID(75408)
-mod:SetEncounterID(1672)
+mod:SetCreatureID(4829)
+--mod:SetEncounterID(1672)
 
 mod:RegisterCombat("combat")
 
---[[
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START",
-	"SPELL_AURA_APPLIED"
+	"SPELL_CAST_START 3815",
+	"SPELL_CAST_SUCCESS 3490"
 )
 
-local warningSoul	= mod:NewTargetAnnounce(32346, 2)
-local warningAvatar	= mod:NewSpellAnnounce(32424, 3)
+local warningPoisonCloud	= mod:NewSpellAnnounce(3815, 4)
+local warningFrenziedRage	= mod:NewSpellAnnounce(3490, 4)
 
-function mod:SPELL_CAST_START(args)
-	if args.spellId == 32424 then
-		warningAvatar:Show()
+local timerPoisonCloudCD	= mod:NewAITimer(180, 3815, nil, nil, nil, 3)
+local timerFrenziedRageCD	= mod:NewAITimer(180, 3490, nil, nil, nil, 5, nil, DBM_CORE_TANK_ICON)
+
+function mod:OnCombatStart(delay)
+	timerPoisonCloudCD:Start(1-delay)
+	timerFrenziedRageCD:Start(1-delay)
+end
+
+function mod:SPELL_CAST_SUCCESS(args)
+	if args.spellId == 3815 then
+		warningPoisonCloud:Show()
+		timerPoisonCloudCD:Start()
 	end
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 32346 then
-		warningSoul:Show(args.destName)
+
+function mod:SPELL_CAST_SUCCESS(args)
+	if args.spellId == 3490 then
+		warningFrenziedRage:Show()
+		timerFrenziedRageCD:Start()
 	end
-end--]]
+end
