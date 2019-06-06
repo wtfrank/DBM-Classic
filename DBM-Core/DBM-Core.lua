@@ -126,6 +126,7 @@ DBM.DefaultOptions = {
 	SpecialWarningSound4 = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\HoodWolfTransformPlayer01.ogg",
 	SpecialWarningSound5 = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\LOA_NAXX_AGGRO02.ogg",
 	ModelSoundValue = "Short",
+	UseRetailShamanColor = false,
 	CountdownVoice = "Corsica",
 	CountdownVoice2 = "Kolt",
 	CountdownVoice3v2 = "Pewsey",
@@ -1135,6 +1136,12 @@ do
 		end
 		if not savedDifficulty or not difficultyText or not difficultyIndex then--prevent error if savedDifficulty or difficultyText is nil
 			savedDifficulty, difficultyText, difficultyIndex, LastGroupSize = self:GetCurrentInstanceDifficulty()
+		end
+		if self.Options.UseRetailShamanColor then
+			RAID_CLASS_COLORS["SHAMAN"].colorStr = "ff006fdc"
+			RAID_CLASS_COLORS["SHAMAN"].b = 0.86666476726532
+			RAID_CLASS_COLORS["SHAMAN"].g = 0.4392147064209
+			RAID_CLASS_COLORS["SHAMAN"].r = 0
 		end
 	end
 
@@ -6816,6 +6823,7 @@ function DBM:Debug(text, level)
 		local frame = _G[tostring(DBM.Options.ChatFrame)]
 		frame = frame and frame:IsShown() and frame or DEFAULT_CHAT_FRAME
 		frame:AddMessage("|cffff7d0aDBM Debug:|r "..text, 1, 1, 1)
+		fireEvent("DBM_Debug", text, level)
 	end
 end
 

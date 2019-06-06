@@ -1396,6 +1396,10 @@ local function CreateOptionsMenu()
 		end)
 		ModelSoundDropDown:SetPoint("TOPLEFT", modelarea.frame, "TOPLEFT", 0, -50)
 
+		--Classic options
+		local classicarea = DBM_GUI_Frame:CreateArea(L.ClassicOptions, nil, 50, true)
+		local RetailShamanColor 	= classicarea:CreateCheckButton(L.UseRetailShamanColor, true, nil, "UseRetailShamanColor")
+
 		DBM_GUI_Frame:SetMyOwnHeight()
 	end
 
