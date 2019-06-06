@@ -6367,7 +6367,7 @@ do
 	end
 end
 
---Future proofing EJ_GetSectionInfo compat layer to make it easier updatable. EJ_GetSectionInfo won't be depricated functions forever.
+--Future proofing EJ_GetSectionInfo compat layer to make it easier updatable.
 function DBM:EJ_GetSectionInfo(sectionID)
 	local info = EJ_GetSectionInfo(sectionID);
 	local flag1, flag2, flag3, flag4;
@@ -6389,6 +6389,7 @@ function DBM:GetSpellInfo(spellId)
 	end
 end
 
+--In classic, instead of adding rank back in at beginning where it was pre 8.0, it's 15th arg return at end (value 1)
 function DBM:UnitDebuff(uId, spellInput, spellInput2, spellInput3, spellInput4)
 	if not uId then return end
 	for i = 1, 60 do
@@ -6400,6 +6401,7 @@ function DBM:UnitDebuff(uId, spellInput, spellInput2, spellInput3, spellInput4)
 	end
 end
 
+--In classic, instead of adding rank back in at beginning where it was pre 8.0, it's 15th arg return at end (value 1)
 function DBM:UnitBuff(uId, spellInput, spellInput2, spellInput3, spellInput4)
 	if not uId then return end
 	for i = 1, 60 do
