@@ -75,7 +75,7 @@ L.Button_TestBars			= "Start test bars"
 L.Button_ResetInfoRange		= "Reset Info/Range frames"
 
 L.ClassicOptions			= "Classic Options"
-L.UseRetailShamanColor		= "Override WoW Classic Shaman class color with retail one (only DBM)"
+L.UseRetailShamanColor		= "Override WoW Classic Shaman class color with retail one (GLOBALLY)"
 
 -- Tab: Raidwarning
 L.Tab_RaidWarning 			= "Raid Warnings"
