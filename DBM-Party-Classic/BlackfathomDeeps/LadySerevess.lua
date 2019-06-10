@@ -21,13 +21,13 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 8399 and args:IsSrcTypeHostile() then
+	if args.spellId == 246 and args:IsSrcTypeHostile() then
 		timerSlowCD:Start()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 8399 and args:IsDestTypePlayer() then
+	if args.spellId == 246 and args:IsDestTypePlayer() then
 		warningSlow:Show(args.destName)
 	end
 end
