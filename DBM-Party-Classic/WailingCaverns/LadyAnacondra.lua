@@ -12,7 +12,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 8040"
 )
 
---TODO, no indication she actually has a heal, only lightning bolt
+--TODO, no indication she actually has a heal, only lightning bolt and throns
 local warningDruidSlumber			= mod:NewTargetNoFilterAnnounce(8040, 2)
 local warningHealingTouch			= mod:NewCastAnnounce(23381, 2)
 
