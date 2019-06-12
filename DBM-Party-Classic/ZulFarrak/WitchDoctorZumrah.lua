@@ -8,39 +8,44 @@ mod:SetEncounterID(597)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START",
-	"SPELL_AURA_APPLIED"
+	"SPELL_CAST_START 12491 15245",
+	"SPELL_CAST_SUCCESS 11086"
 )
 
---TODO, no indication she actually has a heal, only lightning bolt and throns
-local warningDruidSlumber			= mod:NewTargetNoFilterAnnounce(8040, 2)
-local warningHealingTouch			= mod:NewCastAnnounce(23381, 2)
+local warningWardZumrah				= mod:NewSpellAnnounce(11086, 2)
 
-local specWarnDruidsSlumber			= mod:NewSpecialWarningInterrupt(8040, "HasInterrupt", nil, nil, 1, 2)
+local specWarnHealingWave			= mod:NewSpecialWarningInterrupt(12491, "HasInterrupt", nil, nil, 1, 2)
+local specWarnShadowBoltVolley		= mod:NewSpecialWarningInterrupt(15245, "HasInterrupt", nil, nil, 1, 2)
 
-local timerDruidsSlumberCD			= mod:NewAITimer(180, 8040, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON..DBM_CORE_MAGIC_ICON)
-local timerHealingTouchCD			= mod:NewAITimer(180, 23381, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
+local timerWardZumrahCD				= mod:NewAITimer(180, 11086, nil, nil, nil, 1, nil, DBM_CORE_DAMAGE_ICON)
+local timerHealingWaveCD			= mod:NewAITimer(180, 12491, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
+local timerShadowBoltVolleyCD		= mod:NewAITimer(180, 15245, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
 
 function mod:OnCombatStart(delay)
-	timerDruidsSlumberCD:Start(1-delay)
-	timerHealingTouchCD:Start(1-delay)
+	timerWardZumrahCD:Start(1-delay)
+	timerHealingWaveCD:Start(1-delay)
+	timerShadowBoltVolleyCD:Start(1-delay)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args.spellId == 8040 then
-		timerDruidsSlumberCD:Start()
+	if args.spellId == 12491 then
+		timerHealingWaveCD:Start()
 		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnDruidsSlumber:Show(args.sourceName)
-			specWarnDruidsSlumber:Play("kickcast")
+			specWarnHealingWave:Show(args.sourceName)
+			specWarnHealingWave:Play("kickcast")
 		end
-	elseif args.spellId == 23381 then
-		warningHealingTouch:Show()
-		timerHealingTouchCD:Start()
+	elseif args.spellId == 15245 then
+		timerShadowBoltVolleyCD:Start()
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnShadowBoltVolley:Show(args.sourceName)
+			specWarnShadowBoltVolley:Play("kickcast")
+		end
 	end
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 8040 then
-		warningDruidSlumber:Show(args.destName)
+function mod:SPELL_CAST_SUCCESS(args)
+	if args.spellId == 11086 then
+		warningWardZumrah:Show()
+		timerWardZumrahCD:Start()
 	end
 end
