@@ -70,7 +70,7 @@ end
 DBM = {
 	Revision = parseCurseDate("@project-date-integer@"),
 	DisplayVersion = "1.13.0 alpha", -- the string that is shown as version
-	ReleaseRevision = releaseDate(2019, 5, 23, 12) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+	ReleaseRevision = releaseDate(2019, 6, 12, 00) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -516,6 +516,21 @@ local function removeEntry(t, val)
 end
 
 local function checkForFriend(sender, includeGuild)
+	--Check if it's a bnet friend sending a non bnet whisper
+	local _, numBNetOnline = BNGetNumFriends()
+	for i = 1, numBNetOnline do
+		local presenceID, _, _, _, _, _, _, isOnline = BNGetFriendInfo(i)
+		local friendIndex = BNGetFriendIndex(presenceID)--Check if they are on more than one client at once (very likely with bnet launcher or mobile)
+		for i=1, BNGetNumFriendGameAccounts(friendIndex) do
+			local _, toonName, client = BNGetFriendGameAccountInfo(friendIndex, i)
+			if toonName and client == BNET_CLIENT_WOW then--Check if toon name exists and if client is wow. If yes to both, we found right client
+				if toonName == sender then--Now simply see if this is sender
+					return true
+				end
+			end
+		end
+	end
+	--Check if it's a non bnet friend
 	local nf = C_FriendList.GetNumFriends()
 	for i = 1, nf do
 		local toonName = C_FriendList.GetFriendInfo(i)
@@ -523,6 +538,7 @@ local function checkForFriend(sender, includeGuild)
 			return true
 		end
 	end
+	--Check Guildies (not used by whisper syncs, but used by status whispers)
 	if includeGuild then
 		local totalMembers, _, numOnlineAndMobileMembers = GetNumGuildMembers()
 		local scanTotal = GetGuildRosterShowOffline() and totalMembers or numOnlineAndMobileMembers--Attempt CPU saving, if "show offline" is unchecked, we can reliably scan only online members instead of whole roster
