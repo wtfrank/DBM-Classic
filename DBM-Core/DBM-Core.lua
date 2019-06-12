@@ -515,12 +515,24 @@ local function removeEntry(t, val)
 	return existed
 end
 
-local function checkForFriend(sender)
+local function checkForFriend(sender, includeGuild)
 	local nf = C_FriendList.GetNumFriends()
 	for i = 1, nf do
 		local toonName = C_FriendList.GetFriendInfo(i)
 		if toonName == sender then
 			return true
+		end
+	end
+	if includeGuild then
+		local totalMembers, _, numOnlineAndMobileMembers = GetNumGuildMembers()
+		local scanTotal = GetGuildRosterShowOffline() and totalMembers or numOnlineAndMobileMembers--Attempt CPU saving, if "show offline" is unchecked, we can reliably scan only online members instead of whole roster
+		for i=1, scanTotal do
+			local name = GetGuildRosterInfo(i)
+			if not name then break end
+			name = Ambiguate(name, "none")
+			if name == sender then
+				return true
+			end
 		end
 	end
 	return false
@@ -6672,7 +6684,7 @@ do
 	-- sender is a presenceId for real id messages, a character name otherwise
 	local function onWhisper(msg, sender, isRealIdMessage)
 		if statusWhisperDisabled then return end--RL has disabled status whispers for entire raid.
-		if not (isRealIdMessage or checkForFriend(sender)) then return end--Automatically reject all whisper functions from non friends
+		if not (isRealIdMessage or checkForFriend(sender, true)) then return end--Automatically reject all whisper functions from non friends
 		if msg == "status" and #inCombat > 0 and DBM.Options.StatusEnabled then
 			if not difficultyText then -- prevent error when timer recovery function worked and etc (StartCombat not called)
 				savedDifficulty, difficultyText, difficultyIndex, LastGroupSize = DBM:GetCurrentInstanceDifficulty()
