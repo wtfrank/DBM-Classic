@@ -311,7 +311,6 @@ L.LFDEnhance				= "Reproducir sonido de comprobación de banda e iluminar icono 
 L.WorldBossNearAlert		= "Reproducir sonido de comprobación de banda e iluminar icono del juego cuando haya un jefe de mundo cerca"
 L.RLReadyCheckSound			= "Reproducir sonido por el canal de audio general o de diálogo e iluminar el icono del juego cuando se haga una comprobación de banda"
 L.AFKHealthWarning			= "Reproducir sonido de alerta e iluminar el icono del juego si tu salud se reduce mientras estás ausente"
-L.AutoReplySound			= "Reproducir sonido de alerta e iluminar el icono del juego al recibir respuestas automáticas de DBM por susurro"
 --
 L.TimerGeneral 				= "Opciones de temporizadores"
 L.SKT_Enabled				= "Mostrar temporizador para batir el récord de victoria del encuentro actual"

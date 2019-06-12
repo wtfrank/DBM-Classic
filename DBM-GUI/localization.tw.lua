@@ -315,7 +315,6 @@ L.LFDEnhance				= "使用主要或對話聲音頻道播放準備確認音效和�
 L.WorldBossNearAlert		= "當你需要的世界首領在你附近開戰播放準備確認音效和閃爍應用程式圖示"
 L.RLReadyCheckSound			= "從主要或對話音效頻道播放準備確認音效和閃爍應用程式圖示"
 L.AFKHealthWarning			= "播放警告聲音和閃爍應用程式圖示假如你在暫離時被攻擊"
-L.AutoReplySound			= "當接收到DBM自動回覆密語時播放警告聲和閃爍應用程式圖示"
 --
 L.TimerGeneral 				= "計時器選項"
 L.SKT_Enabled				= "顯示目前戰鬥的最佳紀錄勝利計時器"

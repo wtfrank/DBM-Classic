@@ -320,7 +320,6 @@ L.LFDEnhance				= "역할 확인 및 전장/공격대 찾기가 열릴 때 전�
 L.WorldBossNearAlert		= "근처에서 필드 보스 전투가 시작된 경우 전투 준비 효과음 재생 및 작업 표시줄 아이콘 점멸"
 L.RLReadyCheckSound			= "전투 준비 효과음을 주 오디오나 대화 채널을 통해 재생하고 작업 표시줄 아이콘 점멸"
 L.AFKHealthWarning			= "자리 비움 상태 도중 체력이 줄면 경고음 재생 및 작업 표시줄 아이콘 점멸"
-L.AutoReplySound			= "DBM 자동 응답 귓속말을 받을 때 경고음 재생 및 작업 표시줄 아이콘 점멸"
 --
 L.TimerGeneral 				= "타이머 설정"
 L.SKT_Enabled				= "가능할 경우 현재 전투의 최고 승리 기록 타이머 표시"

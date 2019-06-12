@@ -320,7 +320,6 @@ L.LFDEnhance				= "当发起角色检查或随机团队/战场就绪时，在主
 L.WorldBossNearAlert		= "当世界附近的Boss进入战斗时播放准备音效(覆盖单独BOSS设置)并闪烁图标"
 L.RLReadyCheckSound			= "在主声道/对话声道播放检查准备音效并闪烁图标"
 L.AFKHealthWarning			= "当你在挂机/暂离而受到伤害时播放音效并闪烁图标(你会死)"
-L.AutoReplySound			= "当收到DBM可自动回复的信息时播放音效并闪烁图标"
 --
 L.TimerGeneral 				= "计时器选项"
 L.SKT_Enabled				= "总是显示最速胜利计时条(覆盖单独BOSS设置)"

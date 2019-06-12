@@ -20,9 +20,11 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_CAST_START(args)
-	timerHealCD:Start()
-	if args.spellId == 5174 and self:CheckInterruptFilter(args.sourceGUID, false, true) then
-		specWarnHeal:Show(args.sourceName)
-		specWarnHeal:Play("kickcast")
+	if args.spellId == 5174 then
+		timerHealCD:Start()
+		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+			specWarnHeal:Show(args.sourceName)
+			specWarnHeal:Play("kickcast")
+		end
 	end
 end
