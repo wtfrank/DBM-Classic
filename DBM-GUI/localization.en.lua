@@ -326,7 +326,6 @@ L.LFDEnhance				= "Play ready check sound and flash application icon for role ch
 L.WorldBossNearAlert		= "Play ready check sound and flash application icon when world bosses you are near to are pulled that you need"
 L.RLReadyCheckSound			= "When a ready check is performed, play sound through Master or Dialog audio channel and flash application icon."
 L.AFKHealthWarning			= "Play alert sound and flash application icon if you are losing health while AFK"
-L.AutoReplySound			= "Play alert sound and flash application icon when receiving DBM auto reply whisper"
 --
 L.TimerGeneral 				= "Timer Options"
 L.SKT_Enabled				= "Show record victory timer for current fight if available"

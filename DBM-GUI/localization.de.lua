@@ -309,7 +309,6 @@ L.LFDEnhance				= "Spiele \"Bereitschaftscheck\"-Sound und lasse Anwendungsymbol
 L.WorldBossNearAlert		= "Spiele \"Bereitschaftscheck\"-Sound und lasse Anwendungsymbol aufblicken, wenn Weltbosse in deiner Nähe gepullt werden, die du brauchst"
 L.RLReadyCheckSound			= "Wenn ein Bereitschaftscheck durchgeführt wird, den Sound im Master- oder Dialog-Audiokanal abspielen und Anwendungsymbol aufblicken lassen"
 L.AFKHealthWarning			= "Spiele Alarmsound und lasse Anwendungsymbol aufblicken, wenn du Gesundheit verlierst, während du als nicht an der Tastatur (\"AFK\") markiert bist"
---L.AutoReplySound			--translate? (misleading option..)
 --
 L.TimerGeneral 				= "Allgemeine Einstellungen für Timer"
 L.SKT_Enabled				= "Zeige Timer für Rekordzeit für aktuellen Kampf (falls verfügbar)"

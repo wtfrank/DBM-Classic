@@ -263,7 +263,6 @@ L.LFDEnhance				= "Jouer le son du readycheck sur les vérif. de rôle &amp; sur
 L.WorldBossNearAlert		= "Jouer le son du readycheck lorsqu'un World Boss proche de vous que vous avez besoin est engagé (Outrepasse l'option par boss)"
 L.RLReadyCheckSound			= "Jouer les sons de l'appel des vrais appels via le canal principal ou de dialogue"
 L.AFKHealthWarning			= "Jouer un son d'alerte si vous perdez de la vie alors que vous ABS"
-L.AutoReplySound			= "Jouer un son d'alerte lorsque vous recevez une réponse automatique de DBM"
 --
 L.TimerGeneral 				= "Options des timers"
 L.SKT_Enabled				= "Afficher le timer du record pour lecombat actuel s'il est disponible"
