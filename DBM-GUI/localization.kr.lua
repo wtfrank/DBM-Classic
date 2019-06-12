@@ -71,6 +71,9 @@ L.Button_InfoFrame			= "정보 창 표시/숨기기"
 L.Button_TestBars			= "테스트 바 시작"
 L.Button_ResetInfoRange		= "정보/거리 창 위치 초기화"
 
+L.ClassicOptions			= "클래식 설정"
+L.UseRetailShamanColor		= "WoW 클래식 주술사 직업 색상을 최신 확장팩 색상으로 변경 (게임 전체에 적용)"
+
 -- Tab: Raidwarning
 L.Tab_RaidWarning 			= "공격대 경보"
 L.RaidWarning_Header		= "공격대 경보 설정"
