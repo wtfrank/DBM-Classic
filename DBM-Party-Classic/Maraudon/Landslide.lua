@@ -9,8 +9,7 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 21808",
-	"SPELL_CAST_SUCCESS 110762 11130 5568",
-	"SPELL_AURA_APPLIED 12747"
+	"SPELL_CAST_SUCCESS 110762 11130 5568"
 )
 
 --TODO, verify classic knock away spellID
@@ -44,11 +43,5 @@ function mod:SPELL_CAST_SUCCESS(args)
 	elseif args.spellId == 5568 then
 		warningTrample:Show()
 		timerTrampleCD:Start()
-	end
-end
-
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 12747 then
-		warningEntanglingRoots:Show(args.destName)
 	end
 end
