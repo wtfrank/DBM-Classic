@@ -274,7 +274,11 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Deadmines (3L/4C)  --
+--  Upper Blackrock Spire-229J/229M (4C)  --
+-----------------------------
+
+-------------------------
+--  Deadmines (3L/5C)  --
 -----------------------------
 --  Rhahk'Zor  --
 -----------------------------
@@ -341,7 +345,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Dire Maul-230J/429M (4L/5C)  --
+--  Dire Maul-230J/429M (4L/6C)  --
 -----------------------------
 --  Zevrim Thornhoof  --
 -----------------------------
@@ -472,7 +476,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Gnomeregan-231J/90M (5L/6C)  --
+--  Gnomeregan-231J/90M (5L/7C)  --
 -----------------------------
 --  Grubbis  --
 -----------------------------
@@ -515,7 +519,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Maraudon-232J/349M (7)  --
+--  Maraudon-232J/349M (6L/8C)  --
 -----------------------------
 --  Noxxion  --
 -----------------------------
@@ -589,7 +593,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Ragefire Chasm (7)  --
+--  Ragefire Chasm (7L/9C)  --
 -----------------------------
 --  Oggleflint  --
 -----------------------------
@@ -624,7 +628,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Razorfen Downs -233J/129M (9)  --
+--  Razorfen Downs -233J/129M (8L/10C)  --
 -----------------------------
 --  Tuten'kash  --
 -----------------------------
@@ -680,7 +684,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Razorfen Kraul -234J/47M (10)  --
+--  Razorfen Kraul -234J/47M (9L/11C)  --
 -----------------------------
 --  Roogug  --
 -----------------------------
@@ -754,7 +758,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Scarlet Monastery 189M (11)  --
+--  Scarlet Monastery 189M (12C)  --
 -----------------------------
 --  Interrogator Vishas  --
 -----------------------------
@@ -819,11 +823,11 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Scholomance 289M (12)  --
+--  Scholomance 289M (13C)  --
 -----------------------------
 
 -------------------------
---  Shadowfang Keep 33M (13)  --
+--  Shadowfang Keep 33M (14C)  --
 -----------------------------
 --  Rethilgore  --
 -----------------------------
@@ -906,7 +910,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Stormwind Stockaid 34M (14)  --
+--  Stormwind Stockaid 34M (10L/15C)  --
 -----------------------------
 --  Targorr the Dread  --
 -----------------------------
@@ -957,7 +961,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Uldaman 229J/70M (12L/17C)  --
+--  Uldaman 229J/70M (12L/18C)  --
 -----------------------------
 --  Revelosh  --
 -----------------------------
@@ -1024,7 +1028,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Wailing Caverns 240J/43M (13L/18C)  --
+--  Wailing Caverns 240J/43M (13L/19C)  --
 -----------------------------
 --  Lady Anacondra  --
 -----------------------------
@@ -1107,7 +1111,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Zul'Farrak 241J/209M (14L/19C)  --
+--  Zul'Farrak 241J/209M (14L/20C)  --
 -----------------------------
 --  Ghaz'rilla  --
 -----------------------------

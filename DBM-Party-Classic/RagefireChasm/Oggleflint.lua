@@ -1,4 +1,4 @@
-local mod	= DBM:NewMod("Oggleflint", "DBM-Party-Classic", 8)
+local mod	= DBM:NewMod("Oggleflint", "DBM-Party-Classic", 9)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision("@file-date-integer@")
