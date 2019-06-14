@@ -754,7 +754,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Scarlet Monastery (11)  --
+--  Scarlet Monastery 189M (11)  --
 -----------------------------
 --  Interrogator Vishas  --
 -----------------------------
@@ -819,58 +819,11 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Stormwind Stockaid (12)  --
+--  Scholomance 289M (12)  --
 -----------------------------
---  Targorr the Dread  --
------------------------------
-L = DBM:GetModLocalization("Targorr")
-
-L:SetGeneralLocalization{
-	name 		= "Targorr the Dread"
-}
------------------------------
---  Kam Deepfury  --
------------------------------
-L = DBM:GetModLocalization("KamDeepfury")
-
-L:SetGeneralLocalization{
-	name 		= "Kam Deepfuryd"
-}
------------------------------
---  Hamhock  --
------------------------------
-L = DBM:GetModLocalization("Hamhock")
-
-L:SetGeneralLocalization{
-	name 		= "Hamhock"
-}
------------------------------
---  Bazil Thredd  --
------------------------------
-L = DBM:GetModLocalization("BazilThredd")
-
-L:SetGeneralLocalization{
-	name 		= "Bazil Thredd"
-}
------------------------------
---  Dextren Ward  --
------------------------------
-L = DBM:GetModLocalization("DextrenWard")
-
-L:SetGeneralLocalization{
-	name 		= "Dextren Ward"
-}
------------------------------
---  Bruegal Ironknuckle  --
------------------------------
-L = DBM:GetModLocalization("BruegalIronknuckle")
-
-L:SetGeneralLocalization{
-	name 		= "Bruegal Ironknuckle"
-}
 
 -------------------------
---  Shadowfang Keep (15)  --
+--  Shadowfang Keep 33M (13)  --
 -----------------------------
 --  Rethilgore  --
 -----------------------------
@@ -953,7 +906,58 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Wailing Caverns 229J/70M (12L/16C)  --
+--  Stormwind Stockaid 34M (14)  --
+-----------------------------
+--  Targorr the Dread  --
+-----------------------------
+L = DBM:GetModLocalization("Targorr")
+
+L:SetGeneralLocalization{
+	name 		= "Targorr the Dread"
+}
+-----------------------------
+--  Kam Deepfury  --
+-----------------------------
+L = DBM:GetModLocalization("KamDeepfury")
+
+L:SetGeneralLocalization{
+	name 		= "Kam Deepfuryd"
+}
+-----------------------------
+--  Hamhock  --
+-----------------------------
+L = DBM:GetModLocalization("Hamhock")
+
+L:SetGeneralLocalization{
+	name 		= "Hamhock"
+}
+-----------------------------
+--  Bazil Thredd  --
+-----------------------------
+L = DBM:GetModLocalization("BazilThredd")
+
+L:SetGeneralLocalization{
+	name 		= "Bazil Thredd"
+}
+-----------------------------
+--  Dextren Ward  --
+-----------------------------
+L = DBM:GetModLocalization("DextrenWard")
+
+L:SetGeneralLocalization{
+	name 		= "Dextren Ward"
+}
+-----------------------------
+--  Bruegal Ironknuckle  --
+-----------------------------
+L = DBM:GetModLocalization("BruegalIronknuckle")
+
+L:SetGeneralLocalization{
+	name 		= "Bruegal Ironknuckle"
+}
+
+-------------------------
+--  Uldaman 229J/70M (12L/17C)  --
 -----------------------------
 --  Revelosh  --
 -----------------------------
@@ -1020,7 +1024,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Wailing Caverns 240J/43M (13L/17C)  --
+--  Wailing Caverns 240J/43M (13L/18C)  --
 -----------------------------
 --  Lady Anacondra  --
 -----------------------------
@@ -1103,7 +1107,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Zul'Farrak 241J/209M (14L/18C)  --
+--  Zul'Farrak 241J/209M (14L/19C)  --
 -----------------------------
 --  Ghaz'rilla  --
 -----------------------------
