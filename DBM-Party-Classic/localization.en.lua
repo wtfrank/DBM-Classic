@@ -199,7 +199,82 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Deadmines (3)  --
+--  Lower Blackrock Spire-229J/229M (6L/3C)  --
+-----------------------------
+--  Highlord Omokk  --
+-----------------------------
+L = DBM:GetModLocalization(388)
+
+L:SetGeneralLocalization{
+	name 		= "Highlord Omokk"
+}
+-----------------------------
+--  Shadow Hunter Vosh'gajin  --
+-----------------------------
+L = DBM:GetModLocalization(389)
+
+L:SetGeneralLocalization{
+	name 		= "Shadow Hunter Vosh'gajin"
+}
+-----------------------------
+--  War Master Voone  --
+-----------------------------
+L = DBM:GetModLocalization(390)
+
+L:SetGeneralLocalization{
+	name 		= "War Master Voone"
+}
+-----------------------------
+--  Mother Smolderweb  --
+-----------------------------
+L = DBM:GetModLocalization(391)
+
+L:SetGeneralLocalization{
+	name 		= "Mother Smolderweb"
+}
+-----------------------------
+--  Urok Doomhowl  --
+-----------------------------
+L = DBM:GetModLocalization(392)
+
+L:SetGeneralLocalization{
+	name 		= "Urok Doomhowl"
+}
+-----------------------------
+--  Quartermaster Zigris  --
+-----------------------------
+L = DBM:GetModLocalization(393)
+
+L:SetGeneralLocalization{
+	name 		= "Quartermaster Zigris"
+}
+-----------------------------
+--  Halycon  --
+-----------------------------
+L = DBM:GetModLocalization(394)
+
+L:SetGeneralLocalization{
+	name 		= "Halycon"
+}
+-----------------------------
+--  Gizrul  --
+-----------------------------
+L = DBM:GetModLocalization(395)
+
+L:SetGeneralLocalization{
+	name 		= "Gizrul"
+}
+-----------------------------
+--  Overlord Wyrmthalak  --
+-----------------------------
+L = DBM:GetModLocalization(396)
+
+L:SetGeneralLocalization{
+	name 		= "Overlord Wyrmthalak"
+}
+
+-------------------------
+--  Deadmines (3L/4C)  --
 -----------------------------
 --  Rhahk'Zor  --
 -----------------------------
@@ -266,7 +341,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Dire Maul-230J/429M (4)  --
+--  Dire Maul-230J/429M (4L/5C)  --
 -----------------------------
 --  Zevrim Thornhoof  --
 -----------------------------
@@ -397,7 +472,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Gnomeregan-231J/90M (5)  --
+--  Gnomeregan-231J/90M (5L/6C)  --
 -----------------------------
 --  Grubbis  --
 -----------------------------
@@ -437,81 +512,6 @@ L = DBM:GetModLocalization(422)
 
 L:SetGeneralLocalization{
 	name 		= "Mekgineer Thermaplugg"
-}
-
--------------------------
---  Lower Blackrock Spire-229J/229M (6)  --
------------------------------
---  Highlord Omokk  --
------------------------------
-L = DBM:GetModLocalization(388)
-
-L:SetGeneralLocalization{
-	name 		= "Highlord Omokk"
-}
------------------------------
---  Shadow Hunter Vosh'gajin  --
------------------------------
-L = DBM:GetModLocalization(389)
-
-L:SetGeneralLocalization{
-	name 		= "Shadow Hunter Vosh'gajin"
-}
------------------------------
---  War Master Voone  --
------------------------------
-L = DBM:GetModLocalization(390)
-
-L:SetGeneralLocalization{
-	name 		= "War Master Voone"
-}
------------------------------
---  Mother Smolderweb  --
------------------------------
-L = DBM:GetModLocalization(391)
-
-L:SetGeneralLocalization{
-	name 		= "Mother Smolderweb"
-}
------------------------------
---  Urok Doomhowl  --
------------------------------
-L = DBM:GetModLocalization(392)
-
-L:SetGeneralLocalization{
-	name 		= "Urok Doomhowl"
-}
------------------------------
---  Quartermaster Zigris  --
------------------------------
-L = DBM:GetModLocalization(393)
-
-L:SetGeneralLocalization{
-	name 		= "Quartermaster Zigris"
-}
------------------------------
---  Halycon  --
------------------------------
-L = DBM:GetModLocalization(394)
-
-L:SetGeneralLocalization{
-	name 		= "Halycon"
-}
------------------------------
---  Gizrul  --
------------------------------
-L = DBM:GetModLocalization(395)
-
-L:SetGeneralLocalization{
-	name 		= "Gizrul"
-}
------------------------------
---  Overlord Wyrmthalak  --
------------------------------
-L = DBM:GetModLocalization(396)
-
-L:SetGeneralLocalization{
-	name 		= "Overlord Wyrmthalak"
 }
 
 -------------------------
