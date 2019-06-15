@@ -2,7 +2,7 @@ local mod	= DBM:NewMod("SneedsShredder", "DBM-Party-Classic", 5)
 local L		= mod:GetLocalizedStrings()
 
 mod:SetRevision("@file-date-integer@")
-mod:SetCreatureID(642)
+mod:SetCreatureID(642, 643)--Shredder, Sneed
 --mod:SetEncounterID(1144)
 
 mod:RegisterCombat("combat")
@@ -12,7 +12,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 7399 6713"
 )
 
---Disarm is not in wowhead abilities list, it valid?
 local warningFear			= mod:NewTargetNoFilterAnnounce(7399, 2)
 local warningDisarm			= mod:NewTargetNoFilterAnnounce(6713, 2)
 local warningEjectSneed		= mod:NewSpellAnnounce(5141, 2)
@@ -22,7 +21,6 @@ local timerDisarmCD			= mod:NewAITimer(180, 6713, nil, nil, nil, 5, nil, DBM_COR
 
 function mod:OnCombatStart(delay)
 	timerFearCD:Start(1-delay)
-	timerDisarmCD:Start(1-delay)
 end
 
 
@@ -33,6 +31,8 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerDisarmCD:Start()
 	elseif args.spellId == 5141 then
 		warningEjectSneed:Show()
+		timerFearCD:Stop()
+		timerDisarmCD:Start(1)
 	end
 end
 
