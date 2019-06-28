@@ -135,7 +135,7 @@ DBM.DefaultOptions = {
 	AlwaysPlayVoice = false,
 	EventSoundVictory2 = "None",
 	EventSoundWipe = "None",
-	EventSoundEngage = "",
+	EventSoundEngage2 = "",
 	EventSoundMusic = "None",
 	EventSoundTurle = "None",
 	EventSoundDungeonBGM = "None",
@@ -1157,8 +1157,7 @@ do
 			AddMsg(DBM, DBM_CORE_VOICE_COUNT_MISSING:format(3, self.DefaultOptions.CountdownVoice3v2))
 			self.Options.CountdownVoice3v2 = self.DefaultOptions.CountdownVoice3v2
 		end
-		self:BuildVoiceCountdownCache()--This will be slowly deprecated as old mods are migrated to new object
-		self:BuildVoiceCountdownCacheTwo()
+		self:BuildVoiceCountdownCache()
 		--Break timer recovery
 		--Try local settings
 		if self.Options.tempBreak2 then
@@ -1956,21 +1955,6 @@ do
 			end
 			time = min * 60 + sec
 			DBM:CreatePizzaTimer(time, text)
-		elseif cmd:sub(1, 6) == "ctimer" then
-			local time, text = msg:match("^%w+ ([%d:]+) (.+)$")
-			if not (time and text) then
-				DBM:AddMsg(DBM_PIZZA_ERROR_USAGE)
-				return
-			end
-			local min, sec = string.split(":", time)
-			min = tonumber(min or "") or 0
-			sec = tonumber(sec or "")
-			if min and not sec then
-				sec = min
-				min = 0
-			end
-			time = min * 60 + sec
-			DBM:CreatePizzaTimer(time, text, nil, nil, true)
 		elseif cmd:sub(1, 6) == "ltimer" then
 			local time, text = msg:match("^%w+ ([%d:]+) (.+)$")
 			if not (time and text) then
@@ -1985,22 +1969,7 @@ do
 				min = 0
 			end
 			time = min * 60 + sec
-			DBM:CreatePizzaTimer(time, text, nil, nil, nil, true)
-		elseif cmd:sub(1, 7) == "cltimer" then
-			local time, text = msg:match("^%w+ ([%d:]+) (.+)$")
-			if not (time and text) then
-				DBM:AddMsg(DBM_PIZZA_ERROR_USAGE)
-				return
-			end
-			local min, sec = string.split(":", time)
-			min = tonumber(min or "") or 0
-			sec = tonumber(sec or "")
-			if min and not sec then
-				sec = min
-				min = 0
-			end
-			time = min * 60 + sec
-			DBM:CreatePizzaTimer(time, text, nil, nil, true, true)
+			DBM:CreatePizzaTimer(time, text, nil, nil, true)
 		elseif cmd:sub(1, 15) == "broadcast timer" then--Standard Timer
 			local permission = true
 			if DBM:GetRaidRank(playerName) == 0 or difficultyIndex == 7 or difficultyIndex == 17 then
@@ -2021,26 +1990,6 @@ do
 			end
 			time = min * 60 + sec
 			DBM:CreatePizzaTimer(time, text, permission)
-		elseif cmd:sub(1, 16) == "broadcast ctimer" then
-			local permission = true
-			if DBM:GetRaidRank(playerName) == 0 or difficultyIndex == 7 or difficultyIndex == 17 then
-				DBM:AddMsg(DBM_ERROR_NO_PERMISSION)
-				permission = false
-			end
-			local time, text = msg:match("^%w+ %w+ ([%d:]+) (.+)$")
-			if not (time and text) then
-				DBM:AddMsg(DBM_PIZZA_ERROR_USAGE)
-				return
-			end
-			local min, sec = string.split(":", time)
-			min = tonumber(min or "") or 0
-			sec = tonumber(sec or "")
-			if min and not sec then
-				sec = min
-				min = 0
-			end
-			time = min * 60 + sec
-			DBM:CreatePizzaTimer(time, text, permission, nil, true)
 		elseif cmd:sub(1, 16) == "broadcast ltimer" then
 			local permission = true
 			if DBM:GetRaidRank(playerName) == 0 or difficultyIndex == 7 or difficultyIndex == 17 then
@@ -2060,27 +2009,7 @@ do
 				min = 0
 			end
 			time = min * 60 + sec
-			DBM:CreatePizzaTimer(time, text, permission, nil, nil, true)
-		elseif cmd:sub(1, 17) == "broadcast cltimer" then
-			local permission = true
-			if DBM:GetRaidRank(playerName) == 0 or difficultyIndex == 7 or difficultyIndex == 17 then
-				DBM:AddMsg(DBM_ERROR_NO_PERMISSION)
-				permission = false
-			end
-			local time, text = msg:match("^%w+ %w+ ([%d:]+) (.+)$")
-			if not (time and text) then
-				DBM:AddMsg(DBM_PIZZA_ERROR_USAGE)
-				return
-			end
-			local min, sec = string.split(":", time)
-			min = tonumber(min or "") or 0
-			sec = tonumber(sec or "")
-			if min and not sec then
-				sec = min
-				min = 0
-			end
-			time = min * 60 + sec
-			DBM:CreatePizzaTimer(time, text, permission, nil, true, true)
+			DBM:CreatePizzaTimer(time, text, permission, nil, true)
 		elseif cmd:sub(0,5) == "break" then
 			local timer = tonumber(cmd:sub(6)) or 5
 			Break(timer)
@@ -2501,22 +2430,15 @@ end
 -------------------
 do
 
-	local function loopTimer(time, text, broadcast, sender, count)
-		DBM:CreatePizzaTimer(time, text, broadcast, sender, count, true)
+	local function loopTimer(time, text, broadcast, sender)
+		DBM:CreatePizzaTimer(time, text, broadcast, sender, true)
 	end
 
 	local ignore = {}
-	local fakeMod -- dummy mod for the count sound effects
 	--Standard Pizza Timer
-	function DBM:CreatePizzaTimer(time, text, broadcast, sender, count, loop, terminate)
-		if not fakeMod then
-			fakeMod = self:NewMod("CreateCountTimerDummy")
-			self:GetModLocalization("CreateCountTimerDummy"):SetGeneralLocalization{ name = DBM_CORE_MINIMAP_TOOLTIP_HEADER }
-			fakeMod.countdown = fakeMod:NewCountdown(0, 0, nil, nil, nil, true)
-		end
+	function DBM:CreatePizzaTimer(time, text, broadcast, sender, loop, terminate)
 		if terminate or time == 0 then
 			self:Unschedule(loopTimer)
-			fakeMod.countdown:Cancel()
 			self.Bars:CancelBar(text)
 			fireEvent("DBM_TimerStop", "DBMPizzaTimer")
 			return
@@ -2531,29 +2453,12 @@ do
 		self.Bars:CreateBar(time, text, 237538)
 		fireEvent("DBM_TimerStart", "DBMPizzaTimer", text, time, "237538", "pizzatimer", nil, 0)
 		if broadcast then
-			if count then
-				sendLoggedSync("CU", ("%s\t%s"):format(time, text))
-			else
-				sendLoggedSync("U", ("%s\t%s"):format(time, text))
-			end
+			sendLoggedSync("U", ("%s\t%s"):format(time, text))
 		end
 		if sender then self:ShowPizzaInfo(text, sender) end
-		if count then
-			if not fakeMod then
-				local threshold = self.Options.PTCountThreshold2
-				threshold = floor(threshold)
-				fakeMod = self:NewMod("CreateCountTimerDummy")
-				self:GetModLocalization("CreateCountTimerDummy"):SetGeneralLocalization{ name = DBM_CORE_MINIMAP_TOOLTIP_HEADER }
-				fakeMod.countdown = fakeMod:NewCountdown(0, 0, nil, nil, threshold, true)
-			end
-			if not self.Options.DontPlayPTCountdown then
-				fakeMod.countdown:Cancel()
-				fakeMod.countdown:Start(time)
-			end
-		end
 		if loop then
 			self:Unschedule(loopTimer)--Only one loop timer supported at once doing this, but much cleaner this way
-			self:Schedule(time, loopTimer, time, text, broadcast, sender, count)
+			self:Schedule(time, loopTimer, time, text, broadcast, sender)
 		end
 	end
 
@@ -3321,7 +3226,7 @@ function DBM:LoadModOptions(modId, inCombat, first)
 						end
 					--Fix options for custom special warning sounds not in addons folder that are not using soundkit IDs
 					elseif option:find("SWSound") and (testBuild or wowTOC >= 80200) then
-						if savedOptions[id][profileNum][option] and (type(savedOptions[id][profileNum][option]) == "string") then
+						if savedOptions[id][profileNum][option] and (type(savedOptions[id][profileNum][option]) == "string") and (savedOptions[id][profileNum][option] ~= "") and (savedOptions[id][profileNum][option] ~= "None") then
 							local searchMsg = (savedOptions[id][profileNum][option]):lower()
 							if not searchMsg:find("addons") then
 								savedOptions[id][profileNum][option] = mod.DefaultOptions[option]
@@ -3702,42 +3607,42 @@ do
 		--This will in the short term, screw with people trying to use LibSharedMedia sound files on 8.1.5 until LSM has migrated as well.
 		if (testBuild or wowTOC >= 80200) then
 			local migrated = false
-			if type(self.Options.RaidWarningSound) == "string" then
+			if type(self.Options.RaidWarningSound) == "string" and self.Options.RaidWarningSound ~= "" then
 				local searchMsg = self.Options.RaidWarningSound:lower()
 				if not searchMsg:find("addons") then
 					self.Options.RaidWarningSound = self.DefaultOptions.RaidWarningSound
 					migrated = true
 				end
 			end
-			if type(self.Options.SpecialWarningSound) == "string" then
+			if type(self.Options.SpecialWarningSound) == "string" and self.Options.SpecialWarningSound ~= "" then
 				local searchMsg = self.Options.SpecialWarningSound:lower()
 				if not searchMsg:find("addons") then
 					self.Options.SpecialWarningSound = self.DefaultOptions.SpecialWarningSound
 					migrated = true
 				end
 			end
-			if type(self.Options.SpecialWarningSound2) == "string" then
+			if type(self.Options.SpecialWarningSound2) == "string" and self.Options.SpecialWarningSound2 ~= "" then
 				local searchMsg = self.Options.SpecialWarningSound2:lower()
 				if not searchMsg:find("addons") then
 					self.Options.SpecialWarningSound2 = self.DefaultOptions.SpecialWarningSound2
 					migrated = true
 				end
 			end
-			if type(self.Options.SpecialWarningSound3) == "string" then
+			if type(self.Options.SpecialWarningSound3) == "string" and self.Options.SpecialWarningSound3 ~= "" then
 				local searchMsg = self.Options.SpecialWarningSound3:lower()
 				if not searchMsg:find("addons") then
 					self.Options.SpecialWarningSound3 = self.DefaultOptions.SpecialWarningSound3
 					migrated = true
 				end
 			end
-			if type(self.Options.SpecialWarningSound4) == "string" then
+			if type(self.Options.SpecialWarningSound4) == "string" and self.Options.SpecialWarningSound4 ~= "" then
 				local searchMsg = self.Options.SpecialWarningSound4:lower()
 				if not searchMsg:find("addons") then
 					self.Options.SpecialWarningSound4 = self.DefaultOptions.SpecialWarningSound4
 					migrated = true
 				end
 			end
-			if type(self.Options.SpecialWarningSound5) == "string" then
+			if type(self.Options.SpecialWarningSound5) == "string" and self.Options.SpecialWarningSound5 ~= "" then
 				local searchMsg = self.Options.SpecialWarningSound5:lower()
 				if not searchMsg:find("addons") then
 					self.Options.SpecialWarningSound5 = self.DefaultOptions.SpecialWarningSound5
@@ -4222,7 +4127,8 @@ do
 	local dummyMod -- dummy mod for the pull timer
 	syncHandlers["PT"] = function(sender, timer, lastMapID, target)
 		if DBM.Options.DontShowUserTimers then return end
-		if (DBM:GetRaidRank(sender) == 0 and IsInGroup()) or select(2, IsInInstance()) == "pvp" or IsEncounterInProgress() then
+		local LFGTankException = IsPartyLFG() and UnitGroupRolesAssigned(sender) == "TANK"
+		if (DBM:GetRaidRank(sender) == 0 and IsInGroup() and not LFGTankException) or select(2, IsInInstance()) == "pvp" or IsEncounterInProgress() then
 			return
 		end
 		if (lastMapID and tonumber(lastMapID) ~= LastInstanceMapID) or (not lastMapID and DBM.Options.DontShowPTNoID) then return end
@@ -4235,17 +4141,14 @@ do
 			threshold = floor(threshold)
 			dummyMod = DBM:NewMod("PullTimerCountdownDummy")
 			DBM:GetModLocalization("PullTimerCountdownDummy"):SetGeneralLocalization{ name = DBM_CORE_MINIMAP_TOOLTIP_HEADER }
-			dummyMod.countdown = dummyMod:NewCountdown(0, 0, nil, nil, threshold, true)
 			dummyMod.text = dummyMod:NewAnnounce("%s", 1, "132349")
 			dummyMod.geartext = dummyMod:NewSpecialWarning("  %s  ", nil, nil, nil, 3)
+			dummyMod.timer = dummyMod:NewTimer(20, "%s", "132349", nil, nil, 0, nil, nil, DBM.Options.DontPlayPTCountdown and 0 or 1, threshold)
 		end
 		--Cancel any existing pull timers before creating new ones, we don't want double countdowns or mismatching blizz countdown text (cause you can't call another one if one is in progress)
-		if not DBM.Options.DontShowPT2 and DBM.Bars:GetBar(DBM_CORE_TIMER_PULL) then
-			DBM.Bars:CancelBar(DBM_CORE_TIMER_PULL)
-			fireEvent("DBM_TimerStop", "pull")
-		end
-		if not DBM.Options.DontPlayPTCountdown then
-			dummyMod.countdown:Cancel()
+		if not DBM.Options.DontShowPT2 then--and DBM.Bars:GetBar(DBM_CORE_TIMER_PULL)
+			dummyMod.timer:Stop()
+			--fireEvent("DBM_TimerStop", "pull")
 		end
 		if not DBM.Options.DontShowPTCountdownText then
 			TimerTracker_OnEvent(TimerTracker, "PLAYER_ENTERING_WORLD")--easiest way to nil out timers on TimerTracker frame. This frame just has no actual star/stop functions
@@ -4256,11 +4159,8 @@ do
 		if timer == 0 then return end--"/dbm pull 0" will strictly be used to cancel the pull timer (which is why we let above part of code run but not below)
 		DBM:FlashClientIcon()
 		if not DBM.Options.DontShowPT2 then
-			DBM.Bars:CreateBar(timer, DBM_CORE_TIMER_PULL, 132349)
-			fireEvent("DBM_TimerStart", "pull", DBM_CORE_TIMER_PULL, timer, "132349", "utilitytimer", nil, 0)
-		end
-		if not DBM.Options.DontPlayPTCountdown then
-			dummyMod.countdown:Start(timer)
+			dummyMod.timer:Start(timer, DBM_CORE_TIMER_PULL)
+			--fireEvent("DBM_TimerStart", "pull", DBM_CORE_TIMER_PULL, timer, "132349", "utilitytimer", nil, 0)
 		end
 		if not DBM.Options.DontShowPTCountdownText then
 			--Start A TimerTracker timer by tricking it to start a BG timer
@@ -4300,6 +4200,23 @@ do
 			end
 		end
 		DBM:StartLogging(timer, checkForActualPull)
+		if DBM.Options.CheckGear then
+			local bagilvl, equippedilvl = GetAverageItemLevel()
+			local difference = bagilvl - equippedilvl
+			local weapon = GetInventoryItemLink("player", 16)
+			local fishingPole = false
+			if weapon then
+				local _, _, _, _, _, _, type = GetItemInfo(weapon)
+				if type and type == DBM_CORE_GEAR_FISHING_POLE then
+					fishingPole = true
+				end
+			end
+			if IsInRaid() and difference >= 40 then
+				dummyMod.geartext:Show(DBM_CORE_GEAR_WARNING:format(floor(difference)))
+			elseif IsInRaid() and (not weapon or fishingPole) then
+				dummyMod.geartext:Show(DBM_CORE_GEAR_WARNING_WEAPON)
+			end
+		end
 	end
 
 	do
@@ -4310,27 +4227,21 @@ do
 				threshold = floor(threshold)
 				dummyMod2 = DBM:NewMod("BreakTimerCountdownDummy")
 				DBM:GetModLocalization("BreakTimerCountdownDummy"):SetGeneralLocalization{ name = DBM_CORE_MINIMAP_TOOLTIP_HEADER }
-				dummyMod2.countdown = dummyMod2:NewCountdown(0, 0, nil, nil, threshold, true)
 				dummyMod2.text = dummyMod2:NewAnnounce("%s", 1, "237538")
+				dummyMod2.timer = dummyMod2:NewTimer(20, "%s", "237538", nil, nil, 0, nil, nil, DBM.Options.DontPlayPTCountdown and 0 or 1, threshold)
 			end
 			--Cancel any existing break timers before creating new ones, we don't want double countdowns or mismatching blizz countdown text (cause you can't call another one if one is in progress)
-			if not DBM.Options.DontShowPT2 and DBM.Bars:GetBar(DBM_CORE_TIMER_BREAK) then
-				DBM.Bars:CancelBar(DBM_CORE_TIMER_BREAK)
-				fireEvent("DBM_TimerStop", "break")
-			end
-			if not DBM.Options.DontPlayPTCountdown then
-				dummyMod2.countdown:Cancel()
+			if not DBM.Options.DontShowPT2 then--and DBM.Bars:GetBar(DBM_CORE_TIMER_BREAK)
+				dummyMod2.timer:Stop()
+				--fireEvent("DBM_TimerStop", "break")
 			end
 			dummyMod2.text:Cancel()
 			DBM.Options.tempBreak2 = nil
 			if timer == 0 then return end--"/dbm break 0" will strictly be used to cancel the break timer (which is why we let above part of code run but not below)
 			self.Options.tempBreak2 = timer.."/"..time()
 			if not self.Options.DontShowPT2 then
-				self.Bars:CreateBar(timer, DBM_CORE_TIMER_BREAK, 237538)
-				fireEvent("DBM_TimerStart", "break", DBM_CORE_TIMER_BREAK, timer, "237538", "utilitytimer", nil, 0)
-			end
-			if not self.Options.DontPlayPTCountdown then
-				dummyMod2.countdown:Start(timer)
+				dummyMod2.timer:Start(timer, DBM_CORE_TIMER_BREAK)
+				--fireEvent("DBM_TimerStart", "break", DBM_CORE_TIMER_BREAK, timer, "237538", "utilitytimer", nil, 0)
 			end
 			if not self.Options.DontShowPTText then
 				local hour, minute = GetGameTime()
@@ -4517,18 +4428,6 @@ do
 		text = tostring(text)
 		if time and text then
 			DBM:CreatePizzaTimer(time, text, nil, sender)
-		end
-	end
-
-	syncHandlers["CU"] = function(sender, time, text)
-		if select(2, IsInInstance()) == "pvp" then return end -- no pizza timers in battlegrounds
-		if DBM.Options.DontShowUserTimers then return end
-		if DBM:GetRaidRank(sender) == 0 or difficultyIndex == 7 or difficultyIndex == 17 then return end
-		if sender == playerName then return end
-		time = tonumber(time or 0)
-		text = tostring(text)
-		if time and text then
-			DBM:CreatePizzaTimer(time, text, nil, sender, true)
 		end
 	end
 
@@ -5848,18 +5747,17 @@ do
 				end
 				--stop pull count
 				local dummyMod = self:GetModByName("PullTimerCountdownDummy")
-				if dummyMod then--stop pull timer, warning, countdowns
-					dummyMod.countdown:Cancel()
+				if dummyMod then--stop pull timer
 					dummyMod.text:Cancel()
-					self.Bars:CancelBar(DBM_CORE_TIMER_PULL)
-					fireEvent("DBM_TimerStop", "pull")
+					dummyMod.timer:Stop()
+					--fireEvent("DBM_TimerStop", "pull")
 					TimerTracker_OnEvent(TimerTracker, "PLAYER_ENTERING_WORLD")
 				end
 				if BigWigs and BigWigs.db.profile.raidicon and not self.Options.DontSetIcons and self:GetRaidRank() > 0 then--Both DBM and bigwigs have raid icon marking turned on.
 					self:AddMsg(DBM_CORE_BIGWIGS_ICON_CONFLICT)--Warn that one of them should be turned off to prevent conflict (which they turn off is obviously up to raid leaders preference, dbm accepts either or turned off to stop this alert)
 				end
-				if self.Options.EventSoundEngage and self.Options.EventSoundEngage ~= "" and self.Options.EventSoundEngage ~= "None" then
-					self:PlaySoundFile(self.Options.EventSoundEngage)
+				if self.Options.EventSoundEngage2 and self.Options.EventSoundEngage2 ~= "" and self.Options.EventSoundEngage2 ~= "None" then
+					self:PlaySoundFile(self.Options.EventSoundEngage2)
 				end
 				fireEvent("DBM_MusicStart", "BossEncounter")
 				if self.Options.EventSoundMusic and self.Options.EventSoundMusic ~= "None" and self.Options.EventSoundMusic ~= "" and not (self.Options.EventMusicMythicFilter and (savedDifficulty == "mythic" or savedDifficulty == "challenge")) then
@@ -6126,7 +6024,7 @@ do
 						end
 					end
 				end
-				if self.Options.EventSoundVictory2 and self.Options.EventSoundVictory2 ~= "" then
+				if self.Options.EventSoundVictory2 and self.Options.EventSoundVictory2 ~= "None" and self.Options.EventSoundVictory2 ~= "" then
 					if self.Options.EventSoundVictory2 == "Random" then
 						local random = fastrandom(3, #DBM.Victory)
 						self:PlaySoundFile(DBM.Victory[random].value)
@@ -6174,7 +6072,7 @@ do
 				eeSyncReceived = 0
 				targetMonitor = nil
 				targetMonitorFilter = nil
-				self:CreatePizzaTimer(time, "", nil, nil, nil, nil, true)--Auto Terminate infinite loop timers on combat end
+				self:CreatePizzaTimer(time, "", nil, nil, nil, true)--Auto Terminate infinite loop timers on combat end
 				self:TransitionToDungeonBGM(false, true)
 				self:Schedule(22, self.TransitionToDungeonBGM, self)--
 			end
@@ -6355,7 +6253,21 @@ function DBM:HasMapRestrictions()
 end
 
 do
-	local function playSound(self, path, ignoreSFX)
+	local LSMMediaCacheBuilt = false
+	local sharedMediaFileCache = {}
+	local function buildLSMFileCache()
+		local keytable = {}
+		for k in next, LibStub("LibSharedMedia-3.0", true):HashTable("sound") do
+			tinsert(keytable, k)
+			for i=1,#keytable do
+				local k = keytable[i]
+				local path = LibStub("LibSharedMedia-3.0", true):HashTable("sound")[k]
+				sharedMediaFileCache[path] = true
+			end
+		end
+		LSMMediaCacheBuilt = true
+	end
+	local function playSound(self, path, ignoreSFX, validate)
 		local soundSetting = self.Options.UseSoundChannel
 		if type(path) == "number" then
 			if soundSetting == "Dialog" then
@@ -6366,6 +6278,13 @@ do
 				PlaySound(path)--using SFX channel, leave forceNoDuplicates on.
 			end
 		else
+			if validate then
+				if not LSMMediaCacheBuilt then buildLSMFileCache() end
+				if not sharedMediaFileCache[path] and not path:find("DBM") then
+					DBM:AddMsg("PlaySoundFile failed do to missing media at "..path..". To fix this, re-add missing sound or change setting using this sound to a different sound.")
+					return
+				end
+			end
 			if soundSetting == "Dialog" then
 				PlaySoundFile(path, "Dialog")
 			elseif ignoreSFX or soundSetting == "Master" then
@@ -6376,14 +6295,14 @@ do
 		end
 	end
 
-	function DBM:PlaySoundFile(path, ignoreSFX)
-		if self.Options.SilentMode then return end
-		playSound(self, path, ignoreSFX)
+	function DBM:PlaySoundFile(path, ignoreSFX, validate)
+		if self.Options.SilentMode or path == "" or path == "None" then return end
+		playSound(self, path, ignoreSFX, validate)
 	end
 
-	function DBM:PlaySound(path, ignoreSFX)
+	function DBM:PlaySound(path, ignoreSFX, validate)
 		if self.Options.SilentMode then return end
-		playSound(self, path, ignoreSFX)
+		playSound(self, path, ignoreSFX, validate)
 	end
 end
 
@@ -6846,7 +6765,7 @@ do
 		if not testMod then
 			testMod = self:NewMod("TestMod")
 			self:GetModLocalization("TestMod"):SetGeneralLocalization{ name = "Test Mod" }
-			testWarning1 = testMod:NewAnnounce("%s", 1, "136116")
+			testWarning1 = testMod:NewAnnounce("%s", 1, "136116")--Interface\\Icons\\Spell_Nature_WispSplode
 			testWarning2 = testMod:NewAnnounce("%s", 2, "136221")
 			testWarning3 = testMod:NewAnnounce("%s", 3, "135826")
 			testTimer1 = testMod:NewTimer(20, "%s", "136116", nil, nil)
@@ -7079,7 +6998,6 @@ do
 				announces = {},
 				specwarns = {},
 				timers = {},
-				countdowns = {},
 				vb = {},
 				iconRestore = {},
 				modId = modId,
@@ -7191,9 +7109,6 @@ end
 
 function bossModPrototype:Stop()
 	for i, v in ipairs(self.timers) do
-		v:Stop()
-	end
-	for i, v in ipairs(self.countdowns) do
 		v:Stop()
 	end
 	self:Unschedule()
@@ -8642,7 +8557,7 @@ do
 			if self.sound > 0 then
 				if self.sound > 1 and DBM.Options.ChosenVoicePack ~= "None" and not voiceSessionDisabled and self.sound <= SWFilterDisabed then return end
 				if not self.option or self.mod.Options[self.option.."SWSound"] ~= "None" then
-					DBM:PlaySoundFile(DBM.Options.RaidWarningSound)
+					DBM:PlaySoundFile(DBM.Options.RaidWarningSound, nil, true)--Validate true
 				end
 			end
 			--Message: Full message text
@@ -8694,7 +8609,7 @@ do
 		if voiceSessionDisabled or voice == "None" then return end
 		local always = DBM.Options.AlwaysPlayVoice
 		if DBM.Options.DontShowTargetAnnouncements and (self.announceType == "target" or self.announceType == "targetcount") and not self.noFilter and not always then return end--don't show announces that are generic target announces
-		if not DBM.Options.DontShowBossAnnounces and (not self.option or self.mod.Options[self.option]) or always then
+		if (not DBM.Options.DontShowBossAnnounces and (not self.option or self.mod.Options[self.option]) or always) and self.sound <= SWFilterDisabed then
 			--Filter tank specific voice alerts for non tanks if tank filter enabled
 			--But still allow AlwaysPlayVoice to play as well.
 			if (name == "changemt" or name == "tauntboss") and DBM.Options.FilterTankSpec and not self.mod:IsTank() and not always then return end
@@ -8983,161 +8898,6 @@ do
 	function soundPrototype2:Cancel(...)
 		if voiceSessionDisabled or DBM.Options.ChosenVoicePack == "None" then return end
 		return unschedule(self.Play, self.mod, self, ...)
-	end
-end
-
-----------------------------
---  Countdown/out object  --
-----------------------------
-do
-	local countdownProtoType = {}
-	local voice1, voice2, voice3 = nil, nil, nil
-	local voice1max, voice2max, voice3max = 5, 5, 5
-	local path1, path2, path3 = nil, nil, nil
-	local mt = {__index = countdownProtoType}
-
-	function DBM:BuildVoiceCountdownCache()
-		voice1 = self.Options.CountdownVoice
-		voice2 = self.Options.CountdownVoice2
-		voice3 = self.Options.CountdownVoice3v2
-		local voicesFound = 0
-		for i = 1, #self.Counts do
-			local curVoice = self.Counts[i]
-			if curVoice.value == voice1 then
-				path1 = curVoice.path
-				voice1max = curVoice.max
-			end
-			if curVoice.value == voice2 then
-				path2 = curVoice.path
-				voice2max = curVoice.max
-			end
-			if curVoice.value == voice3 then
-				path3 = curVoice.path
-				voice3max = curVoice.max
-			end
-		end
-	end
-
-	function countdownProtoType:Start(timer, count)
-		if DBM.Options.DontPlayCountdowns then return end
-		if not self.option or self.mod.Options[self.option] then
-			timer = timer or self.timer or 10
-			timer = timer < 2 and self.timer or timer
-			count = count or self.count or 5
-			if timer <= count then count = floor(timer) end
-			if not path1 or not path2 or not path3 then
-				DBM:Debug("Voice cache not built at time of countdownProtoType:Start. On fly caching.", 3)
-				DBM:BuildVoiceCountdownCache()
-			end
-			local maxCount, path
-			if self.alternateVoice == 2 then
-				maxCount = voice2max or 10
-				path = path2 or "Interface\\AddOns\\DBM-Core\\Sounds\\Kolt\\"
-			elseif self.alternateVoice == 3 then
-				maxCount = voice3max or 5
-				path = path3 or "Interface\\AddOns\\DBM-Core\\Sounds\\Heroes\\Necromancer\\"
-			else
-				maxCount = voice1max or 10
-				path = path1 or "Interface\\AddOns\\DBM-Core\\Sounds\\Corsica\\"
-			end
-			if not path then--Should not happen but apparently it does somehow
-				DBM:Debug("Voice path failed in countdownProtoType:Start.")
-				return
-			end
-			if self.type == "Countout" then
-				for i = 1, timer do
-					if i < maxCount then
-						self.sound5:Schedule(i, path..i..".ogg")
-					end
-				end
-			else
-				for i = count, 1, -1 do
-					if i <= maxCount then
-						self.sound5:Schedule(timer-i, path..i..".ogg")
-					end
-				end
-			end
-		end
-	end
-	countdownProtoType.Show = countdownProtoType.Start
-
-	function countdownProtoType:Schedule(t)
-		if DBM.Options.DontPlayCountdowns then return end
-		return schedule(t, self.Start, self.mod, self)
-	end
-
-	function countdownProtoType:Cancel()
-		self.mod:Unschedule(self.Start, self)
-		self.sound5:Cancel()
-	end
-	countdownProtoType.Stop = countdownProtoType.Cancel
-
-	local function newCountdown(self, countdownType, timer, spellId, optionDefault, optionName, count, textDisabled, altVoice)
-		if not spellId and not optionName then
-			print("NewCountdown: you must provide either spellId or optionName", 2)
-			return
-		end
-		local optionVersion
-		if type(optionName) == "number" then
-			optionVersion = optionName
-			optionName = nil
-		end
-		if altVoice == true then altVoice = 2 end--Compat
-		if type(timer) == "string" then
-			if timer:match("AltTwo") then
-				altVoice = 3
-				timer = tonumber(string.sub(timer, 7))
-			elseif timer:match("Alt") then
-				altVoice = 2
-				timer = tonumber(string.sub(timer, 4))
-			end
-		end
-		--TODO, maybe make this not use an entire sound object?
-		local sound5 = self:NewSound(5, true, false)
-		timer = timer or 10
-		count = count or 4
-		spellId = spellId or 39505
-		local obj = setmetatable(
-			{
-				id = optionName or countdownType..spellId..(optionVersion or ""),
-				type = countdownType,
-				sound5 = sound5,
-				timer = timer,
-				count = count,
-				textDisabled = textDisabled,
-				alternateVoice = altVoice,
-				mod = self
-			},
-			mt
-		)
-		if optionName then
-			obj.option = obj.id
-			self:AddBoolOption(obj.option, optionDefault, "sound")
-		elseif not (optionName == false) then
-			obj.option = obj.id
-			self:AddBoolOption(obj.option, optionDefault, "sound")
-			if countdownType == "Countdown" then
-				self.localization.options[obj.option] = DBM_CORE_AUTO_COUNTDOWN_OPTION_TEXT:format(spellId)
-			elseif countdownType == "CountdownFades" then
-				self.localization.options[obj.option] = DBM_CORE_AUTO_COUNTDOWN_OPTION_TEXT2:format(spellId)
-			elseif countdownType == "Countout" then
-				self.localization.options[obj.option] = DBM_CORE_AUTO_COUNTOUT_OPTION_TEXT:format(spellId)
-			end
-		end
-		tinsert(self.countdowns, obj)
-		return obj
-	end
-
-	function bossModPrototype:NewCountdown(...)
-		return newCountdown(self, "Countdown", ...)
-	end
-
-	function bossModPrototype:NewCountdownFades(...)
-		return newCountdown(self, "CountdownFades", ...)
-	end
-
-	function bossModPrototype:NewCountout(...)
-		return newCountdown(self, "Countout", ...)
 	end
 end
 
@@ -9621,7 +9381,7 @@ do
 		local voice = DBM.Options.ChosenVoicePack
 		if voiceSessionDisabled or voice == "None" then return end
 		if self.mod:IsEasyDungeon() and self.mod.isTrashMod and DBM.Options.FilterTrashWarnings2 then return end
-		if not DBM.Options.DontShowSpecialWarnings and (not self.option or self.mod.Options[self.option]) or always then
+		if (not DBM.Options.DontShowSpecialWarnings and (not self.option or self.mod.Options[self.option]) or always) and self.hasVoice <= SWFilterDisabed then
 			--Filter tank specific voice alerts for non tanks if tank filter enabled
 			--But still allow AlwaysPlayVoice to play as well.
 			if (name == "changemt" or name == "tauntboss") and DBM.Options.FilterTankSpec and not self.mod:IsTank() and not always then return end
@@ -9959,7 +9719,7 @@ do
 
 	function DBM:PlaySpecialWarningSound(soundId)
 		local sound = type(soundId) == "number" and self.Options["SpecialWarningSound" .. (soundId == 1 and "" or soundId)] or soundId or self.Options.SpecialWarningSound
-		self:PlaySoundFile(sound)
+		self:PlaySoundFile(sound, nil, true)
 	end
 
 	local function testWarningEnd()
@@ -9996,7 +9756,7 @@ do
 	local countpath1, countpath2, countpath3 = nil, nil, nil
 
 	--Merged countdown object for timers with build-in countdown
-	function DBM:BuildVoiceCountdownCacheTwo()
+	function DBM:BuildVoiceCountdownCache()
 		countvoice1 = self.Options.CountdownVoice
 		countvoice2 = self.Options.CountdownVoice2
 		countvoice3 = self.Options.CountdownVoice3v2
@@ -10030,7 +9790,7 @@ do
 		if timer <= count then count = floor(timer) end
 		if not countpath1 or not countpath2 or not countpath3 then
 			DBM:Debug("Voice cache not built at time of playCountdown. On fly caching.", 3)
-			DBM:BuildVoiceCountdownCacheTwo()
+			DBM:BuildVoiceCountdownCache()
 		end
 		local maxCount, path
 		if voice == 2 then
@@ -10702,11 +10462,6 @@ do
 			if timer > 30 then self.warning2:Schedule(timer - 30, 30, DBM_CORE_SEC) end
 			if timer > 10 then self.warning2:Schedule(timer - 10, 10, DBM_CORE_SEC) end
 		end
-		if self.countdown then
-			if not DBM.Options.DontPlayPTCountdown then
-				self.countdown:Start(timer)
-			end
-		end
 	end
 
 	function enragePrototype:Schedule(t)
@@ -10720,9 +10475,6 @@ do
 		end
 		if self.warning2 then
 			self.warning2:Cancel()
-		end
-		if self.countdown then
-			self.countdown:Cancel()
 		end
 		self.bar:Stop()
 	end
@@ -10748,13 +10500,12 @@ do
 
 	function bossModPrototype:NewCombatTimer(timer, text, barText, barIcon)
 		timer = timer or 10
-		local bar = self:NewTimer(timer, barText or DBM_CORE_GENERIC_TIMER_COMBAT, barIcon or "132349", nil, "timer_combat")
-		local countdown = self:NewCountdown(0, 0, nil, false, nil, true)
+		--NewTimer(timer, name, texture, optionDefault, optionName, colorType, inlineIcon, keep, countdown, countdownMax, r, g, b)
+		local bar = self:NewTimer(timer, barText or DBM_CORE_GENERIC_TIMER_COMBAT, barIcon or "132349", nil, "timer_combat", nil, nil, nil, 1, 5)
 		local obj = setmetatable(
 			{
 				bar = bar,
 				timer = timer,
-				countdown = countdown,
 				owner = self
 			},
 			mt
