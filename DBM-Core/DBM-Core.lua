@@ -1070,6 +1070,7 @@ do
 			if eventSub6 == "SPELL_" then
 				args.spellId, args.spellName = extraArg1, extraArg2
 				if event == "SPELL_AURA_APPLIED" or event == "SPELL_AURA_REFRESH" or event == "SPELL_AURA_REMOVED" then
+					args.amount = extraArg5
 					if not args.sourceName then
 						args.sourceName = args.destName
 						args.sourceGUID = args.destGUID
@@ -6491,16 +6492,19 @@ end
 
 function DBM:SendTimerInfo(mod, target)
 	for i, v in ipairs(mod.timers) do
-		for _, uId in ipairs(v.startedTimers) do
-			local elapsed, totalTime, timeLeft
-			if select("#", string.split("\t", uId)) > 1 then
-				elapsed, totalTime = v:GetTime(select(2, string.split("\t", uId)))
-			else
-				elapsed, totalTime = v:GetTime()
-			end
-			timeLeft = totalTime - elapsed
-			if timeLeft > 0 and totalTime > 0 then
-				SendAddonMessage("D4C", ("TI\t%s\t%s\t%s\t%s"):format(mod.id, timeLeft, totalTime, uId), "WHISPER", target)
+		--Pass on any timer that has no type, or has one that isn't an ai timer
+		if not v.type or v.type and v.type ~= "ai" then
+			for _, uId in ipairs(v.startedTimers) do
+				local elapsed, totalTime, timeLeft
+				if select("#", string.split("\t", uId)) > 1 then
+					elapsed, totalTime = v:GetTime(select(2, string.split("\t", uId)))
+				else
+					elapsed, totalTime = v:GetTime()
+				end
+				timeLeft = totalTime - elapsed
+				if timeLeft > 0 and totalTime > 0 then
+					SendAddonMessage("D4", ("TI\t%s\t%s\t%s\t%s"):format(mod.id, timeLeft, totalTime, uId), "WHISPER", target)
+				end
 			end
 		end
 	end
@@ -8966,6 +8970,14 @@ do
 	end
 	yellPrototype.Show = yellPrototype.Yell
 
+	--Force override to use say message, even when object defines "YELL"
+	function yellPrototype:Say(...)
+		if DBM.Options.DontSendYells then return end
+		if not self.option or self.mod.Options[self.option] then
+			SendChatMessage(pformat(self.text, ...), "SAY")
+		end
+	end
+
 	function yellPrototype:Schedule(t, ...)
 		return schedule(t, self.Yell, self.mod, self, ...)
 	end
@@ -10118,7 +10130,7 @@ do
 		local id = self.id..pformat((("\t%s"):rep(select("#", ...))), ...)
 		local bar = DBM.Bars:GetBar(id)
 		fireEvent("DBM_TimerUpdate", id, elapsed, totalTime)
-		if bar.countdown and bar.countdown > 0 then
+		if bar and bar.countdown and bar.countdown > 0 then
 			DBM:Unschedule(playCountSound, id)
 			if not bar.fade then--Don't start countdown voice if it's faded bar
 				playCountdown(id, totalTime-elapsed, bar.countdown, bar.countdownMax)--timerId, timer, voice, count
@@ -11093,15 +11105,15 @@ do
 			return DBM:GetRaidSubgroup(DBM:GetUnitFullName(v1)) < DBM:GetRaidSubgroup(DBM:GetUnitFullName(v2))
 		end
 
-		local function clearSortTable()
-			twipe(iconSortTable)
-			iconSet = 0
+		local function clearSortTable(scanID)
+			iconSortTable[scanID] = nil
+			iconSet[scanID] = nil
 		end
 
-		function bossModPrototype:SetIconByAlphaTable(returnFunc)
-			tsort(iconSortTable)--Sorted alphabetically
-			for i = 1, #iconSortTable do
-				local target = iconSortTable[i]
+		function bossModPrototype:SetIconByAlphaTable(returnFunc, scanID)
+			tsort(iconSortTable[scanID])--Sorted alphabetically
+			for i = 1, #iconSortTable[scanID] do
+				local target = iconSortTable[scanID][i]
 				if i > 8 then
 					DBM:Debug("|cffff0000Too many players to set icons, reconsider where using icons|r", 2)
 					return
@@ -11115,84 +11127,104 @@ do
 					self[returnFunc](self, target, i)--Send icon and target to returnFunc. (Generally used by announce icon targets to raid chat feature)
 				end
 			end
-			C_TimerAfter(1.5, clearSortTable)--Table wipe delay so if icons go out too early do to low fps or bad latency, when they get new target on table, resort and reapplying should auto correct teh icon within .2-.4 seconds at most.
+			DBM:Schedule(1.5, clearSortTable, scanID)--Table wipe delay so if icons go out too early do to low fps or bad latency, when they get new target on table, resort and reapplying should auto correct teh icon within .2-.4 seconds at most.
 		end
 
-		function bossModPrototype:SetAlphaIcon(delay, target, maxIcon, returnFunc)
+		function bossModPrototype:SetAlphaIcon(delay, target, maxIcon, returnFunc, scanID)
 			if not target then return end
 			if DBM.Options.DontSetIcons or not enableIcons or DBM:GetRaidRank(playerName) == 0 then
 				return
 			end
+			scanID = scanID or 1
 			local uId = DBM:GetRaidUnitId(target)
 			if uId or UnitExists(target) then--target accepts uid, unitname both.
 				uId = uId or target
+				if not iconSortTable[scanID] then iconSortTable[scanID] = {} end
+				if not iconSet[scanID] then iconSet[scanID] = 0 end
 				local foundDuplicate = false
-				for i = #iconSortTable, 1, -1 do
-					if iconSortTable[i] == uId then
+				for i = #iconSortTable[scanID], 1, -1 do
+					if iconSortTable[scanID][i] == uId then
 						foundDuplicate = true
 						break
 					end
 				end
 				if not foundDuplicate then
-					iconSet = iconSet + 1
-					tinsert(iconSortTable, uId)
+					iconSet[scanID] = iconSet[scanID] + 1
+					tinsert(iconSortTable[scanID], uId)
 				end
 				self:UnscheduleMethod("SetIconByAlphaTable")
-				if maxIcon and iconSet == maxIcon then
-					self:SetIconByAlphaTable(returnFunc)
+				if maxIcon and iconSet[scanID] == maxIcon then
+					self:SetIconByAlphaTable(returnFunc, scanID)
 				elseif self:LatencyCheck() then--lag can fail the icons so we check it before allowing.
-					self:ScheduleMethod(delay or 0.5, "SetIconByAlphaTable", returnFunc)
+					self:ScheduleMethod(delay or 0.5, "SetIconByAlphaTable", returnFunc, scanID)
 				end
 			end
 		end
 
-		function bossModPrototype:SetIconBySortedTable(startIcon, reverseIcon, returnFunc)
-			tsort(iconSortTable, sort_by_group)
-			local icon = startIcon or 1
-			for i, v in ipairs(iconSortTable) do
+		function bossModPrototype:SetIconBySortedTable(startIcon, reverseIcon, returnFunc, scanID)
+			tsort(iconSortTable[scanID], sort_by_group)
+			local icon, CustomIcons
+			if startIcon and type(startIcon) == "table" then--Specific gapped icons
+				CustomIcons = true
+				icon = 1
+			else
+				icon = startIcon or 1
+			end
+			for i, v in ipairs(iconSortTable[scanID]) do
 				if not self.iconRestore[v] then
 					local oldIcon = self:GetIcon(v) or 0
 					self.iconRestore[v] = oldIcon
 				end
-				SetRaidTarget(v, icon)--do not use SetIcon function again. It already checked in SetSortedIcon function.
-				if reverseIcon then
-					icon = icon - 1
-				else
+				if CustomIcons then
+					SetRaidTarget(v, startIcon[icon])--do not use SetIcon function again. It already checked in SetSortedIcon function.
 					icon = icon + 1
-				end
-				if returnFunc then
-					self[returnFunc](self, v, icon)--Send icon and target to returnFunc. (Generally used by announce icon targets to raid chat feature)
+					if returnFunc then
+						self[returnFunc](self, v, startIcon[icon])--Send icon and target to returnFunc. (Generally used by announce icon targets to raid chat feature)
+					end
+				else
+					SetRaidTarget(v, icon)--do not use SetIcon function again. It already checked in SetSortedIcon function.
+					if reverseIcon then
+						icon = icon - 1
+					else
+						icon = icon + 1
+					end
+					if returnFunc then
+						self[returnFunc](self, v, icon)--Send icon and target to returnFunc. (Generally used by announce icon targets to raid chat feature)
+					end
 				end
 			end
-			C_TimerAfter(1.5, clearSortTable)--Table wipe delay so if icons go out too early do to low fps or bad latency, when they get new target on table, resort and reapplying should auto correct teh icon within .2-.4 seconds at most.
+			DBM:Schedule(1.5, clearSortTable, scanID)--Table wipe delay so if icons go out too early do to low fps or bad latency, when they get new target on table, resort and reapplying should auto correct teh icon within .2-.4 seconds at most.
 		end
 
-		function bossModPrototype:SetSortedIcon(delay, target, startIcon, maxIcon, reverseIcon, returnFunc)
+		function bossModPrototype:SetSortedIcon(delay, target, startIcon, maxIcon, reverseIcon, returnFunc, scanID)
 			if not target then return end
 			if DBM.Options.DontSetIcons or not enableIcons or DBM:GetRaidRank(playerName) == 0 then
 				return
 			end
+			scanID = scanID or 1
 			if not startIcon then startIcon = 1 end
-			startIcon = startIcon and startIcon >= 0 and startIcon <= 8 and startIcon or 8
+			startIcon = startIcon or 8
 			local uId = DBM:GetRaidUnitId(target)
 			if uId or UnitExists(target) then--target accepts uid, unitname both.
 				uId = uId or target
+				if not iconSortTable[scanID] then iconSortTable[scanID] = {} end
+				if not iconSet[scanID] then iconSet[scanID] = 0 end
 				local foundDuplicate = false
-				for i = #iconSortTable, 1, -1 do
-					if iconSortTable[i] == uId then
+				for i = #iconSortTable[scanID], 1, -1 do
+					if iconSortTable[scanID][i] == uId then
 						foundDuplicate = true
 						break
 					end
 				end
 				if not foundDuplicate then
-					iconSet = iconSet + 1
-					tinsert(iconSortTable, uId)
+					iconSet[scanID] = iconSet[scanID] + 1
+					tinsert(iconSortTable[scanID], uId)
 				end
 				self:UnscheduleMethod("SetIconBySortedTable")
-				if maxIcon and iconSet == maxIcon then
-					self:SetIconBySortedTable(startIcon, reverseIcon, returnFunc)
+				if maxIcon and iconSet[scanID] == maxIcon then
+					self:SetIconBySortedTable(startIcon, reverseIcon, returnFunc, scanID)
 				elseif self:LatencyCheck() then--lag can fail the icons so we check it before allowing.
-					self:ScheduleMethod(delay or 0.5, "SetIconBySortedTable", startIcon, reverseIcon, returnFunc)
+					self:ScheduleMethod(delay or 0.5, "SetIconBySortedTable", startIcon, reverseIcon, returnFunc, scanID)
 				end
 			end
 		end
