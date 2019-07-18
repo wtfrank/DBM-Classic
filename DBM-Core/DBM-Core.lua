@@ -11099,7 +11099,7 @@ do
 
 	do
 		local iconSortTable = {}
-		local iconSet = 0
+		local iconSet = {}
 
 		local function sort_by_group(v1, v2)
 			return DBM:GetRaidSubgroup(DBM:GetUnitFullName(v1)) < DBM:GetRaidSubgroup(DBM:GetUnitFullName(v2))
