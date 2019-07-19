@@ -129,7 +129,7 @@ DBM.DefaultOptions = {
 	UseRetailShamanColor = false,
 	CountdownVoice = "Corsica",
 	CountdownVoice2 = "Kolt",
-	CountdownVoice3v2 = "Pewsey",
+	CountdownVoice3 = "Smooth",
 	ChosenVoicePack = "None",
 	VoiceOverSpecW2 = "DefaultOnly",
 	AlwaysPlayVoice = false,
@@ -298,14 +298,17 @@ DBM.Bars = DBT:New()
 DBM.Mods = {}
 DBM.ModLists = {}
 DBM.Counts = {
-	{	text	= "Moshne (Male)",	value 	= "Mosh", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Mosh\\", max = 5},
-	{	text	= "Corsica (Female)",value 	= "Corsica", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Corsica\\", max = 10},
-	{	text	= "Koltrane (Male)",value 	= "Kolt", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Kolt\\", max = 10},
-	{	text	= "Pewsey (Male)",value 	= "Pewsey", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Pewsey\\", max = 10},
-	{	text	= "Bear (Male Child)",value = "Bear", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Bear\\", max = 10},
-	{	text	= "Anshlun (ptBR Male)",value = "Anshlun", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Anshlun\\", max = 10},
-	{	text	= "Neryssa (ptBR Female)",value = "Neryssa", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Neryssa\\", max = 10},
+	{	text	= "Corsica",value 	= "Corsica", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Corsica\\", max = 10},
+	{	text	= "Koltrane",value 	= "Kolt", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Kolt\\", max = 10},
+	{	text	= "Smooth",value 	= "Smooth", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Smooth\\", max = 10},
+	{	text	= "Smooth (Reverb)",value 	= "SmoothR", path = "Interface\\AddOns\\DBM-Core\\Sounds\\SmoothReverb\\", max = 10},
+	{	text	= "Pewsey",value 	= "Pewsey", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Pewsey\\", max = 10},
+	{	text	= "Bear (Child)",value = "Bear", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Bear\\", max = 10},
+	{	text	= "Moshne",	value 	= "Mosh", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Mosh\\", max = 5},
+	{	text	= "Anshlun (ptBR)",value = "Anshlun", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Anshlun\\", max = 10},
+	{	text	= "Neryssa (ptBR)",value = "Neryssa", path = "Interface\\AddOns\\DBM-Core\\Sounds\\Neryssa\\", max = 10},
 }
+--Sounds use SoundKit Ids (not file data ids)
 DBM.Victory = {
 	{text = "None",value  = "None"},
 	{text = "Random",value  = "Random"},
@@ -316,6 +319,7 @@ DBM.Defeat = {
 	{text = "None",value  = "None"},
 	{text = "Random",value  = "Random"},
 }
+--Music uses file data IDs
 DBM.Music = {--Contains all music media, period
 	{text = "None",value  = "None"},
 	{text = "Random",value  = "Random"},
@@ -1121,18 +1125,6 @@ do
 				AddMsg(DBM, DBM_CORE_VOICE_DISABLED)
 			end
 		end
-		--Check if any of countdown sounds are using missing voice pack
-		local voice1 = self.Options.CountdownVoice
-		local voice2 = self.Options.CountdownVoice2
-		local voice3 = self.Options.CountdownVoice3v2
-		if voice1 == "None" then--Migrate to new setting
-			self.Options.CountdownVoice = self.DefaultOptions.CountdownVoice
-			self.Options.DontPlayCountdowns = true
-		end
-		if voice3 == "HoTS_R" and select(4, GetAddOnInfo("DBM-CountPack-HoTS")) then
-			--Heroes count pack already installed, migrate user setting instead of forcing pewsey voice
-			self.Options.CountdownVoice3v2 = "HoTS_Ravenlord"
-		end
 		local found1, found2, found3 = false, false, false
 		for i = 1, #self.Counts do
 			local voice = self.Counts[i].value
@@ -1142,7 +1134,7 @@ do
 			if voice == self.Options.CountdownVoice2 then
 				found2 = true
 			end
-			if voice == self.Options.CountdownVoice3v2 then
+			if voice == self.Options.CountdownVoice3 then
 				found3 = true
 			end
 		end
@@ -1155,8 +1147,8 @@ do
 			self.Options.CountdownVoice2 = self.DefaultOptions.CountdownVoice2
 		end
 		if not found3 then
-			AddMsg(DBM, DBM_CORE_VOICE_COUNT_MISSING:format(3, self.DefaultOptions.CountdownVoice3v2))
-			self.Options.CountdownVoice3v2 = self.DefaultOptions.CountdownVoice3v2
+			AddMsg(DBM, DBM_CORE_VOICE_COUNT_MISSING:format(3, self.DefaultOptions.CountdownVoice3))
+			self.Options.CountdownVoice3 = self.DefaultOptions.CountdownVoice3
 		end
 		self:BuildVoiceCountdownCache()
 		--Break timer recovery
@@ -3221,7 +3213,7 @@ function DBM:LoadModOptions(modId, inCombat, first)
 						end
 					--Fix default options for countdowns that were set to 0 because no defaults existed at time they were created, but do now.
 					elseif option:find("CVoice") then
-						if savedOptions[id][profileNum][option] and savedOptions[id][profileNum][option] == 0 and mod.DefaultOptions[option] and mod.DefaultOptions[option] ~= 0 then
+						if savedOptions[id][profileNum][option] and (type(savedOptions[id][profileNum][option]) == "number") and (savedOptions[id][profileNum][option] == 0) and mod.DefaultOptions[option] and mod.DefaultOptions[option] ~= 0 then
 							savedOptions[id][profileNum][option] = mod.DefaultOptions[option]
 							self:Debug("Migrated "..option.." to option defaults", 2)
 						end
@@ -9682,7 +9674,7 @@ do
 		return newSpecialWarning(self, "prewarn", text, time, optionDefault, ...)
 	end
 
-	function DBM:PlayCountSound(number, forceVoice)
+	function DBM:PlayCountSound(number, forceVoice, forcePath)
 		if number > 10 then return end
 		local voice
 		if forceVoice then--For options example
@@ -9692,11 +9684,15 @@ do
 		end
 		local path
 		local maxCount = 5
-		for i = 1, #self.Counts do
-			if self.Counts[i].value == voice then
-				path = self.Counts[i].path
-				maxCount = self.Counts[i].max
-				break
+		if forcePath then
+			path = forcePath
+		else
+			for i = 1, #self.Counts do
+				if self.Counts[i].value == voice then
+					path = self.Counts[i].path
+					maxCount = self.Counts[i].max
+					break
+				end
 			end
 		end
 		if not path or (number > maxCount) then return end
@@ -9771,7 +9767,7 @@ do
 	function DBM:BuildVoiceCountdownCache()
 		countvoice1 = self.Options.CountdownVoice
 		countvoice2 = self.Options.CountdownVoice2
-		countvoice3 = self.Options.CountdownVoice3v2
+		countvoice3 = self.Options.CountdownVoice3
 		local voicesFound = 0
 		for i = 1, #self.Counts do
 			local curVoice = self.Counts[i]
@@ -9805,12 +9801,15 @@ do
 			DBM:BuildVoiceCountdownCache()
 		end
 		local maxCount, path
-		if voice == 2 then
+		if type(voice) == "string" then
+			maxCount = 5--Safe to assume if it's not one of the built ins, it's likely heroes/OW, which has a max of 5
+			path = voice
+		elseif voice == 2 then
 			maxCount = countvoice2max or 10
 			path = countpath2 or "Interface\\AddOns\\DBM-Core\\Sounds\\Kolt\\"
 		elseif voice == 3 then
 			maxCount = countvoice3max or 5
-			path = countpath3 or "Interface\\AddOns\\DBM-Core\\Sounds\\Heroes\\Necromancer\\"
+			path = countpath3 or "Interface\\AddOns\\DBM-Core\\Sounds\\Smooth\\"
 		else
 			maxCount = countvoice1max or 10
 			path = countpath1 or "Interface\\AddOns\\DBM-Core\\Sounds\\Corsica\\"
@@ -9943,7 +9942,7 @@ do
 			local countVoice, countVoiceMax = 0, self.countdownMax or 4
 			if self.option then
 				countVoice = self.mod.Options[self.option .. "CVoice"]
-				if not self.fade and countVoice > 0 then--Started not started faded and has count voice assigned
+				if not self.fade and (type(countVoice) == "string" or countVoice > 0) then--Started without faded and has count voice assigned
 					playCountdown(id, timer, countVoice, countVoiceMax)--timerId, timer, voice, count
 				end
 			end
