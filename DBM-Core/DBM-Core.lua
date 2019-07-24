@@ -5453,9 +5453,17 @@ do
 		return onMonsterMessage(self, "emote", msg)
 	end
 
-	function DBM:CHAT_MSG_RAID_BOSS_EMOTE(msg, ...)
+	function DBM:CHAT_MSG_RAID_BOSS_EMOTE(msg, sender, ...)
 		onMonsterMessage(self, "emote", msg)
-		return self:FilterRaidBossEmote(msg, ...)
+		local id = msg:match("|Hspell:([^|]+)|h")
+		if id then
+			local spellId = tonumber(id)
+			if spellId then
+				local spellName = DBM:GetSpellInfo(spellId)
+				self:Debug("CHAT_MSG_RAID_BOSS_EMOTE fired: "..sender.."'s "..spellName.."("..spellId..")", 2)
+			end
+		end
+		return self:FilterRaidBossEmote(msg, sender, ...)
 	end
 
 	function DBM:RAID_BOSS_EMOTE(msg, ...)--This is a mirror of above prototype only it has less args, both still exist for some reason.
@@ -6274,7 +6282,7 @@ do
 			if validate then
 				if not LSMMediaCacheBuilt then buildLSMFileCache() end
 				if not sharedMediaFileCache[path] and not path:find("DBM") then
-					DBM:AddMsg("PlaySoundFile failed do to missing media at "..path..". To fix this, re-add missing sound or change setting using this sound to a different sound.")
+					DBM:Debug("PlaySoundFile failed do to missing media at "..path..". To fix this, re-add missing sound or change setting using this sound to a different sound.")
 					return
 				end
 			end
@@ -11103,7 +11111,6 @@ do
 			end
 			scanID = scanID or 1
 			if not startIcon then startIcon = 1 end
-			startIcon = startIcon or 8
 			local uId = DBM:GetRaidUnitId(target)
 			if uId or UnitExists(target) then--target accepts uid, unitname both.
 				uId = uId or target
