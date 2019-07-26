@@ -240,6 +240,7 @@ local function MixinSharedMedia3(mediatype, mediatable)
 		local LSM = LibStub("LibSharedMedia-3.0")
 		soundsRegistered = true
 		--Embedded Sound Clip media
+		LSM:Register("sound", "AirHorn (DBM)", [[Interface\AddOns\DBM-Core\sounds\AirHorn.ogg]])
 		LSM:Register("sound", "Jaina: Beware", [[Interface\AddOns\DBM-Core\sounds\SoundClips\beware.ogg]])
 		LSM:Register("sound", "Jaina: Beware (reverb)", [[Interface\AddOns\DBM-Core\sounds\SoundClips\beware_with_reverb.ogg]])
 		LSM:Register("sound", "Thrall: That's Incredible!", [[Interface\AddOns\DBM-Core\sounds\SoundClips\incredible.ogg]])
@@ -407,11 +408,24 @@ do
 	end
 
 	local sounds = MixinSharedMedia3("sound", {
+		--Inject basically dummy values for ordering special warnings to just use default SW sound assignments
 		{ sound=true, text = L.None, value = "None" },
 		{ sound=true, text = "SW 1", value = 1 },
 		{ sound=true, text = "SW 2", value = 2 },
 		{ sound=true, text = "SW 3", value = 3 },
 		{ sound=true, text = "SW 4", value = 4 },
+
+		--Inject DBMs custom media that's not available to LibSharedMedia because it uses SoundKit Id (which LSM doesn't support)
+		--{ sound=true, text = "AirHorn", value = "Interface\\AddOns\\DBM-Core\\sounds\\AirHorn.ogg" },
+		{ sound=true, text = "Algalon: Beware!", value = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\UR_Algalon_BHole01.ogg" },
+		{ sound=true, text = "BB Wolf: Run Away", value = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\HoodWolfTransformPlayer01.ogg" },
+		--{ sound=true, text = "Blizzard", value = 37666 },--"Sound\\interface\\UI_RaidBossWhisperWarning.ogg"
+		{ sound=true, text = "Illidan: Not Prepared", value = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\BLACK_Illidan_04.ogg" },
+		{ sound=true, text = "Illidan: Not Prepared2", value = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\VO_703_Illidan_Stormrage_03.ogg" },
+		{ sound=true, text = "Kil'Jaeden: Destruction", value = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\KILJAEDEN02.ogg" },
+		{ sound=true, text = "Loatheb: I see you", value = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\LOA_NAXX_AGGRO02.ogg" },
+		{ sound=true, text = "Night Elf Bell", value = 11742 },--"Sound\\Doodad\\BellTollNightElf.ogg"
+		{ sound=true, text = "PvP Flag", value = 8174 },--"Sound\\Spells\\PVPFlagTaken.ogg"
 	})
 
 	local tcolors = {
@@ -2725,16 +2739,16 @@ local function CreateOptionsMenu()
 
 		local Sounds = MixinSharedMedia3("sound", {
 			{	text	= L.NoSound,			value	= "" },
-			{	text	= "PvP Flag",			value 	= 8174, 		sound=true },--"Sound\\Spells\\PVPFlagTaken.ogg"
-			--{	text	= "Blizzard",			value 	= 37666, 		sound=true },--"Sound\\interface\\UI_RaidBossWhisperWarning.ogg"
-			{	text	= "Beware!",			value 	= "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\UR_Algalon_BHole01.ogg", 		sound=true },
-			{	text	= "AirHorn",			value 	= "Interface\\AddOns\\DBM-Core\\sounds\\AirHorn.ogg", 		sound=true },
-			{	text	= "Destruction",		value 	= "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\KILJAEDEN02.ogg", 		sound=true },
-			{	text	= "NotPrepared",		value 	= "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\BLACK_Illidan_04.ogg", 		sound=true },
-			{	text	= "NotPrepared2",		value 	= "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\VO_703_Illidan_Stormrage_03.ogg", 		sound=true },
-			{	text	= "RunAwayLittleGirl",	value 	= "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\HoodWolfTransformPlayer01.ogg", 		sound=true },
-			{	text	= "NightElfBell",		value 	= 11742, 		sound=true },--"Sound\\Doodad\\BellTollNightElf.ogg"
-			{	text	= "Loatheb: I see you", value = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\LOA_NAXX_AGGRO02.ogg", sound = true },
+			--{ sound=true, text = "AirHorn", value = "Interface\\AddOns\\DBM-Core\\sounds\\AirHorn.ogg" },
+			{ sound=true, text = "Algalon: Beware!", value = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\UR_Algalon_BHole01.ogg" },
+			{ sound=true, text = "BB Wolf: Run Away", value = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\HoodWolfTransformPlayer01.ogg" },
+			--{ sound=true, text = "Blizzard", value = 37666 },--"Sound\\interface\\UI_RaidBossWhisperWarning.ogg"
+			{ sound=true, text = "Illidan: Not Prepared", value = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\BLACK_Illidan_04.ogg" },
+			{ sound=true, text = "Illidan: Not Prepared2", value = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\VO_703_Illidan_Stormrage_03.ogg" },
+			{ sound=true, text = "Kil'Jaeden: Destruction", value = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\KILJAEDEN02.ogg" },
+			{ sound=true, text = "Loatheb: I see you", value = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\LOA_NAXX_AGGRO02.ogg" },
+			{ sound=true, text = "Night Elf Bell", value = 11742 },--"Sound\\Doodad\\BellTollNightElf.ogg"
+			{ sound=true, text = "PvP Flag", value = 8174 },--"Sound\\Spells\\PVPFlagTaken.ogg"
 		})
 
 		local SpecialWarnSoundDropDown = specArea:CreateDropdown(L.SpecialWarnSound, Sounds, "DBM", "SpecialWarningSound", function(value)
