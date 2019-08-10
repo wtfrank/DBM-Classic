@@ -20,8 +20,12 @@ function mod:OnCombatStart(delay)
 end
 --]]
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 12795 then
-		warningEnrage:Show()
+do
+	local Enrage = DBM:GetSpellInfo(12795)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 12795 then
+		if args.spellName == Enrage and args:IsSrcTypeHostile() then
+			warningEnrage:Show()
+		end
 	end
 end

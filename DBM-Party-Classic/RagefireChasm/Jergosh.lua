@@ -23,19 +23,25 @@ function mod:OnCombatStart(delay)
 	timerImmolateCD:Start(1-delay)
 end
 
-
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 18267 then
-		timerCurseofWeaknessCD:Start()
-	elseif args.spellId == 20800 then
-		timerImmolateCD:Start()
+do
+	local CurseofWeakness, Immolate = DBM:GetSpellInfo(18267), DBM:GetSpellInfo(20800)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 18267 then
+		if args.spellName == CurseofWeakness and args:IsSrcTypeHostile() then
+			timerCurseofWeaknessCD:Start()
+		--elseif args.spellId == 20800 then
+		elseif args.spellName == Immolate and args:IsSrcTypeHostile() then
+			timerImmolateCD:Start()
+		end
 	end
-end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 18267 then
-		warningCurseofWeakness:Show(args.destName)
-	elseif args.spellId == 20800 then
-		warningImmolate:Show(args.destName)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 18267 then
+		if args.spellName == CurseofWeakness and args:IsDestTypePlayer() then
+			warningCurseofWeakness:Show(args.destName)
+		--elseif args.spellId == 20800 then
+		elseif args.spellName == Immolate and args:IsDestTypePlayer() then
+			warningImmolate:Show(args.destName)
+		end
 	end
 end

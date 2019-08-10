@@ -18,8 +18,12 @@ local warningEnrage				= mod:NewTargetNoFilterAnnounce(8269, 2)
 
 --end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 8269 then
-		warningEnrage:Show(args.destName)
+do
+	local Enrage = DBM:GetSpellInfo(8269)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 8269 then
+		if args.spellName == Enrage and args:IsDestTypeHostile() then
+			warningEnrage:Show(args.destName)
+		end
 	end
 end

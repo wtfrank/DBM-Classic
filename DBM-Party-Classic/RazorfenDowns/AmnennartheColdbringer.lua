@@ -27,23 +27,32 @@ function mod:OnCombatStart(delay)
 	timerFrostboltCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_START(args)
-	if args.spellId == 12675 then
-		timerFrostboltCD:Start()
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnFrostbolt:Show(args.sourceName)
-			specWarnFrostbolt:Play("kickcast")
+do
+	local Frostbolt = DBM:GetSpellInfo(12675)
+	function mod:SPELL_CAST_START(args)
+		--if args.spellId == 12675 then
+		if args.spellName == Frostbolt and args:IsSrcTypeHostile() then
+			timerFrostboltCD:Start()
+			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+				specWarnFrostbolt:Show(args.sourceName)
+				specWarnFrostbolt:Play("kickcast")
+			end
 		end
 	end
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 13009 then
-		warningAmnennarsWrath:Show()
-		timerAmnennarsWrathCD:Start()
-	elseif args.spellId == 12642 then
-		specWarnFrostSpectres:Show()
-		specWarnFrostSpectres:Play("killmob")
-		timerSummonFrostSpectresCD:Start()
+do
+	local AmnennaraWrath, FrostSpectres = DBM:GetSpellInfo(13009), DBM:GetSpellInfo(12642)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 13009 then
+		if args.spellName == AmnennaraWrath then
+			warningAmnennarsWrath:Show()
+			timerAmnennarsWrathCD:Start()
+		--elseif args.spellId == 12642 then
+		elseif args.spellName == FrostSpectres then
+			specWarnFrostSpectres:Show()
+			specWarnFrostSpectres:Play("killmob")
+			timerSummonFrostSpectresCD:Start()
+		end
 	end
 end

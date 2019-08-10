@@ -24,24 +24,36 @@ function mod:OnCombatStart(delay)
 	timerChainBoltCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_START(args)
-	if args.spellId == 8292 then
-		timerChainBoltCD:Start()
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnChainBolt:Show(args.sourceName)
-			specWarnChainBolt:Play("kickcast")
+do
+	local ChainBolt = DBM:GetSpellInfo(8292)
+	function mod:SPELL_CAST_START(args)
+		--if args.spellId == 8292 then
+		if args.spellName == ChainBolt and args:IsSrcTypeHostile() then
+			timerChainBoltCD:Start()
+			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+				specWarnChainBolt:Show(args.sourceName)
+				specWarnChainBolt:Play("kickcast")
+			end
 		end
 	end
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 8358 then
-		warningManaSpike:Show()
+do
+	local ManaSpike = DBM:GetSpellInfo(8358)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 8358 then
+		if args.spellName == ManaSpike then
+			warningManaSpike:Show()
+		end
 	end
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 8361 then
-		warningPurity:Show(args.destName)
+do
+	local Purity = DBM:GetSpellInfo(8361)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 8361 then
+		if args.spellName == Purity then
+			warningPurity:Show(args.destName)
+		end
 	end
 end

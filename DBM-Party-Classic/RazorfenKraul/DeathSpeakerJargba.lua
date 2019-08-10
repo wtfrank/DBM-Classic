@@ -20,14 +20,19 @@ function mod:OnCombatStart(delay)
 	timerMCCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_START(args)
-	if args.spellId == 14515 then
-		timerMCCD:Start()
+do
+	local DominateMind = DBM:GetSpellInfo(14515)
+	function mod:SPELL_CAST_START(args)
+		--if args.spellId == 14515 then
+		if args.spellName == DominateMind then
+			timerMCCD:Start()
+		end
 	end
-end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 14515 then
-		warningMC:Show(args.destName)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 14515 then
+		if args.spellName == DominateMind then
+			warningMC:Show(args.destName)
+		end
 	end
 end

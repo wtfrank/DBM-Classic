@@ -20,9 +20,13 @@ function mod:OnCombatStart(delay)
 	timerSummonEarthRumblerCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 8270 then
-		warningSummonEarthRumbler:Show()
-		timerSummonEarthRumblerCD:Start()
+do
+	local SummonEarthRumbler = DBM:GetSpellInfo(8270)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 8270 then
+		if args.spellName == SummonEarthRumbler then
+			warningSummonEarthRumbler:Show()
+			timerSummonEarthRumblerCD:Start()
+		end
 	end
 end
