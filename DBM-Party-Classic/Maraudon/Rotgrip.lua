@@ -23,12 +23,17 @@ function mod:OnCombatStart(delay)
 	timerFatalBiteCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 15976 then
-		warningPuncture:Show()
-		timerPunctureCD:Start()
-	elseif args.spellId == 16495 then
-		warningFatalBite:Show()
-		timerFatalBiteCD:Start()
+do
+	local Puncture, FatalBite = DBM:GetSpellInfo(15976), DBM:GetSpellInfo(16495)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 15976 then
+		if args.spellName == Puncture then
+			warningPuncture:Show()
+			timerPunctureCD:Start()
+		--elseif args.spellId == 16495 then
+		elseif args.spellName == FatalBite then
+			warningFatalBite:Show()
+			timerFatalBiteCD:Start()
+		end
 	end
 end

@@ -26,7 +26,7 @@ do
 	local Enrage = DBM:GetSpellInfo(19451)
 	function mod:SPELL_AURA_APPLIED(args)
 		--if args.spellId == 19451 then
-		if args.spellName == Enrage and args:GetDestCreatureID() == 11982 then
+		if args.spellName == Enrage and args:IsDestTypeHostile() then
 			if self.Options.SpecWarn19451dispel then
 				specWarnEnrage:Show(args.destName)
 				specWarnEnrage:Play("enrage")
@@ -39,7 +39,7 @@ do
 
 	function mod:SPELL_AURA_REMOVED(args)
 		--if args.spellId == 19451 then
-		if args.spellName == Enrage and args:GetDestCreatureID() == 11982 then
+		if args.spellName == Enrage and args:IsDestTypeHostile() then
 			timerEnrage:Stop()
 		end
 	end

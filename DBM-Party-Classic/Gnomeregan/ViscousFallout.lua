@@ -19,9 +19,13 @@ function mod:OnCombatStart(delay)
 	timerToxicVolleyCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 21687 then
-		warningToxicVolley:Show()
-		timerToxicVolleyCD:Start()
+do
+	local ToxicVolley = DBM:GetSpellInfo(21687)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 21687 then
+		if args.spellName == ToxicVolley then
+			warningToxicVolley:Show()
+			timerToxicVolleyCD:Start()
+		end
 	end
 end

@@ -25,7 +25,7 @@ do
 	local ImmolateSpell = DBM:GetSpellInfo(15732)
 	function mod:SPELL_AURA_APPLIED(args)
 		--if args.spellId == 15732 and self:IsInCombat() then
-		if args.spellName == ImmolateSpell and (args:GetSrcCreatureID() == 12057 or args:GetSrcCreatureID() == 12099) then
+		if args.spellName == ImmolateSpell and args:IsDestTypePlayer() then
 			warnImmolate:CombinedShow(1, args.destName)
 		end
 	end

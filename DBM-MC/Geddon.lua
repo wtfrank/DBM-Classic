@@ -87,7 +87,7 @@ do
 			end
 			timerInferno:Start()
 		--elseif spellId == 19659 then
-		elseif spellName == Ignite and args:GetSrcCreatureID() == 12056 then
+		elseif spellName == Ignite and args:IsSrcTypeHostile() then
 			warnIgnite:Show()
 		--elseif spellId == 20478 then
 		elseif spellName == Armageddon then

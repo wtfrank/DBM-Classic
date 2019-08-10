@@ -40,11 +40,11 @@ do
 	local Curse, RainofFire = DBM:GetSpellInfo(19716), DBM:GetSpellInfo(19717)
 	function mod:SPELL_CAST_SUCCESS(args)
 		--if args.spellId == 19716 then
-		if args.spellName == Curse and (args:GetSrcCreatureID() == 12259 or args:GetSrcCreatureID() == 11661) then
+		if args.spellName == Curse and args:IsSrcTypeHostile() then
 			timerCurse:Start()
 			warnCurse:Show()
 		--elseif args.spellId == 19717 then
-		elseif args.spellName == RainofFire and (args:GetSrcCreatureID() == 12259 or args:GetSrcCreatureID() == 11661) then
+		elseif args.spellName == RainofFire and args:IsSrcTypeHostile() then
 			warnRainFire:Show()
 			timerRoF:Start()
 		end

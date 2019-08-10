@@ -59,7 +59,7 @@ do
 	local Heal = DBM:GetSpellInfo(19775)
 	function mod:SPELL_CAST_START(args)
 		--if args.spellId == 19775 then
-		if args.spellName == Heal and args:GetSrcCreatureID() == 11662 then--CID still filtered even though below filter exists (because below filter can be turned off by user)
+		if args.spellName == Heal and args:IsSrcTypeHostile() then
 			if self:CheckInterruptFilter(args.sourceGUID, false, true) then--Only show warning/timer for your own target.
 				timerHeal:Start()
 				specWarnHeal:Show(args.sourceName)

@@ -108,12 +108,12 @@ do
 	local deepBreathCast, flameBreathCast = DBM:GetSpellInfo(17086), DBM:GetSpellInfo(18435)
 	function mod:SPELL_CAST_START(args)
 		local spellName = args.spellName
-		if spellName == deepBreathCast and args:GetSrcCreatureID() == 10184 then
+		if spellName == deepBreathCast and args:IsSrcTypeHostile() then
 			specWarnBreath:Show()
 			specWarnBreath:Play("breathsoon")
 			timerBreath:Start()
 			timerNextDeepBreath:Start()
-		elseif spellName == flameBreathCast and args:GetSrcCreatureID() == 10184 then        -- Flame Breath (Ground phases)
+		elseif spellName == flameBreathCast and args:IsSrcTypeHostile() then        -- Flame Breath (Ground phases)
 			timerNextFlameBreath:Start()
 		end
 	end

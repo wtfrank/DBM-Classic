@@ -22,12 +22,17 @@ function mod:OnCombatStart(delay)
 	timerUppercutCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 10966 then
-		warningUppercut:Show()
-		timerUppercutCD:Start()
-	elseif args.spellId == 21707 then
-		warningSpawns:Show()
-		timerSpawnsCD:Start()
+do
+	local Uppercut, Spawns = DBM:GetSpellInfo(10966), DBM:GetSpellInfo(21707)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 10966 then
+		if args.spellName == Uppercut then
+			warningUppercut:Show()
+			timerUppercutCD:Start()
+		--elseif args.spellId == 21707 then
+		elseif args.spellName == Spawns then
+			warningSpawns:Show()
+			timerSpawnsCD:Start()
+		end
 	end
 end

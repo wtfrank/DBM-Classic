@@ -34,7 +34,7 @@ do
 	local magicGrounding = DBM:GetSpellInfo(19714)
 	function mod:SPELL_AURA_APPLIED(args)
 		--if args.spellId == 19714 and not args:IsDestTypePlayer() then
-		if args.spellName == magicGrounding and not args:IsDestTypePlayer() then
+		if args.spellName == magicGrounding and args:IsDestTypeHostile() then
 			if self.Options.SpecWarn19714dispel then
 				specWarnGrounding:Show(args.destName)
 				specWarnGrounding:Play("dispelboss")
@@ -62,7 +62,7 @@ do
 			warnCurse:Show()
 			timerCurseCD:Start()
 		--elseif args.spellId == 19715 then
-		elseif spellName == Counterspell and args:GetSrcCreatureID() == 12264 then
+		elseif spellName == Counterspell and args:IsSrcTypeHostile() then
 			warnCntrSpell:Show()
 		--elseif args.spellId == 23138 then
 		elseif spellName == Gate then

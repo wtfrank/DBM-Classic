@@ -32,20 +32,29 @@ function mod:OnCombatStart(delay)
 	timerDustFieldCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_START(args)
-	if args.spellId == 21832 then
-		warningBoulder:Show()
-		timerBoulderCD:Start()
+do
+	local Boulder = DBM:GetSpellInfo(21832)
+	function mod:SPELL_CAST_START(args)
+		--if args.spellId == 21832 then
+		if args.spellName == Boulder then
+			warningBoulder:Show()
+			timerBoulderCD:Start()
+		end
 	end
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 21869 then
-		warningRepulsiveGaze:Show()
-		timerRespulsiveGazeCD:Start()
-	elseif args.spellId == 21909 then
-		warningDustField:Show()
-		timerDustFieldCD:Start()
+do
+	local RepulsiveGaze, Dustfield = DBM:GetSpellInfo(21869), DBM:GetSpellInfo(21909)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 21869 then
+		if args.spellName == RepulsiveGaze then
+			warningRepulsiveGaze:Show()
+			timerRespulsiveGazeCD:Start()
+		--elseif args.spellId == 21909 then
+		elseif args.spellName == Dustfield then
+			warningDustField:Show()
+			timerDustFieldCD:Start()
+		end
 	end
 end
 

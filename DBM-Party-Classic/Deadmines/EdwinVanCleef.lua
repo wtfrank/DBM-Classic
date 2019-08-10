@@ -35,7 +35,7 @@ do
 	local Thrash = DBM:GetSpellInfo(3391)
 	function mod:SPELL_AURA_APPLIED(args)
 		--if args.spellId == 3391 then
-		if args.spellName == Thrash and args:GetDestCreatureID() == 639 then
+		if args.spellName == Thrash and args:IsDestTypeHostile() then
 			warningThrash:Show()
 			timerTrashD:Start()
 		end

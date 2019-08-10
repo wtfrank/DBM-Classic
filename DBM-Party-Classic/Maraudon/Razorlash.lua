@@ -20,9 +20,13 @@ function mod:OnCombatStart(delay)
 	timerPunctureCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 15976 then
-		warningPuncture:Show()
-		timerPunctureCD:Start()
+do
+	local Puncture = DBM:GetSpellInfo(15976)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 15976 then
+		if args.spellName == Puncture then
+			warningPuncture:Show()
+			timerPunctureCD:Start()
+		end
 	end
 end

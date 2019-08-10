@@ -25,24 +25,36 @@ function mod:OnCombatStart(delay)
 	timerWrathCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_START(args)
-	if args.spellId == 21807 then
-		timerWrathCD:Start()
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnWrath:Show(args.sourceName)
-			specWarnWrath:Play("kickcast")
+do
+	local Wrath = DBM:GetSpellInfo(21807)
+	function mod:SPELL_CAST_START(args)
+		--if args.spellId == 21807 then
+		if args.spellName == Wrath and args:IsSrcTypeHostile() then
+			timerWrathCD:Start()
+			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+				specWarnWrath:Show(args.sourceName)
+				specWarnWrath:Play("kickcast")
+			end
 		end
 	end
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 21968 then
-		warningCorruptForces:Show()
+do
+	local CorruptForces = DBM:GetSpellInfo(21968)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 21968 then
+		if args.spellName == CorruptForces then
+			warningCorruptForces:Show()
+		end
 	end
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 12747 then
-		warningEntanglingRoots:Show(args.destName)
+do
+	local EntanglingRoots = DBM:GetSpellInfo(12747)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 12747 then
+		if args.spellName == EntanglingRoots and args:IsDestTypePlayer() then
+			warningEntanglingRoots:Show(args.destName)
+		end
 	end
 end
