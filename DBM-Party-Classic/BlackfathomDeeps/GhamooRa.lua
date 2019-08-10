@@ -19,9 +19,13 @@ function mod:OnCombatStart(delay)
 	timerTrampleCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 5568 then
-		warningTrample:Show()
-		timerTrampleCD:Start()
+do
+	local Trample = DBM:GetSpellInfo(5568)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 5568 then
+		if args.spellName == Trample then
+			warningTrample:Show()
+			timerTrampleCD:Start()
+		end
 	end
 end

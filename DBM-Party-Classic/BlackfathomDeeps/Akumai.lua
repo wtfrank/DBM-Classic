@@ -23,17 +23,24 @@ function mod:OnCombatStart(delay)
 	timerFrenziedRageCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 3815 then
-		warningPoisonCloud:Show()
-		timerPoisonCloudCD:Start()
+do
+	local PoisonCloud = DBM:GetSpellInfo(3815)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 3815 then
+		if args.spellName == PoisonCloud then
+			warningPoisonCloud:Show()
+			timerPoisonCloudCD:Start()
+		end
 	end
 end
 
-
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 3490 then
-		warningFrenziedRage:Show()
-		timerFrenziedRageCD:Start()
+do
+	local FrenziedRage = DBM:GetSpellInfo(3490)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 3490 then
+		if args.spellName == FrenziedRage then
+			warningFrenziedRage:Show()
+			timerFrenziedRageCD:Start()
+		end
 	end
 end

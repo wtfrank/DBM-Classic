@@ -20,14 +20,19 @@ function mod:OnCombatStart(delay)
 	timerNetCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 6533 then
-		timerNetCD:Start()
+do
+	local Net = DBM:GetSpellInfo(6533)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 6533 then
+		if args.spellName == Net then
+			timerNetCD:Start()
+		end
 	end
-end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 6533 then
-		warningNet:Show(args.destName)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 6533 then
+		if args.spellName == Net then
+			warningNet:Show(args.destName)
+		end
 	end
 end
