@@ -15,7 +15,7 @@ mod:RegisterEvents(
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 17086 18351 18564 18576 18584 18596 18609 18617 18435",
-	"SPELL_DAMAGE 68867",
+--	"SPELL_DAMAGE",-- 68867
 	"UNIT_DIED",
 	"UNIT_HEALTH boss1"
 )
@@ -104,29 +104,31 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	end
 end
 
-function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(17086, 18351, 18564, 18576) or args:IsSpellID(18584, 18596, 18609, 18617) then	-- 1 ID for each direction
-		specWarnBreath:Show()
-		specWarnBreath:Play("breathsoon")
-		timerBreath:Start()
-		timerNextDeepBreath:Start()
-	elseif args.spellId == 18435 then        -- Flame Breath (Ground phases)
-		timerNextFlameBreath:Start()
-	--elseif args.spellId == 68958 then
-    --    specWarnBlastNova:Show()
-    --    specWarnBlastNova:Play("justrun")
-	--elseif args.spellId == 68959 then--Ignite Weapon (Onyxian Lair Guard spawn)
-	--	specWarnAdds:Show()
-	--	specWarnAdds:Play("bigmob")
-	--	timerBigAddCD:Start()
+do
+	local deepBreathCast, flameBreathCast = DBM:GetSpellInfo(17086), DBM:GetSpellInfo(18435)
+	function mod:SPELL_CAST_START(args)
+		local spellName = args.spellName
+		if spellName == deepBreathCast and args:GetSrcCreatureID() == 10184 then
+			specWarnBreath:Show()
+			specWarnBreath:Play("breathsoon")
+			timerBreath:Start()
+			timerNextDeepBreath:Start()
+		elseif spellName == flameBreathCast and args:GetSrcCreatureID() == 10184 then        -- Flame Breath (Ground phases)
+			timerNextFlameBreath:Start()
+		end
 	end
 end
 
-function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
-	if spellId == 68867 and destGUID == UnitGUID("player") and self.Options.SoundWTF3 then		-- Tail Sweep
-		DBM:PlaySoundFile("Interface\\AddOns\\DBM-Onyxia\\sounds\\watch-the-tail.ogg")
+--[[
+do
+	local tailSweep = DBM:GetSpellInfo(68867)
+	function mod:SPELL_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
+		if spellName == tailSweep and destGUID == UnitGUID("player") and self.Options.SoundWTF3 then		-- Tail Sweep
+			DBM:PlaySoundFile("Interface\\AddOns\\DBM-Onyxia\\sounds\\watch-the-tail.ogg")
+		end
 	end
 end
+--]]
 
 function mod:UNIT_DIED(args)
 	if self:IsInCombat() and args:IsPlayer() and self.Options.SoundWTF3 then

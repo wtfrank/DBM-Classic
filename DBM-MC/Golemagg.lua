@@ -13,8 +13,12 @@ mod:RegisterEventsInCombat(
 
 local warnQuake		= mod:NewSpellAnnounce(20553)
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 20553 then
-		warnQuake:Show()
+do
+	local Quake = DBM:GetSpellInfo(20553)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 20553 then
+		if args.spellName == Quake then
+			warnQuake:Show()
+		end
 	end
 end

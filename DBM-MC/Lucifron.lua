@@ -20,20 +20,30 @@ local timerCurseCD	= mod:NewCDTimer(20.5, 19703, nil, nil, nil, 3, nil, DBM_CORE
 local timerDoomCD	= mod:NewCDTimer(20, 19702, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
 local timerDoom		= mod:NewCastTimer(10, 19702, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
 
-function mod:SPELL_CAST_SUCCESS(args)
-	local spellId = args.spellId
-	if spellId == 19702 then
-		warnDoom:Show()
-		timerDoom:Start()
-		timerDoomCD:Start()
-	elseif spellId == 19703 then
-		warnCurse:Show()
-		timerCurseCD:Start()
+do
+	local Doom, Curse = DBM:GetSpellInfo(19702), DBM:GetSpellInfo(19703)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--local spellId = args.spellId
+		local spellName = args.spellName
+		--if spellId == 19702 then
+		if spellName == Doom then
+			warnDoom:Show()
+			timerDoom:Start()
+			timerDoomCD:Start()
+		--elseif spellId == 19703 then
+		elseif spellName == Curse then
+			warnCurse:Show()
+			timerCurseCD:Start()
+		end
 	end
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 20604 then
-		warnMC:CombinedShow(1, args.destName)
+do
+	local MindControl = DBM:GetSpellInfo(20604)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 20604 then
+		if args.spellName == MindControl then
+			warnMC:CombinedShow(1, args.destName)
+		end
 	end
 end

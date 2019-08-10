@@ -30,33 +30,45 @@ function mod:OnCombatStart(delay)
 	timerGateCD:Start(30-delay)
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 19714 and self:IsInCombat() and not args:IsDestTypePlayer() then
-		if self.Options.SpecWarn19714dispel then
-			specWarnGrounding:Show(args.destName)
-			specWarnGrounding:Play("dispelboss")
-		else
-			warnGrounding:Show(args.destName)
+do
+	local magicGrounding = DBM:GetSpellInfo(19714)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 19714 and not args:IsDestTypePlayer() then
+		if args.spellName == magicGrounding and not args:IsDestTypePlayer() then
+			if self.Options.SpecWarn19714dispel then
+				specWarnGrounding:Show(args.destName)
+				specWarnGrounding:Play("dispelboss")
+			else
+				warnGrounding:Show(args.destName)
+			end
+			timerGrounding:Start()
 		end
-		timerGrounding:Start()
+	end
+
+	function mod:SPELL_AURA_REMOVED(args)
+		--if args.spellId == 19714 then
+		if args.spellName == magicGrounding then
+			timerGrounding:Stop()
+		end
 	end
 end
 
-function mod:SPELL_AURA_REMOVED(args)
-	if args.spellId == 19714 then
-		timerGrounding:Stop()
-	end
-end
-
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 19713 and self:IsInCombat() then
-		warnCurse:Show()
-		timerCurseCD:Start()
-	elseif args.spellId == 19715 and self:IsInCombat() then
-		warnCntrSpell:Show()
-	elseif args.spellId == 23138 then
-		specWarnGate:Show(args.sourceName)
-		specWarnGate:Play("tauntboss")
-		timerGateCD:Start()
+do
+	local Curse, Counterspell, Gate = DBM:GetSpellInfo(19713), DBM:GetSpellInfo(19715), DBM:GetSpellInfo(23138)
+	function mod:SPELL_CAST_SUCCESS(args)
+		local spellName = args.spellName
+		--if args.spellId == 19713 then
+		if spellName == Curse then
+			warnCurse:Show()
+			timerCurseCD:Start()
+		--elseif args.spellId == 19715 then
+		elseif spellName == Counterspell and args:GetSrcCreatureID() == 12264 then
+			warnCntrSpell:Show()
+		--elseif args.spellId == 23138 then
+		elseif spellName == Gate then
+			specWarnGate:Show(args.sourceName)
+			specWarnGate:Play("tauntboss")
+			timerGateCD:Start()
+		end
 	end
 end

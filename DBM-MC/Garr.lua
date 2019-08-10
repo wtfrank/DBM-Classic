@@ -21,15 +21,23 @@ function mod:OnCombatStart(delay)
 	timerAntiMagicPulseCD:Start(10-delay)
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 15732 and self:IsInCombat() then
-		warnImmolate:CombinedShow(1, args.destName)
+do
+	local ImmolateSpell = DBM:GetSpellInfo(15732)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 15732 and self:IsInCombat() then
+		if args.spellName == ImmolateSpell and (args:GetSrcCreatureID() == 12057 or args:GetSrcCreatureID() == 12099) then
+			warnImmolate:CombinedShow(1, args.destName)
+		end
 	end
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 19492 then
-		warnAntiMagicPulse:Show()
-		timerAntiMagicPulseCD:Start()
+do
+	local AntiMagicPulse = DBM:GetSpellInfo(19492)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 19492 then
+		if args.spellName == AntiMagicPulse then
+			warnAntiMagicPulse:Show()
+			timerAntiMagicPulseCD:Start()
+		end
 	end
 end

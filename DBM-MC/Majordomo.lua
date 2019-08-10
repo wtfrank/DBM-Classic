@@ -12,7 +12,6 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 20619 21075 20534"
 )
 
---TODO, if BOSS isn't available in classic, common local it in core
 local warnTeleport			= mod:NewTargetNoFilterAnnounce(20534)
 
 local specWarnMagicReflect	= mod:NewSpecialWarningReflect(20619, "-Melee")
@@ -21,19 +20,26 @@ local specWarnDamageShield	= mod:NewSpecialWarningReflect(21075, "Melee")
 local timerMagicReflect		= mod:NewBuffActiveTimer(10, 20619, nil, nil, nil, 5, nil, DBM_CORE_DAMAGE_ICON)
 local timerDamageShield		= mod:NewBuffActiveTimer(10, 21075, nil, nil, nil, 5, nil, DBM_CORE_DAMAGE_ICON)
 
-function mod:SPELL_CAST_SUCCESS(args)
-	local spellId = args.spellId
-	if spellId == 20619 then
-		specWarnMagicReflect:Show(BOSS)--Always a threat to casters
-		specWarnMagicReflect:Play("stopattack")
-		timerMagicReflect:Start()
-	elseif spellId == 21075 then
-		if self:IsDifficulty("event40") or not self:IsTrivial(75) then--Not a threat to high level melee
-			specWarnDamageShield:Show(BOSS)
-			specWarnDamageShield:Play("stopattack")
+do
+	local MagicReflect, MeleeReflect, Teleport = DBM:GetSpellInfo(20619), DBM:GetSpellInfo(21075), DBM:GetSpellInfo(20534)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--local spellId = args.spellId
+		local spellName = args.spellName
+		--if spellId == 20619 then
+		if spellName == MagicReflect then
+			specWarnMagicReflect:Show(BOSS)--Always a threat to casters
+			specWarnMagicReflect:Play("stopattack")
+			timerMagicReflect:Start()
+		--elseif spellId == 21075 then
+		elseif spellName == MeleeReflect then
+			if self:IsDifficulty("event40") or not self:IsTrivial(75) then--Not a threat to high level melee
+				specWarnDamageShield:Show(BOSS)
+				specWarnDamageShield:Play("stopattack")
+			end
+			timerDamageShield:Start()
+		--elseif spellId == 20534 then
+		elseif spellName == Teleport then
+			warnTeleport:Show(args.destName)
 		end
-		timerDamageShield:Start()
-	elseif spellId == 20534 then
-		warnTeleport:Show(args.destName)
 	end
 end

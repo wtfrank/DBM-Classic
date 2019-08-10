@@ -783,23 +783,36 @@ do
 				DBM:AddMsg("DBM RegisterEvents Error: "..spellId.." is not a number!")
 				return
 			end
-			if spellId and not DBM:GetSpellInfo(spellId) then
+			local spellName = DBM:GetSpellInfo(spellId)
+			if spellId and not spellName then
 				DBM:Debug("DBM RegisterEvents Error: "..spellId.." spell id does not exist!")
 				return
 			end
 			if not registeredSpellIds[event] then
 				registeredSpellIds[event] = {}
 			end
-			registeredSpellIds[event][spellId] = (registeredSpellIds[event][spellId] or 0) + 1
+
+			--registeredSpellIds[event][spellId] = (registeredSpellIds[event][spellId] or 0) + 1--BC+ can use spellIDs
+			if not registeredSpellIds[event][spellName] then--Don't register duplicate spell Names
+				registeredSpellIds[event][spellName] = (registeredSpellIds[event][spellName] or 0) + 1--But classic needs spellNames
+			end
 		end
 
 		function unregisterSpellId(event, spellId)
 			if not registeredSpellIds[event] then return end
+			local spellName = DBM:GetSpellInfo(spellId)
+			local refs = (registeredSpellIds[event][spellName] or 1) - 1
+			registeredSpellIds[event][spellName] = refs
+			if refs <= 0 then
+				registeredSpellIds[event][spellName] = nil
+			end
+			--[[
 			local refs = (registeredSpellIds[event][spellId] or 1) - 1
 			registeredSpellIds[event][spellId] = refs
 			if refs <= 0 then
 				registeredSpellIds[event][spellId] = nil
 			end
+			--]]
 		end
 
 		--There are 2 tables. unfilteredCLEUEvents and registeredSpellIds table.
@@ -1053,7 +1066,8 @@ do
 		if not registeredEvents[event] then return end
 		local eventSub6 = event:sub(0, 6)
 		if (eventSub6 == "SPELL_" or eventSub6 == "RANGE_") and not unfilteredCLEUEvents[event] and registeredSpellIds[event] then
-			if not registeredSpellIds[event][extraArg1] then return end
+			--if not registeredSpellIds[event][extraArg1] then return end--SpellId filter for BC+
+			if not registeredSpellIds[event][extraArg2] then return end--SpellName filter for Classic
 		end
 		-- process some high volume events without building the whole table which is somewhat faster
 		-- this prevents work-around with mods that used to have their own event handler to prevent this overhead

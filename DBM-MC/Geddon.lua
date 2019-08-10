@@ -35,53 +35,64 @@ function mod:OnCombatStart(delay)
 	timerBombCD:Start(11-delay)
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 20475 then
-		timerBomb:Start(args.destName)
-		timerBombCD:Start()
-		if self.Options.SetIconOnBombTarget then
-			self:SetIcon(args.destName, 8)
-		end
-		if args:IsPlayer() then
-			specWarnBomb:Show()
-			specWarnBomb:Play("runout")
-			if self:IsDifficulty("event40") or not self:IsTrivial(75) then
-				yellBomb:Yell()
-				yellBombFades:Countdown(args.spellId)
+do
+	local LivingBomb = DBM:GetSpellInfo(20475)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 20475 then
+		if args.spellName == LivingBomb then
+			timerBomb:Start(args.destName)
+			timerBombCD:Start()
+			if self.Options.SetIconOnBombTarget then
+				self:SetIcon(args.destName, 8)
 			end
-		else
-			warnBomb:Show(args.destName)
+			if args:IsPlayer() then
+				specWarnBomb:Show()
+				specWarnBomb:Play("runout")
+				if self:IsDifficulty("event40") or not self:IsTrivial(75) then
+					yellBomb:Yell()
+					yellBombFades:Countdown(args.spellId)
+				end
+			else
+				warnBomb:Show(args.destName)
+			end
+		end
+	end
+
+	function mod:SPELL_AURA_REMOVED(args)
+		--if args.spellId == 20475 then
+		if args.spellName == LivingBomb then
+			timerBomb:Stop(args.destName)
+			if self.Options.SetIconOnBombTarget then
+				self:SetIcon(args.destName, 0)
+			end
+			if args:IsPlayer() then
+				yellBombFades:Cancel()
+			end
 		end
 	end
 end
 
-function mod:SPELL_AURA_REMOVED(args)
-	if args.spellId == 20475 then
-		timerBomb:Stop(args.destName)
-		if self.Options.SetIconOnBombTarget then
-			self:SetIcon(args.destName, 0)
-		end
-		if args:IsPlayer() then
-			yellBombFades:Cancel()
+do
+	local Inferno, Ignite, Armageddon = DBM:GetSpellInfo(19695), DBM:GetSpellInfo(19659), DBM:GetSpellInfo(20478)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--local spellId = args.spellId
+		local spellName = args.spellName
+		--if spellId == 19695 then
+		if spellName == Inferno then
+			if self:IsDifficulty("event40") or not self:IsTrivial(75) then
+				specWarnInferno:Show()
+				specWarnInferno:Play("aesoon")
+			else
+				warnInferno:Show()
+			end
+			timerInferno:Start()
+		--elseif spellId == 19659 then
+		elseif spellName == Ignite and args:GetSrcCreatureID() == 12056 then
+			warnIgnite:Show()
+		--elseif spellId == 20478 then
+		elseif spellName == Armageddon then
+			warnArmageddon:Show()
+			timerArmageddon:Start()
 		end
 	end
 end
-
-function mod:SPELL_CAST_SUCCESS(args)
-	local spellId = args.spellId
-	if spellId == 19695 then
-		if self:IsDifficulty("event40") or not self:IsTrivial(75) then
-			specWarnInferno:Show()
-			specWarnInferno:Play("aesoon")
-		else
-			warnInferno:Show()
-		end
-		timerInferno:Start()
-	elseif spellId == 19659 then
-		warnIgnite:Show()
-	elseif spellId == 20478 then
-		warnArmageddon:Show()
-		timerArmageddon:Start()
-	end
-end
-

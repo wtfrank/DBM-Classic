@@ -36,26 +36,39 @@ function mod:OnCombatEnd()
 	self:UnregisterShortTermEvents()
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 19716 then
-		timerCurse:Start()
-		warnCurse:Show()
-	elseif args.spellId == 19717 and self:IsInCombat() then
-		warnRainFire:Show()
-		timerRoF:Start()
+do
+	local Curse, RainofFire = DBM:GetSpellInfo(19716), DBM:GetSpellInfo(19717)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 19716 then
+		if args.spellName == Curse and (args:GetSrcCreatureID() == 12259 or args:GetSrcCreatureID() == 11661) then
+			timerCurse:Start()
+			warnCurse:Show()
+		--elseif args.spellId == 19717 then
+		elseif args.spellName == RainofFire and (args:GetSrcCreatureID() == 12259 or args:GetSrcCreatureID() == 11661) then
+			warnRainFire:Show()
+			timerRoF:Start()
+		end
 	end
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 20277 and args:IsDestTypePlayer() then
-		warnFist:CombinedShow(0.3, args.destName)
+do
+	local Fist = DBM:GetSpellInfo(20277)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 20277 and args:IsDestTypePlayer() then
+		if args.spellName == Fist and args:IsDestTypePlayer() then
+			warnFist:CombinedShow(0.3, args.destName)
+		end
 	end
 end
 
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId)
-	if spellId == 19717 and destGUID == UnitGUID("player") and self:AntiSpam() then
-		specWarnRoF:Show()
-		specWarnRoF:Play("runaway")
+do
+	local RainofFire =DBM:GetSpellInfo(19717)
+	function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId, spellName)
+		--if spellId == 19717 and destGUID == UnitGUID("player") and self:AntiSpam() then
+		if spellName == RainofFire and destGUID == UnitGUID("player") and self:AntiSpam() then
+			specWarnRoF:Show(spellName)
+			specWarnRoF:Play("runaway")
+		end
 	end
+	mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE
 end
-mod.SPELL_PERIODIC_MISSED = mod.SPELL_PERIODIC_DAMAGE

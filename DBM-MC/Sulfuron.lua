@@ -27,31 +27,44 @@ function mod:OnCombatStart(delay)
 
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 19779 then
-		warnInspire:Show(args.destName)
-		timerInspire:Start(args.destName)
-	elseif args.spellId == 19780 and args:IsDestTypePlayer() then
-		warnHandRagnaros:CombinedShow(0.3, args.destName)
-	elseif args.spellId == 19776 then
-		warnShadowPain:CombinedShow(0.3, args.destName)
-	elseif args.spellId == 20294 then
-		warnImmolate:CombinedShow(0.3, args.destName)
+do
+	local Inspire, HandRag, ShadowPain, Immolate = DBM:GetSpellInfo(19779), DBM:GetSpellInfo(19780), DBM:GetSpellInfo(19776), DBM:GetSpellInfo(20294)
+	function mod:SPELL_AURA_APPLIED(args)
+		local spellName = args.spellName
+		--if args.spellId == 19779 then
+		if spellName == Inspire then
+			warnInspire:Show(args.destName)
+			timerInspire:Start(args.destName)
+		--elseif args.spellId == 19780 and args:IsDestTypePlayer() then
+		elseif spellName == HandRag and args:IsDestTypePlayer() then
+			warnHandRagnaros:CombinedShow(0.3, args.destName)
+		--elseif args.spellId == 19776 and args:IsDestTypePlayer() then
+		elseif spellName == ShadowPain and args:IsDestTypePlayer() then
+			warnShadowPain:CombinedShow(0.3, args.destName)
+		--elseif args.spellId == 20294 and args:IsDestTypePlayer() then
+		elseif spellName == Immolate and args:IsDestTypePlayer() then
+			warnImmolate:CombinedShow(0.3, args.destName)
+		end
+	end
+
+	function mod:SPELL_AURA_REMOVED(args)
+		--if args.spellId == 19779 then
+		if args.spellName == Inspire then
+			timerInspire:Stop(args.destName)
+		end
 	end
 end
 
-function mod:SPELL_AURA_REMOVED(args)
-	if args.spellId == 19779 then
-		timerInspire:Stop(args.destName)
-	end
-end
-
-function mod:SPELL_CAST_START(args)
-	if args.spellId == 19775 then
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then--Only show warning/timer for your own target.
-			timerHeal:Start()
-			specWarnHeal:Show(args.sourceName)
-			specWarnHeal:Play("kickcast")
+do
+	local Heal = DBM:GetSpellInfo(19775)
+	function mod:SPELL_CAST_START(args)
+		--if args.spellId == 19775 then
+		if args.spellName == Heal and args:GetSrcCreatureID() == 11662 then--CID still filtered even though below filter exists (because below filter can be turned off by user)
+			if self:CheckInterruptFilter(args.sourceGUID, false, true) then--Only show warning/timer for your own target.
+				timerHeal:Start()
+				specWarnHeal:Show(args.sourceName)
+				specWarnHeal:Play("kickcast")
+			end
 		end
 	end
 end

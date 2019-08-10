@@ -41,10 +41,14 @@ local function emerged(self)
 	self.vb.addDied = 0
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 20566 then
-		warnWrathRag:Show()
-		timerWrathRag:Start()
+do
+	local Wrath = DBM:GetSpellInfo(20566)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 20566 then
+		if args.spellName == Wrath then
+			warnWrathRag:Show()
+			timerWrathRag:Start()
+		end
 	end
 end
 
