@@ -22,16 +22,24 @@ function mod:OnCombatStart(delay)
 	timerFlameSpikeCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_START(args)
-	if args.spellId == 8814 then
-		warningFlameSpike:Show()
-		timerFlameSpikeCD:Start()
+do
+	local Flamespike = DBM:GetSpellInfo(8814)
+	function mod:SPELL_CAST_START(args)
+		--if args.spellId == 8814 then
+		if args.spellName == Flamespike then
+			warningFlameSpike:Show()
+			timerFlameSpikeCD:Start()
+		end
 	end
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 12470 then
-		warningFireNova:Show()
-		timerFireNovaCD:Start()
+do
+	local FireNova = DBM:GetSpellInfo(12470)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 12470 then
+		if args.spellName == FireNova then
+			warningFireNova:Show()
+			timerFireNovaCD:Start()
+		end
 	end
 end

@@ -13,8 +13,9 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO: Is WW SPELL_CAST_START or success or applied?
-local specWarnWhirlwind				= mod:NewSpecialWarningRun(8989, nil, nil, nil, 4, 2)
 local warningEnrage					= mod:NewTargetNoFilterAnnounce(8269, 2)
+
+local specWarnWhirlwind				= mod:NewSpecialWarningRun(8989, nil, nil, nil, 4, 2)
 
 local timerWhirlwindCD				= mod:NewAITimer(180, 8989, nil, nil, nil, 4, nil, DBM_CORE_DEADLY_ICON)
 
@@ -22,16 +23,24 @@ function mod:OnCombatStart(delay)
 	timerWhirlwindCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_START(args)
-	if args.spellId == 8989 then
-		specWarnWhirlwind:Show()
-		specWarnWhirlwind:Play("justrun")
-		timerWhirlwindCD:Start()
+do
+	local Whirlwind = DBM:GetSpellInfo(8989)
+	function mod:SPELL_CAST_START(args)
+		--if args.spellId == 8989 then
+		if args.spellName == Whirlwind and args:IsSrcTypeHostile() then
+			specWarnWhirlwind:Show()
+			specWarnWhirlwind:Play("justrun")
+			timerWhirlwindCD:Start()
+		end
 	end
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 8269 then
-		warningEnrage:Show(args.destName)
+do
+	local Enrage = DBM:GetSpellInfo(8269)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 8269 then
+		if args.spellName == Enrage and args:IsDestTypeHostile() then
+			warningEnrage:Show(args.destName)
+		end
 	end
 end

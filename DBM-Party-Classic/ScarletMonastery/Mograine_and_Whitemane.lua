@@ -25,23 +25,29 @@ function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 end
 
-function mod:SPELL_CAST_START(args)
-	if args.spellId == 12039 then
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnHeal:Show(args.sourceName)
-			specWarnHeal:Play("kickcast")
+do
+	local Heal = DBM:GetSpellInfo(12039)
+	function mod:SPELL_CAST_START(args)
+		--if args.spellId == 12039 then
+		if args.spellName == Heal and args:IsSrcTypeHostile() then
+			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+				specWarnHeal:Show(args.sourceName)
+				specWarnHeal:Play("kickcast")
+			end
 		end
 	end
 end
 
---Could also use damage overkill like phase 1 but it's only .8 sec faster so no need.
---3/28 16:22:43.001  SWING_DAMAGE,0x0100000000009810,"Omegal",0x511,0x0,0xF1300F8900000065,"High Inquisitor Whitemane",0x10a48,0x0,10172,-1,1,0,0,410,1,nil,nil
---3/28 16:22:43.810  SPELL_CAST_SUCCESS,0xF1300F8900000065,"High Inquisitor Whitemane",0xa48,0x0,0x0000000000000000,nil,0x80000000,0x80000000,9256,"Deep Sleep",0x20
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 9256 then--Phase 3
-		self.vb.phase = 3
-		warnDeepSleep:Show()
-		timerDeepSleep:Start()
+do
+	local DeepSleep = DBM:GetSpellInfo(9256)
+	--3/28 16:22:43.810  SPELL_CAST_SUCCESS,0xF1300F8900000065,"High Inquisitor Whitemane",0xa48,0x0,0x0000000000000000,nil,0x80000000,0x80000000,9256,"Deep Sleep",0x20
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 9256 then--Phase 3
+		if args.spellName == DeepSleep then--Phase 3
+			self.vb.phase = 3
+			warnDeepSleep:Show()
+			timerDeepSleep:Start()
+		end
 	end
 end
 

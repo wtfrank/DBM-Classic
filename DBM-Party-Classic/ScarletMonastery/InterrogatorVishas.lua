@@ -20,14 +20,19 @@ function mod:OnCombatStart(delay)
 	timerImmolateCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 9034 then
-		timerImmolateCD:Start()
+do
+	local Immolate = DBM:GetSpellInfo(9034)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 9034 then
+		if args.spellName == Immolate and args:IsSrcTypeHostile() then
+			timerImmolateCD:Start()
+		end
 	end
-end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 9034 then
-		warningImmolate:Show(args.destName)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 9034 then
+		if args.spellName == Immolate and args:IsDestTypePlayer() then
+			warningImmolate:Show(args.destName)
+		end
 	end
 end
