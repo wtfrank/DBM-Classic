@@ -21,15 +21,23 @@ function mod:OnCombatStart(delay)
 	timerSplinteredObsidianCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 10072 and self:AntiSpam(3, 1) then
-		warningSplinteredObsidian:Show()
-		timerSplinteredObsidianCD:Start()
+do
+	local SplinteredObsidian = DBM:GetSpellInfo(10072)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 10072 and self:AntiSpam(3, 1) then
+		if args.spellName == SplinteredObsidian and self:AntiSpam(3, 1) then
+			warningSplinteredObsidian:Show()
+			timerSplinteredObsidianCD:Start()
+		end
 	end
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 9941 and self:AntiSpam(3, args.destName) then
-		warningReflection:Show(args.destName)
+do
+	local Reflection = DBM:GetSpellInfo(9941)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 9941 and self:AntiSpam(3, args.destName) then
+		if args.spellName == Reflection and self:AntiSpam(3, args.destName) then
+			warningReflection:Show(args.destName)
+		end
 	end
 end

@@ -27,8 +27,12 @@ function mod:OnCombatEnd()
 	end
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 6742 then
-		warningBloodlust:Show(args.destName)
+do
+	local BloodLust = DBM:GetSpellInfo(6742)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 6742 then
+		if args.spellName == BloodLust and args:IsDestTypeHostile() then
+			warningBloodlust:Show(args.destName)
+		end
 	end
 end
