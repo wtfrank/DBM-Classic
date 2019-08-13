@@ -21,7 +21,7 @@ L.TabCategory_CATA	 		= "Cataclysm"
 L.TabCategory_WOTLK 		= "Wrath of the Lich King"
 L.TabCategory_BC 			= "Burning Crusade"
 L.TabCategory_CLASSIC		= EXPANSION_NAME0
-L.TabCategory_OTHER    		= "Other Boss Mods"
+L.TabCategory_OTHER    		= "Other Mods"
 
 L.BossModLoaded 			= "%s statistics"
 L.BossModLoad_now 			= [[This boss mod is not loaded.
