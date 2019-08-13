@@ -28,26 +28,35 @@ function mod:OnCombatStart(delay)
 	timerThundercrackCD:Start(1-delay)
 end
 
-function mod:SPELL_CAST_START(args)
-	if args.spellId == 7967 then
-		timerNaralexsNightmareCD:Start()
-		if self:CheckInterruptFilter(args.sourceGUID, false, true) then
-			specWarnNaralexsNightmare:Show(args.sourceName)
-			specWarnNaralexsNightmare:Play("kickcast")
+do
+	local NaralexsNightmar = DBM:GetSpellInfo(7967)
+	function mod:SPELL_CAST_START(args)
+		--if args.spellId == 7967 then
+		if args.spellName == NaralexsNightmar then
+			timerNaralexsNightmareCD:Start()
+			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
+				specWarnNaralexsNightmare:Show(args.sourceName)
+				specWarnNaralexsNightmare:Play("kickcast")
+			end
 		end
 	end
 end
 
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 7399 then
-		timerTerrifyCD:Start()
-	elseif args.spellId == 8150 then
-		timerThundercrackCD:Start()
+do
+	local Terrify, Thundercrack = DBM:GetSpellInfo(7399), DBM:GetSpellInfo(8150)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 7399 then
+		if args.spellName == Terrify then
+			timerTerrifyCD:Start()
+		--elseif args.spellId == 8150 then
+		elseif args.spellName == Thundercrack then
+			timerThundercrackCD:Start()
+		end
 	end
-end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 7399 then
-		warningTerrify:Show(args.destName)
+	function mod:SPELL_AURA_APPLIED(args)
+		if args.spellName == Terrify then
+			warningTerrify:Show(args.destName)
+		end
 	end
 end
