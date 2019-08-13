@@ -681,19 +681,55 @@ do
 	end
 
 	function argsMT.__index:IsSrcTypePlayer()
-		return bband(args.sourceFlags, COMBATLOG_OBJECT_TYPE_PLAYER) ~= 0
+		--If blizzard ever removes sourceFlags, this will automatically switch to fallback
+		if args.sourceFlags and COMBATLOG_OBJECT_TYPE_PLAYER then
+			return bband(args.sourceFlags, COMBATLOG_OBJECT_TYPE_PLAYER) ~= 0
+		else
+			if raid[args.sourceName] then--Unit in group, friendly
+				return true
+			else
+				return false
+			end
+		end
 	end
 
 	function argsMT.__index:IsDestTypePlayer()
-		return bband(args.destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) ~= 0
+		--If blizzard ever removes destFlags, this will automatically switch to fallback
+		if args.destFlags and COMBATLOG_OBJECT_TYPE_PLAYER then
+			return bband(args.destFlags, COMBATLOG_OBJECT_TYPE_PLAYER) ~= 0
+		else
+			if raid[args.destName] then--Unit in group, friendly
+				return true
+			else
+				return false
+			end
+		end
 	end
 
 	function argsMT.__index:IsSrcTypeHostile()
-		return bband(args.sourceFlags, COMBATLOG_OBJECT_REACTION_HOSTILE) ~= 0
+		--If blizzard ever removes sourceFlags, this will automatically switch to fallback
+		if args.sourceFlags and COMBATLOG_OBJECT_REACTION_HOSTILE then
+			return bband(args.sourceFlags, COMBATLOG_OBJECT_REACTION_HOSTILE) ~= 0
+		else
+			if raid[args.sourceName] then--Unit in group, friendly
+				return false
+			else
+				return true
+			end
+		end
 	end
 
 	function argsMT.__index:IsDestTypeHostile()
-		return bband(args.destFlags, COMBATLOG_OBJECT_REACTION_HOSTILE) ~= 0
+		--If blizzard ever removes destFlags, this will automatically switch to fallback
+		if args.destFlags and COMBATLOG_OBJECT_REACTION_HOSTILE then
+			return bband(args.destFlags, COMBATLOG_OBJECT_REACTION_HOSTILE) ~= 0
+		else
+			if raid[args.destName] then--Unit in group, friendly
+				return false
+			else
+				return true
+			end
+		end
 	end
 
 	function argsMT.__index:GetSrcCreatureID()
