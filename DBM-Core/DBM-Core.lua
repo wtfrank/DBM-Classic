@@ -69,7 +69,7 @@ end
 
 DBM = {
 	Revision = parseCurseDate("@project-date-integer@"),
-	DisplayVersion = "1.13.1", -- the string that is shown as version
+	DisplayVersion = "1.13.2 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2019, 8, 13) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
@@ -7945,7 +7945,7 @@ do
 			--Inspect throttle exists, so have to do it this way
 			if class == "DRUID" or class == "SHAMAN" or class == "PALADIN" then
 				local unitMaxPower = UnitPowerMax(uId)
-				if unitMaxPower < 35000 then
+				if unitMaxPower < 7500 then
 					return true
 				end
 			end
@@ -7970,7 +7970,7 @@ do
 			end
 			--Inspect throttle exists, so have to do it this way
 			if class == "DRUID" or class == "SHAMAN" or class == "PALADIN" then
-				if UnitPowerMax(uId) < 35000 then
+				if UnitPowerMax(uId) < 7500 then
 					return true
 				end
 			end
@@ -8076,8 +8076,7 @@ function bossModPrototype:UnitClass(uId)
 	return playerClass--else return "player"
 end
 
---Needs Review
-function bossModPrototype:IsTanking(unit, boss, isName, onlyRequested)
+function bossModPrototype:IsTanking(unit, boss, isName, onlyRequested, bossGUID)
 	if isName then--Passed combat log name, so pull unit ID
 		unit = DBM:GetRaidUnitId(unit)
 	end
@@ -8085,17 +8084,45 @@ function bossModPrototype:IsTanking(unit, boss, isName, onlyRequested)
 		DBM:Debug("IsTanking passed with invalid unit", 2)
 		return false
 	end
-	--Prefer threat target first
+	--Prefer main target first
 	if boss then--Only checking one bossID as requested
-		local _, targetuid = self:GetBossTarget(UnitGUID(boss), true)
-		if UnitIsUnit(unit, targetuid) then
-			return true
-		end
-	else--Check all of them if one isn't defined
-		for i = 1, 5 do
-			local _, targetuid = self:GetBossTarget(UnitGUID("boss"..i), true)
+		if UnitExists(boss) then
+			local _, targetuid = self:GetBossTarget(UnitGUID(boss), true)
 			if UnitIsUnit(unit, targetuid) then
 				return true
+			end
+		end
+	else
+		--Check all of them if one isn't defined
+		for i = 1, 5 do
+			local unitID = "boss"..i
+			if UnitExists(unitID) then
+				local _, targetuid = self:GetBossTarget(UnitGUID(unitID), true)
+				if UnitIsUnit(unit, targetuid) then
+					return true
+				end
+			end
+		end
+		--Check group targets if no boss unitIDs found, but we have a
+		if bossGUID then
+			if IsInRaid() then
+				for i = 1, GetNumGroupMembers() do
+					if UnitGUID("raid"..i.."target") == bossGUID then
+						local _, targetuid = self:GetBossTarget(bossGUID, true)
+						if UnitIsUnit("raid"..i.."target", targetuid) then
+							return true
+						end
+					end
+				end
+			elseif IsInGroup() then
+				for i = 1, GetNumSubgroupMembers() do
+					if UnitGUID("party"..i.."target") == bossGUID then
+						local _, targetuid = self:GetBossTarget(bossGUID, true)
+						if UnitIsUnit("party"..i.."target", targetuid) then
+							return true
+						end
+					end
+				end
 			end
 		end
 	end
