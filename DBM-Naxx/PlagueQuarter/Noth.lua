@@ -30,7 +30,7 @@ mod.vb.teleCount = 0
 mod.vb.addsCount = 0
 mod.vb.curseCount = 0
 
-function mod:Balcony(delay)
+function mod:Balcony()
 	self.vb.teleCount = self.vb.teleCount + 1
 	self.vb.addsCount = 0
 	timerCurseCD:Stop()
@@ -48,7 +48,6 @@ function mod:Balcony(delay)
 	else
 		timer = 55
 	end
-	timer = timer - (delay or 0)
 	timerTeleportBack:Start(timer)
 	warnTeleportSoon:Schedule(timer - 20)
 	warnTeleportNow:Show()
@@ -90,7 +89,7 @@ function mod:OnCombatStart(delay)
 	timerCurseCD:Start(9.5-delay)
 	timerTeleport:Start(90.8-delay)
 	warnTeleportSoon:Schedule(70.8-delay)
-	self:ScheduleMethod(90.8, "Balcony", delay)
+	self:ScheduleMethod(90.8-delay, "Balcony")
 end
 
 do
