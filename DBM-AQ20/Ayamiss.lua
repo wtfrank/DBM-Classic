@@ -24,16 +24,21 @@ function mod:OnCombatStart(delay)
 	self.vb.phase = 1
 end
 
-function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 25725 then
-		warnParalyze:Show(args.destName)
-		timerParalyze:Start(args.destName)
+do
+	local Paralyze = DBM:GetSpellInfo(25725)
+	function mod:SPELL_AURA_APPLIED(args)
+		--if args.spellId == 25725 then
+		if args.spellName == Paralyze then
+			warnParalyze:Show(args.destName)
+			timerParalyze:Start(args.destName)
+		end
 	end
-end
 
-function mod:SPELL_AURA_REMOVED(args)
-	if args.spellId == 25725 then
-		timerParalyze:Stop(args.destName)
+	function mod:SPELL_AURA_REMOVED(args)
+		--if args.spellId == 25725 then
+		if args.spellName == Paralyze then
+			timerParalyze:Stop(args.destName)
+		end
 	end
 end
 
