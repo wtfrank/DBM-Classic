@@ -3654,6 +3654,8 @@ do
 				self.Options.RaidWarningSound = self.DefaultOptions.RaidWarningSound
 				migrated = true
 			end
+		elseif self.Options.RaidWarningSound == 11742 then--Retail Soundkit ID, user copied wtf from retail to classic, so we need to fix their default sound
+			self.Options.RaidWarningSound = self.DefaultOptions.RaidWarningSound
 		end
 		if type(self.Options.SpecialWarningSound) == "string" and self.Options.SpecialWarningSound ~= "" then
 			local searchMsg = self.Options.SpecialWarningSound:lower()
@@ -3668,6 +3670,8 @@ do
 				self.Options.SpecialWarningSound2 = self.DefaultOptions.SpecialWarningSound2
 				migrated = true
 			end
+		elseif self.Options.SpecialWarningSound2 == 15391 then--Retail Soundkit ID, user copied wtf from retail to classic, so we need to fix their default sound
+			self.Options.SpecialWarningSound2 = self.DefaultOptions.SpecialWarningSound2
 		end
 		if type(self.Options.SpecialWarningSound3) == "string" and self.Options.SpecialWarningSound3 ~= "" then
 			local searchMsg = self.Options.SpecialWarningSound3:lower()
@@ -3682,6 +3686,8 @@ do
 				self.Options.SpecialWarningSound4 = self.DefaultOptions.SpecialWarningSound4
 				migrated = true
 			end
+		elseif self.Options.SpecialWarningSound4 == 9278 then--Retail Soundkit ID, user copied wtf from retail to classic, so we need to fix their default sound
+			self.Options.SpecialWarningSound4 = self.DefaultOptions.SpecialWarningSound4
 		end
 		if type(self.Options.SpecialWarningSound5) == "string" and self.Options.SpecialWarningSound5 ~= "" then
 			local searchMsg = self.Options.SpecialWarningSound5:lower()
@@ -3689,6 +3695,8 @@ do
 				self.Options.SpecialWarningSound5 = self.DefaultOptions.SpecialWarningSound5
 				migrated = true
 			end
+		elseif self.Options.SpecialWarningSound5 == 128466 then--Retail Soundkit ID, user copied wtf from retail to classic, so we need to fix their default sound
+			self.Options.SpecialWarningSound5 = self.DefaultOptions.SpecialWarningSound5
 		end
 		if migrated then
 			self:AddMsg(DBM_CORE_SOUNDKIT_MIGRATION)
