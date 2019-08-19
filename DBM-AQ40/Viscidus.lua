@@ -13,6 +13,8 @@ mod:RegisterEventsInCombat(
 	"CHAT_MSG_MONSTER_EMOTE"
 )
 
+--TODO, frost damage counter on infoframe (if I recall, it was 250k frost damage to freeze)
+--TODO, melee hit counter on infoframe (x number of melee hits to shatter)
 local warnFreeze		= mod:NewAnnounce("WarnFreeze", 2, 33395)
 local warnShatter		= mod:NewAnnounce("WarnShatter", 2, 12982)
 
