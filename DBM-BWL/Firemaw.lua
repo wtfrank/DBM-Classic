@@ -22,18 +22,27 @@ function mod:OnCombatStart(delay)
 	timerWingBuffet:Start(-delay)
 end
 
-function mod:SPELL_CAST_START(args)
-	if args.spellId == 23339 then
-		warnWingBuffet:Show()
-		timerWingBuffet:Start()
-	elseif args.spellId == 22539 then
-		warnShadowFlame:Show()
+do
+	local WingBuffet, ShadowFlame = DBM:GetSpellInfo(23339), DBM:GetSpellInfo(22539)
+	function mod:SPELL_CAST_START(args)--did not see ebon use any of these abilities
+		--if args.spellId == 23339 then
+		if args.spellName == WingBuffet then
+			warnWingBuffet:Show()
+			timerWingBuffet:Start()
+		--elseif args.spellId == 22539 then
+		elseif args.spellName == ShadowFlame then
+			warnShadowFlame:Show()
+		end
 	end
 end
 
 --[[
-function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 23341 then
-		warnFlameBuffet:Show()
+do
+	local FlameBuffet = DBM:GetSpellInfo(23341)
+	function mod:SPELL_CAST_SUCCESS(args)
+		--if args.spellId == 23341 then
+		if args.spellName == FlameBuffet then
+			warnFlameBuffet:Show()
+		end
 	end
 end--]]
