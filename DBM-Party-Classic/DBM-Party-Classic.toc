@@ -27,6 +27,7 @@ localization.de.lua
 localization.kr.lua
 localization.tw.lua
 localization.es.lua
+localization.cn.lua
 
 BlackfathomDeeps\GhamooRa.lua
 BlackfathomDeeps\LadySerevess.lua
