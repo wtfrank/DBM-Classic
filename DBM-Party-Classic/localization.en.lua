@@ -961,6 +961,61 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
+--  Sunken Temple 237J/109M (11L/17C)  --
+-----------------------------
+--  Avatar of Hakkar  --
+-----------------------------
+L = DBM:GetModLocalization(457)
+
+L:SetGeneralLocalization{
+	name 		= "Avatar of Hakkar"
+}
+-----------------------------
+--  Jammal'an the Prophet  --
+-----------------------------
+L = DBM:GetModLocalization(458)
+
+L:SetGeneralLocalization{
+	name 		= "Jammal'an the Prophet"
+}
+----------------------------------------------
+--	Wardens of the Dream					--
+--	(Dreamscythe, Weaver, Morphaz, Hazzas)	--
+----------------------------------------------
+L = DBM:GetModLocalization("Dreamscythe")
+
+L:SetGeneralLocalization{
+	name 		= "Dreamscythe"
+}
+
+L = DBM:GetModLocalization("Weaver")
+
+L:SetGeneralLocalization{
+	name 		= "Weaver"
+}
+
+L = DBM:GetModLocalization("Morphaz")
+
+L:SetGeneralLocalization{
+	name 		= "Morphaz"
+}
+
+L = DBM:GetModLocalization("Hazzas")
+
+L:SetGeneralLocalization{
+	name 		= "Hazzas"
+}
+
+-----------------------------
+--  Shade of Eranikus  --
+-----------------------------
+L = DBM:GetModLocalization(463)
+
+L:SetGeneralLocalization{
+	name 		= "Shade of Eranikus"
+}
+
+-------------------------
 --  Uldaman 229J/70M (12L/18C)  --
 -----------------------------
 --  Revelosh  --
