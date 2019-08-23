@@ -7,36 +7,38 @@ mod:SetEncounterID(720)
 mod:SetModelID(15392)
 mod:RegisterCombat("combat")
 
---[[
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 25685",
 	"SPELL_AURA_REMOVED 25685"
 )
 
---TODO, this mod needs redoing, spellID for stoneform was wrong, and at this point have no data on this boss
-local warnStoneform		= mod:NewSpellAnnounce(25685, 3)
+--Energize is mode boss goes in during Summon Mana Fiend Phase
+--TODO, verify if arcane eruption wll always be the same
+--"Arcane Eruption-25672-npc:15340 = pull:325.8", -- [1]
+local warnEnergize		= mod:NewSpellAnnounce(25685, 3)
 
-local timerStoneform	= mod:NewNextTimer(90, 25685, nil, nil, nil, 6)
-local timerStoneformDur	= mod:NewBuffActiveTimer(90, 25685, nil, nil, nil, 6)
+local timerEnergize		= mod:NewNextTimer(90, 25685, nil, nil, nil, 6)
+local timerEnergizeDur	= mod:NewBuffActiveTimer(90, 25685, nil, nil, nil, 6)
 
 function mod:OnCombatStart(delay)
-	timerStoneform:Start(-delay)
+	timerEnergize:Start(-delay)
 end
 
 do
-	local MortalWound = DBM:GetSpellInfo(25646)
+	local Energize = DBM:GetSpellInfo(25685)
 	function mod:SPELL_AURA_APPLIED(args)
-		if args.spellId == 25685 then
-			warnStoneform:Show()
-			timerStoneformDur:Start()
+		--if args.spellId == 25685 then
+		if args.spellName == Energize and args:IsDestTypeHostile() then
+			warnEnergize:Show()
+			timerEnergizeDur:Start()
 		end
 	end
 
 	function mod:SPELL_AURA_REMOVED(args)
-		if args.spellId == 25685 then
-			timerStoneformDur:Stop()
-			timerStoneform:Start()
+		--if args.spellId == 25685 then
+		if args.spellName == Energize and args:IsDestTypeHostile() then
+			timerEnergizeDur:Stop()
+			timerEnergize:Start()
 		end
 	end
 end
---]]
