@@ -152,6 +152,20 @@ StormwindStockaid\BazilThredd.lua
 StormwindStockaid\DextrenWard.lua
 StormwindStockaid\BruegalIronknuckle.lua
 
+Stratholme\HearthsingerForresten.lua
+Stratholme\TimmytheCruel.lua
+Stratholme\CommanderMalor.lua
+Stratholme\WilleyHopebreaker.lua
+Stratholme\InstructorGalford.lua
+Stratholme\Balnazzar.lua
+Stratholme\TheUnforgiven.lua
+Stratholme\BaronessAnastari.lua
+Stratholme\Narubenkan.lua
+Stratholme\MalekithePallid.lua
+Stratholme\MagistrateBarthilas.lua
+Stratholme\RamsteintheGorger.lua
+Stratholme\LordAuriusRivendare.lua
+
 SunkenTemple\AvatarofHakkar.lua
 SunkenTemple\JammalantheProphet.lua
 SunkenTemple\Dreamscythe.lua
