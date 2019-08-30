@@ -4217,7 +4217,7 @@ do
 			end
 		end
 		DBM:StartLogging(timer, checkForActualPull)
-		if DBM.Options.CheckGear then
+		--[[if DBM.Options.CheckGear then
 			local bagilvl, equippedilvl = GetAverageItemLevel()
 			local difference = bagilvl - equippedilvl
 			local weapon = GetInventoryItemLink("player", 16)
@@ -4233,7 +4233,7 @@ do
 			elseif IsInRaid() and (not weapon or fishingPole) then
 				dummyMod.geartext:Show(DBM_CORE_GEAR_WARNING_WEAPON)
 			end
-		end
+		end--]]
 	end
 
 	do

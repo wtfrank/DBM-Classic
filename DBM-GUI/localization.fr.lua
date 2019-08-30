@@ -253,7 +253,6 @@ L.Always					= "Toujours"
 L.Panel_ExtraFeatures		= "Fonctionnalités supplémentaires"
 --
 L.Area_ChatAlerts			= "Options des alertes dans le chat"
-L.RoleSpecAlert				= "Afficher une alerte lorsque votre spé ne correspond pas à votre choix de loot en rejoignant un raid"
 L.CheckGear					= "Affiche un message d'alerte pendant les pull quand votre ilvl équipé est beaucoup plus bas que votre ilvl global (40+)"
 L.WorldBossAlert			= "Afficher une alerte lorsqu'un World Boss a probablement été engagé sur votre royaume par votre guilde ou des amis (érronée si info reçue de CRZed)"
 --

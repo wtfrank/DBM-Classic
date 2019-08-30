@@ -299,7 +299,6 @@ L.MythicRaider				= "allem unterhalb Schlachtzügen auf Schwierigkeitsgrad Mythi
 L.Panel_ExtraFeatures		= "Sonstige Funktionen"
 --
 L.Area_ChatAlerts			= "Alarmmeldungen im Chatfenster"
-L.RoleSpecAlert				= "Zeige Alarmmeldung, wenn deine Beutespezialisierung nicht deiner aktuellen Spezialisierung beim Betreten eines Schlachtzugs entspricht"
 L.CheckGear					= "Zeige Alarmmeldung beim Pull, wenn deine angelegte Gegenstandsstufe viel niedriger als die in deinen Taschen (40+) oder deine Hauptwaffe nicht ausgerüstet ist"
 L.WorldBossAlert			= "Zeige Alarmmeldung, wenn auf deinem Realm Gildenmitglieder oder Freunde möglicherweise beginnen gegen Weltbosse zu kämpfen (ungenau falls Sender \"CRZed\" ist)"
 --

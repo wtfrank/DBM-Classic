@@ -245,7 +245,6 @@ L.AfterFirst				= "Depois que o vídeo for assistido uma vez"
 
 L.Panel_ExtraFeatures		= "Características Extra"
 L.Area_ChatAlerts			= "Opções de alerta do Chat"
-L.RoleSpecAlert				= "Exibir mensagem de alerta quando sua especialização de saque não corresponder à sua especialização atual ao entrar na raid"
 L.CheckGear					= "envia um mensagem de alerta quando o seu ilvl equipado for muito menor do que o ilvl nas bolsas(40+)"
 L.WorldBossAlert			= "Exibir mensagem de alerta quando um chefe do mundo possivelmente for atacado no seu reino por membros da sua guilda ou amigos (inaccurate if sender is CRZed)"
 L.Area_SoundAlerts			= "Opções de Som de Alerta"
