@@ -9,6 +9,7 @@ externals:
  DBM-Core/Libs/LibLatency: https://repos.wowace.com/wow/liblatency/trunk/LibLatency
  DBM-Core/Libs/LibSharedMedia-3.0: https://repos.wowace.com/wow/libsharedmedia-3-0/trunk/LibSharedMedia-3.0
  DBM-Core/Libs/LibStub: https://repos.wowace.com/wow/libstub/trunk
+ DBM-Core/Libs/ThreatClassic-1.0: git://github.com/EsreverWoW/LibThreatClassic.git
 
 enable-nolib-creation: no
 
