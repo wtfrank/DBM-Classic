@@ -236,7 +236,6 @@ L.DontShowPTNoID			= "Bloquer les chronos de pull envoyés depuis une zone diff�
 L.DontShowPT				= "Ne pas afficher la barre de pull"
 L.DontShowPTText			= "Ne pas afficher le texte d'annonce du chrono de pull"
 L.DontPlayPTCountdown		= "Ne pas jouer le son du compte à rebours du chrono de pull"
-L.DontShowPTCountdownText	= "Ne pas afficher le texte du compte à rebours du chrono de pull"
 L.PT_Threshold				= "Ne pas afficher le texte du compte à rebours s'il reste plus de: %d sec."
 
 L.Panel_HideBlizzard		= "Masquer Blizzard"
