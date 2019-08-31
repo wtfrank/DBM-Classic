@@ -2,6 +2,15 @@ package-as: DBM-Core
 
 externals:
  DBM-Core/Libs/CallbackHandler-1.0: https://repos.wowace.com/wow/callbackhandler/trunk/CallbackHandler-1.0
+
+ DBM-Core/Libs/AceAddon-3.0: https://repos.wowace.com/wow/ace3/trunk/AceAddon-3.0
+ DBM-Core/Libs/AceBucket-3.0: https://repos.wowace.com/wow/ace3/trunk/AceBucket-3.0
+ DBM-Core/Libs/AceConsole-3.0: https://repos.wowace.com/wow/ace3/trunk/AceConsole-3.0
+ DBM-Core/Libs/AceEvent-3.0: https://repos.wowace.com/wow/ace3/trunk/AceEvent-3.0
+ DBM-Core/Libs/AceTimer-3.0: https://repos.wowace.com/wow/ace3/trunk/AceTimer-3.0
+ DBM-Core/Libs/AceSerializer-3.0: https://repos.wowace.com/wow/ace3/trunk/AceSerializer-3.0
+ DBM-Core/Libs/AceComm-3.0: https://repos.wowace.com/wow/ace3/trunk/AceComm-3.0
+
  DBM-Core/Libs/LibChatAnims: https://repos.wowace.com/wow/libchatanims/trunk/LibChatAnims
  DBM-Core/Libs/LibDataBroker-1.1: git://github.com/tekkub/libdatabroker-1-1.git
  DBM-Core/Libs/LibDBIcon-1.0: https://repos.wowace.com/wow/libdbicon-1-0/trunk/LibDBIcon-1.0
