@@ -11,7 +11,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 29213 54835 29212",
 	--"CHAT_MSG_MONSTER_YELL",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
-	"UNIT_SPELLCAST_SUCCEEDED boss1"
+	"UNIT_SPELLCAST_SUCCEEDED"
 )
 
 --TODO, determine if old way is required or if new way is still functional
@@ -129,9 +129,8 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc, _, _, target)
 end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, spellId)
-	if spellId == 29231 then--Teleport Return
-		self:UnscheduleMethod("BackInRoom")
-		self:BackInRoom()
+	if spellId == 29231 and self:AntiSpam() then--Teleport Return
+		self:SendSync("Teleport")
 	end
 end
 
@@ -173,5 +172,8 @@ function mod:OnSync(msg, targetname)
 				timerAddsCD:Start(30)
 			end
 		end
+	elseif msg == "Teleport" then--Boss away
+		self:UnscheduleMethod("BackInRoom")
+		self:BackInRoom()
 	end
 end

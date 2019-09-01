@@ -8077,7 +8077,7 @@ function bossModPrototype:IsTanking(unit, boss, isName, onlyRequested, bossGUID)
 				end
 			end
 		end
-		--Check group targets if no boss unitIDs found, but we have a
+		--Check group targets if no boss unitIDs found, but we have a bossGUID
 		if bossGUID then
 			if IsInRaid() then
 				for i = 1, GetNumGroupMembers() do

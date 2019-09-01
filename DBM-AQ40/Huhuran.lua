@@ -12,7 +12,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED_DOSE 26050",
 	"SPELL_AURA_REMOVED 26180 26053 26050",
 	"SPELL_CAST_SUCCESS 26053",
-	"UNIT_HEALTH boss1"
+	"UNIT_HEALTH mouseover target"
 )
 
 local warnSting			= mod:NewTargetNoFilterAnnounce(26180, 2, nil, "RemovePoison")

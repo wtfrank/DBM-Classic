@@ -17,7 +17,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 17086 18351 18564 18576 18584 18596 18609 18617 18435",
 --	"SPELL_DAMAGE",-- 68867
 	"UNIT_DIED",
-	"UNIT_HEALTH boss1"
+	"UNIT_HEALTH mouseover target"
 )
 
 --TODO, classic tailsweep ID, 68867 is wrath
