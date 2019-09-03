@@ -7530,7 +7530,7 @@ do
 			["Melee"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
-			["MagicDispeller"] = IsSpellKnown(23922) and true or false,--Shield Slam Rank 1 talent tree talent (assumed if rank 1 is known, any rank is known)
+			["MagicDispeller"] = (IsSpellKnown(23922) or IsSpellKnown(23923) or IsSpellKnown(23924) or IsSpellKnown(23925)) and true or false,--Shield Slam
 		},
 		["DRUID1"] = {	--Balance Druid
 			["Dps"] = true,
