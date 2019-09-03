@@ -7535,7 +7535,9 @@ do
 		},
 		["PALADIN1"] = {	--Holy Paladin
 			["Healer"] = true,
+			["Melee"] = true,--They melee when oom?
 			["Ranged"] = true,
+			["CasterDps"] = true,--Judgements, exorcism, etc
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["RaidCooldown"] = true,--Devotion Aura
@@ -7549,6 +7551,7 @@ do
 			["Melee"] = true,
 			["ManaUser"] = true,
 			["Physical"] = true,
+			["CasterDps"] = true,--Judgements, exorcism, etc
 			["RemovePoison"] = true,
 			["RemoveDisease"] = true,
 			["RemoveMagic"] = true,
@@ -7558,6 +7561,7 @@ do
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
+			["CasterDps"] = true,--Judgements, exorcism, etc
 			["ManaUser"] = true,
 			["Physical"] = true,
 			["RemovePoison"] = true,
@@ -7668,6 +7672,7 @@ do
 			["Dps"] = true,
 			["Melee"] = true,
 			["MeleeDps"] = true,
+			--["CasterDps"] = true,??
 			["ManaUser"] = true,
 			["SpellCaster"] = true,
 			["Physical"] = true,
