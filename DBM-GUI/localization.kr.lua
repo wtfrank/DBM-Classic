@@ -53,6 +53,7 @@ L.Statistic_BestRank		= "최고 등급:"--Maybe not get used, not sure yet, loca
 
 -- Tab: General Core Options
 L.General 					= "DBM 기본 설정"
+L.EnableMiniMapIcon			= "미니맵 버튼 표시"
 L.UseSoundChannel			= "DBM 경보 효과음 재생 채널 선택"
 L.UseMasterChannel			= "주 음량"
 L.UseDialogChannel			= "대화"

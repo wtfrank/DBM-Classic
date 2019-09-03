@@ -10,7 +10,7 @@
 ## Title-frFR:|cffffd200Deadly Boss Mods|r |cff69ccf0Noyau|r
 ## Notes: Deadly Boss Mods
 ## Dependencies: DBM-StatusBarTimers, DBM-DefaultSkin
-## OptionalDependencies: LibStub, CallbackHandler-1.0, LibSharedMedia-3.0, LibChatAnims, ThreatClassic-1.0
+## OptionalDependencies: LibStub, CallbackHandler-1.0, LibSharedMedia-3.0, LibChatAnims, LibDBIcon-1.0, ThreatClassic-1.0
 ## SavedVariables: DBM_AllSavedOptions, DBM_MinimapIcon
 ## SavedVariablesPerCharacter: DBM_UsedProfile, DBM_UseDualProfile, DBM_CharSavedRevision
 ## LoadOnDemand: 0
@@ -37,6 +37,8 @@ Libs\LibChatAnims\LibChatAnims.xml
 Libs\LibSharedMedia-3.0\lib.xml
 Libs\LibLatency\LibLatency.xml
 Libs\LibDurability\LibDurability.xml
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+Libs\LibDBIcon-1.0\lib.xml
 Libs\ThreatClassic-1.0\lib.xml
 #@end-no-lib-strip@
 
