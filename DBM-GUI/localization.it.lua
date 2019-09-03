@@ -47,7 +47,6 @@ L.Statistic_BestKill		= "Miglior Kill:"
 
 -- Tab: General Options
 L.General 					= "DBM - Opzioni Generali"
-L.EnableMiniMapIcon			= "Visualizza il bottone della minimappa"
 L.UseMasterVolume			= "Usa il canale audio Principale per eseguire i suoni."
 L.DisableCinematics			= "Disabilita tutti i video e le cinematiche"
 L.SKT_Enabled				= "Visualizza sempre un timer per la miglior uccisione(Sovrascrive l'opzione specifica del boss)"
