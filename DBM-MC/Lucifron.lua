@@ -19,7 +19,7 @@ local warnDoom		= mod:NewSpellAnnounce(19702, 2)
 local warnCurse		= mod:NewSpellAnnounce(19703, 3)
 local warnMC		= mod:NewTargetNoFilterAnnounce(20604, 4)
 
-local timerCurseCD	= mod:NewCDTimer(20.5, 19703, nil, nil, nil, 3, nil, DBM_CORE_CURSE_ICO--20-25N)
+local timerCurseCD	= mod:NewCDTimer(20.5, 19703, nil, nil, nil, 3, nil, DBM_CORE_CURSE_ICON)--20-25N)
 local timerDoomCD	= mod:NewCDTimer(20, 19702, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)--20-25
 --local timerDoom		= mod:NewCastTimer(10, 19702, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
 
