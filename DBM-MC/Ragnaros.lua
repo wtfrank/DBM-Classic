@@ -17,8 +17,8 @@ mod:RegisterEventsInCombat(
 
 --TODO, def needs some special warnings, add spawn stuff, etc
 local warnWrathRag		= mod:NewSpellAnnounce(20566, 3)
-local warnSubmerge		= mod:NewAnnounce("WarnSubmerge", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp", 2)
-local warnEmerge		= mod:NewAnnounce("WarnEmerge", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp", 2)
+local warnSubmerge		= mod:NewAnnounce("WarnSubmerge", 2, "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp")
+local warnEmerge		= mod:NewAnnounce("WarnEmerge", 2, "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp")
 
 local timerWrathRag		= mod:NewCDTimer(25, 20566, nil, nil, nil, 2)--25-30
 local timerSubmerge		= mod:NewTimer(180, "TimerSubmerge", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendBurrow.blp", nil, nil, 6)
@@ -29,15 +29,15 @@ mod.vb.addDied = 0
 
 function mod:OnCombatStart(delay)
 	self.vb.addDied = 0
-	timerSubmerge:Start(-delay)
 	timerWrathRag:Start(27-delay)
+	timerSubmerge:Start(180-delay)
 end
 
 local function emerged(self)
-	timerEmerge:Cancel()
+	timerEmerge:Stop()
 	warnEmerge:Show()
-	timerSubmerge:Start()
---	timerWrathRag:Start()--need to find out what it is first.
+--	timerWrathRag:Start(27)--need to find out what it is first.
+	timerSubmerge:Start(180)
 	self.vb.addDied = 0
 end
 
@@ -66,9 +66,9 @@ end
 function mod:OnSync(msg)
 	if msg == "Submerge" then
 		self:Unschedule(emerged)
-		timerWrathRag:Cancel()
+		timerWrathRag:Stop()
 		warnSubmerge:Show()
-		timerEmerge:Start()
+		timerEmerge:Start(90)
 		self:Schedule(90, emerged, self)
 	end
 end
