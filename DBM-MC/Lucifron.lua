@@ -12,13 +12,21 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 20604"
 )
 
+--[[
+(ability.id = 19702 or ability.id = 19703 or ability.id = 20604) and type = "cast"
+--]]
 local warnDoom		= mod:NewSpellAnnounce(19702, 2)
 local warnCurse		= mod:NewSpellAnnounce(19703, 3)
 local warnMC		= mod:NewTargetNoFilterAnnounce(20604, 4)
 
-local timerCurseCD	= mod:NewCDTimer(20.5, 19703, nil, nil, nil, 3, nil, DBM_CORE_CURSE_ICON)
-local timerDoomCD	= mod:NewCDTimer(20, 19702, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
-local timerDoom		= mod:NewCastTimer(10, 19702, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
+local timerCurseCD	= mod:NewCDTimer(20.5, 19703, nil, nil, nil, 3, nil, DBM_CORE_CURSE_ICO--20-25N)
+local timerDoomCD	= mod:NewCDTimer(20, 19702, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)--20-25
+--local timerDoom		= mod:NewCastTimer(10, 19702, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
+
+function mod:OnCombatStart(delay)
+	timerDoomCD:Start(7-delay)--7-8
+	timerCurseCD:Start(12-delay)--12-15
+end
 
 do
 	local Doom, Curse = DBM:GetSpellInfo(19702), DBM:GetSpellInfo(19703)
@@ -28,7 +36,7 @@ do
 		--if spellId == 19702 then
 		if spellName == Doom then
 			warnDoom:Show()
-			timerDoom:Start()
+--			timerDoom:Start()
 			timerDoomCD:Start()
 		--elseif spellId == 19703 then
 		elseif spellName == Curse then

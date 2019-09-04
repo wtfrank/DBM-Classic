@@ -11,6 +11,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 20553"
 )
 
+--TODO, quake not in combat log on classic?
 local warnQuake		= mod:NewSpellAnnounce(20553)
 
 do
