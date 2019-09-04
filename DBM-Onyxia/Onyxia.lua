@@ -41,7 +41,7 @@ local specWarnBellowingRoar		= mod:NewSpecialWarningSpell(18431, nil, nil, nil, 
 --local specWarnAdds			= mod:NewSpecialWarningAdds(68959, "-Healer", nil, nil, 1, 2)
 
 local timerNextFlameBreath	= mod:NewCDTimer(13.3, 18435, nil, "Tank", 2, 5)--13.3-20 Breath she does on ground in frontal cone.
-local timerNextDeepBreath	= mod:NewCDTimer(35, 18584, nil, nil, nil, 3)--Range from 35-60seconds in between based on where she moves to.
+--local timerNextDeepBreath	= mod:NewCDTimer(35, 18584, nil, nil, nil, 3)--Range from 35-60seconds in between based on where she moves to.
 local timerBreath			= mod:NewCastTimer(5, 18584, nil, nil, nil, 3)
 --local timerWhelps			= mod:NewTimer(105, "TimerWhelps", 10697, nil, nil, 1)
 --local timerBigAddCD			= mod:NewAddsTimer(44.9, 68959, nil, "-Healer")
@@ -88,7 +88,7 @@ do
 			specWarnBreath:Show()
 			specWarnBreath:Play("breathsoon")
 			timerBreath:Start()
-			timerNextDeepBreath:Start()
+			--timerNextDeepBreath:Start()
 		elseif spellName == flameBreathCast and args:IsSrcTypeHostile() then        -- Flame Breath (Ground phases)
 			timerNextFlameBreath:Start()
 		elseif spellName == bellowingRoar and args:IsSrcTypeHostile() then
@@ -147,13 +147,13 @@ function mod:OnSync(msg)
 		specWarnBreath:Show()
 		specWarnBreath:Play("breathsoon")
 		timerBreath:Start()
-		timerNextDeepBreath:Start()
+		--timerNextDeepBreath:Start()
 	elseif msg == "Phase2" then
 		self.vb.phase = 2
 		self.vb.whelpsCount = 0
 		warnPhase2:Show()
 		--timerBigAddCD:Start(65)
-		timerNextDeepBreath:Start(67)
+		--timerNextDeepBreath:Start(67)
 		timerNextFlameBreath:Cancel()
 		self:ScheduleMethod(5, "Whelps")
 		if self.Options.SoundWTF3 then
@@ -165,7 +165,7 @@ function mod:OnSync(msg)
 		warnPhase3:Show()
 		self:UnscheduleMethod("Whelps")
 		--timerWhelps:Stop()
-		timerNextDeepBreath:Stop()
+		--timerNextDeepBreath:Stop()
 		--timerBigAddCD:Stop()
 		--warnWhelpsSoon:Cancel()
 		if self.Options.SoundWTF3 then
