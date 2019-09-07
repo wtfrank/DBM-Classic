@@ -16,20 +16,13 @@ mod:RegisterEventsInCombat(
 local warningPurity				= mod:NewTargetNoFilterAnnounce(8361, 2)
 local warningManaSpike			= mod:NewSpellAnnounce(8358, 2)
 
-local specWarnChainBolt			= mod:NewSpecialWarningInterrupt(8292, "HasInterrupt", nil, nil, 1, 2)
-
-local timerChainBoltCD			= mod:NewAITimer(180, 8292, nil, nil, nil, 4, nil, DBM_CORE_INTERRUPT_ICON)
-
-function mod:OnCombatStart(delay)
-	timerChainBoltCD:Start(1-delay)
-end
+local specWarnChainBolt			= mod:NewSpecialWarningInterrupt(8292, "HasInterrupt", nil, nil, 1, 2)--Spammy if CheckInterruptFilter is disabled or isn't working
 
 do
 	local ChainBolt = DBM:GetSpellInfo(8292)
 	function mod:SPELL_CAST_START(args)
 		--if args.spellId == 8292 then
 		if args.spellName == ChainBolt and args:IsSrcTypeHostile() then
-			timerChainBoltCD:Start()
 			if self:CheckInterruptFilter(args.sourceGUID, false, true) then
 				specWarnChainBolt:Show(args.sourceName)
 				specWarnChainBolt:Play("kickcast")
