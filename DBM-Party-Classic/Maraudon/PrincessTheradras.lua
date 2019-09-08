@@ -23,9 +23,9 @@ local warningDustField				= mod:NewSpellAnnounce(21909, 2)
 
 --local specWarnWrath					= mod:NewSpecialWarningInterrupt(21807, "HasInterrupt", nil, nil, 1, 2)
 
-local timerRespulsiveGazeCD			= mod:NewCDTimer(37, 21869, nil, nil, nil, 3)--37-42
+local timerRespulsiveGazeCD			= mod:NewCDTimer(37, 21869, nil, nil, nil, 3)--37-51
 local timerBoulderCD				= mod:NewCDTimer(10, 21832, nil, nil, nil, 3)
-local timerDustFieldCD				= mod:NewCDTimer(33, 21909, nil, nil, nil, 2)--33-36
+local timerDustFieldCD				= mod:NewCDTimer(33, 21909, nil, nil, nil, 2)--33-44
 
 function mod:OnCombatStart(delay)
 	timerRespulsiveGazeCD:Start(7-delay)
