@@ -20,6 +20,7 @@ mod:RegisterEvents(
 --TODO, if blizzard makes classic wrath and this mod is used as foundation, remove the deep breath emote trigger (because pet added in wrath breaks it)
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 17086 18351 18564 18576 18584 18596 18609 18617 18435 18431 18500",
+	"SPELL_CAST_SUCCESS 19633",
 	"SPELL_DAMAGE 15847",-- 68867
 	"UNIT_DIED",
 	"CHAT_MSG_MONSTER_EMOTE",
@@ -30,6 +31,7 @@ mod:RegisterEventsInCombat(
 --Todo, adds stuff (if they exist) with classic IDs
 --local warnWhelpsSoon		= mod:NewAnnounce("WarnWhelpsSoon", 1, 69004)
 local warnWingBuffet		= mod:NewSpellAnnounce(18500, 2, nil, "Tank")
+local warnKnockAway			= mod:NewTargetNoFilterAnnounce(19633, 2, nil, false)
 local warnPhase2			= mod:NewPhaseAnnounce(2)
 local warnPhase3			= mod:NewPhaseAnnounce(3)
 local warnPhase2Soon		= mod:NewPrePhaseAnnounce(2)
@@ -96,6 +98,16 @@ do
 			specWarnBellowingRoar:Play("fearsoon")
 		elseif spellName == wingBuffet and args:IsSrcTypeHostile() then
 			warnWingBuffet:Show()
+		end
+	end
+end
+
+do
+	local KnockAway = DBM:GetSpellInfo(19633)
+	function mod:SPELL_CAST_SUCCESS(args)
+		local spellName = args.spellName
+		if spellName == KnockAway and args:IsSrcTypeHostile() then
+			warnKnockAway:Show(args.destName)
 		end
 	end
 end
