@@ -24,7 +24,7 @@ local warningDustField				= mod:NewSpellAnnounce(21909, 2)
 --local specWarnWrath					= mod:NewSpecialWarningInterrupt(21807, "HasInterrupt", nil, nil, 1, 2)
 
 local timerRespulsiveGazeCD			= mod:NewCDTimer(37, 21869, nil, nil, nil, 3)--37-51
-local timerBoulderCD				= mod:NewCDTimer(10, 21832, nil, nil, nil, 3)
+local timerBoulderCD				= mod:NewCDTimer(8, 21832, nil, nil, nil, 3)--8-15
 local timerDustFieldCD				= mod:NewCDTimer(33, 21909, nil, nil, nil, 2)--33-44
 
 function mod:OnCombatStart(delay)
@@ -37,7 +37,7 @@ do
 	local Boulder = DBM:GetSpellInfo(21832)
 	function mod:SPELL_CAST_START(args)
 		--if args.spellId == 21832 then
-		if args.spellName == Boulder then
+		if args.spellName == Boulder and args:GetSrcCreatureID() == 12201 then
 			warningBoulder:Show()
 			timerBoulderCD:Start()
 		end
