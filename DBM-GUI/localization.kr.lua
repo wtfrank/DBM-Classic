@@ -221,7 +221,7 @@ L.SpecialWarnSound5			= "메모에 이름이 있을때 특수 경고의 기본 �
 
 -- Tab: Spoken Alerts Frame
 L.Panel_SpokenAlerts		= "음성 경보"
-L.Area_VoiceSelection		= "음성 선택 (마우스 휠로 메뉴 스크롤)"
+L.Area_VoiceSelection		= "음성 선택"
 L.CountdownVoice			= "1순위 초읽기 음성 설정"
 L.CountdownVoice2			= "2순위 초읽기 음성 설정"
 L.CountdownVoice3			= "3순위 초읽기 음성 설정"
