@@ -283,7 +283,7 @@
 						_G[self:GetName().."ScrollBarScrollDownButton"]:Disable()
 
 						local scrollbar = _G[self:GetName().."ScrollBar"]
-						scrollbar:SetMinMaxValues(0, 0)
+						scrollbar:SetMinMaxValues(0, 11)
 						scrollbar:SetValue(0)
 						self.offset = 0
 					</OnLoad>
