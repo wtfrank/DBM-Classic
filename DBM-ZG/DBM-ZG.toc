@@ -14,6 +14,7 @@
 ## X-DBM-Mod-MapID: 309
 localization.en.lua
 localization.es.lua
+localization.kr.lua
 localization.ru.lua
 localization.cn.lua
 Venoxis.lua
