@@ -8047,7 +8047,7 @@ function DBM:GetBossHPByUnitID(uId)
 		bossHealth[uId] = hp
 		return hp, uId, UnitName(uId)
 	--end
-	return nil
+	--return nil
 end
 
 function bossModPrototype:SetMainBossID(cid)
