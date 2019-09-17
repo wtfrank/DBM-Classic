@@ -7995,38 +7995,42 @@ function DBM:GetBossHP(cIdOrGUID)
 	local uId = bossHealthuIdCache[cIdOrGUID] or "target"
 	local guid = UnitGUID(uId)
 	--Target or Cached (if already called with this cid or GUID before)
-	if (self:GetCIDFromGUID(guid) == cIdOrGUID or guid == cIdOrGUID) and UnitHealthMax(uId) ~= 0 then
+	if (self:GetCIDFromGUID(guid) == cIdOrGUID or guid == cIdOrGUID) then--and UnitHealthMax(uId) ~= 0
 		if bossHealth[cIdOrGUID] and (UnitHealth(uId) == 0 and not UnitIsDead(uId)) then return bossHealth[cIdOrGUID], uId, UnitName(uId) end--Return last non 0 value if value is 0, since it's last valid value we had.
-		local hp = UnitHealth(uId) / UnitHealthMax(uId) * 100
+		--local hp = UnitHealth(uId) / UnitHealthMax(uId) * 100
+		local hp = UnitHealth(uId)
 		bossHealth[cIdOrGUID] = hp
 		return hp, uId, UnitName(uId)
 	--Focus
-	elseif (self:GetCIDFromGUID(UnitGUID("focus")) == cIdOrGUID or UnitGUID("focus") == cIdOrGUID) and UnitHealthMax("focus") ~= 0 then
+	elseif (self:GetCIDFromGUID(UnitGUID("focus")) == cIdOrGUID or UnitGUID("focus") == cIdOrGUID) then--and UnitHealthMax("focus") ~= 0
 		if bossHealth[cIdOrGUID] and (UnitHealth("focus") == 0  and not UnitIsDead("focus")) then return bossHealth[cIdOrGUID], "focus", UnitName("focus") end--Return last non 0 value if value is 0, since it's last valid value we had.
-		local hp = UnitHealth("focus") / UnitHealthMax("focus") * 100
+		--local hp = UnitHealth("focus") / UnitHealthMax("focus") * 100
+		local hp = UnitHealth("focus")
 		bossHealth[cIdOrGUID] = hp
 		return hp, "focus", UnitName("focus")
 	else
 		--Boss UnitIds
-		for i = 1, 5 do
+		--[[for i = 1, 5 do
 			local unitID = "boss"..i
 			local bossguid = UnitGUID(unitID)
 			if (self:GetCIDFromGUID(bossguid) == cIdOrGUID or bossguid == cIdOrGUID) and UnitHealthMax(unitID) ~= 0 then
 				if bossHealth[cIdOrGUID] and (UnitHealth(unitID) == 0 and not UnitIsDead(unitID)) then return bossHealth[cIdOrGUID], unitID, UnitName(unitID) end--Return last non 0 value if value is 0, since it's last valid value we had.
-				local hp = UnitHealth(unitID) / UnitHealthMax(unitID) * 100
+				--local hp = UnitHealth(unitID) / UnitHealthMax(unitID) * 100
+				local hp = UnitHealth(unitId)
 				bossHealth[cIdOrGUID] = hp
 				bossHealthuIdCache[cIdOrGUID] = unitID
 				return hp, unitID, UnitName(unitID)
 			end
-		end
+		end--]]
 		--Scan raid/party target frames
 		local idType = (IsInRaid() and "raid") or "party"
 		for i = 0, GetNumGroupMembers() do
 			local unitId = ((i == 0) and "target") or idType..i.."target"
 			local bossguid = UnitGUID(unitId)
-			if (self:GetCIDFromGUID(bossguid) == cIdOrGUID or bossguid == cIdOrGUID) and UnitHealthMax(unitId) ~= 0 then
+			if (self:GetCIDFromGUID(bossguid) == cIdOrGUID or bossguid == cIdOrGUID) then--and UnitHealthMax(unitId) ~= 0
 				if bossHealth[cIdOrGUID] and (UnitHealth(unitId) == 0 and not UnitIsDead(unitId)) then return bossHealth[cIdOrGUID], unitId, UnitName(unitId) end--Return last non 0 value if value is 0, since it's last valid value we had.
-				local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
+				--local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
+				local hp = UnitHealth(unitId)
 				bossHealth[cIdOrGUID] = hp
 				bossHealthuIdCache[cIdOrGUID] = unitId
 				return hp, unitId, UnitName(unitId)
@@ -8037,11 +8041,12 @@ function DBM:GetBossHP(cIdOrGUID)
 end
 
 function DBM:GetBossHPByUnitID(uId)
-	if UnitHealthMax(uId) ~= 0 then
-		local hp = UnitHealth(uId) / UnitHealthMax(uId) * 100
+	--if UnitHealthMax(uId) ~= 0 then
+		--local hp = UnitHealth(uId) / UnitHealthMax(uId) * 100
+		local hp = UnitHealth(uId)
 		bossHealth[uId] = hp
 		return hp, uId, UnitName(uId)
-	end
+	--end
 	return nil
 end
 
