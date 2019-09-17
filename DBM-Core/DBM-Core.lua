@@ -69,7 +69,7 @@ end
 
 DBM = {
 	Revision = parseCurseDate("@project-date-integer@"),
-	DisplayVersion = "1.13.9", -- the string that is shown as version
+	DisplayVersion = "1.13.10 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2019, 9, 15) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
@@ -2805,6 +2805,29 @@ do
 			for i = 1, GetNumSubgroupMembers() do
 				local _, _, _, targetMapId = UnitPosition("party"..i)
 				if targetMapId == currentMapId then
+					total = total + 1
+				end
+			end
+		end
+		return total
+	end
+
+	function DBM:GetNumGuildPlayersInZone()
+		if not IsInGroup() then return 1 end
+		local total = 0
+		local myGuild = GetGuildInfo("player")
+		if IsInRaid() then
+			for i = 1, GetNumGroupMembers() do
+				local unitGuild = GetGuildInfo("raid"..i)--This api only works if unit is nearby, so don't even need to check location
+				if unitGuild and unitGuild == myGuild then
+					total = total + 1
+				end
+			end
+		else
+			total = 1--add player/self for "party" count
+			for i = 1, GetNumSubgroupMembers() do
+				local unitGuild = GetGuildInfo("party"..i)--This api only works if unit is nearby, so don't even need to check location
+				if unitGuild and unitGuild == myGuild then
 					total = total + 1
 				end
 			end
@@ -5583,7 +5606,7 @@ do
 						self:AddMsg(DBM_CORE_COMBAT_STARTED_IN_PROGRESS:format(difficultyText..name))
 					else
 						self:AddMsg(DBM_CORE_COMBAT_STARTED:format(difficultyText..name))
-						if (DBM:GetNumRealPlayersInZone() >= 20) and not statusGuildDisabled and not self.Options.DisableGuildStatus then--Only send relevant content, ie raids
+						if (DBM:GetNumGuildPlayersInZone() >= 10) and not statusGuildDisabled and not self.Options.DisableGuildStatus then--Only send relevant content, ie raids
 							SendAddonMessage("D4C", "GCB\t"..modId.."\t2\t"..difficultyIndex.."\t"..name, "GUILD")
 						end
 					end
@@ -5750,7 +5773,7 @@ do
 				else
 					if self.Options.ShowDefeatMessage then
 						self:AddMsg(DBM_CORE_COMBAT_ENDED_AT_LONG:format(difficultyText..name, wipeHP, strFromTime(thisTime), totalPulls - totalKills))
-						if (DBM:GetNumRealPlayersInZone() >= 20) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
+						if (DBM:GetNumGuildPlayersInZone() >= 10) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
 							SendAddonMessage("D4C", "GCE\t"..modId.."\t5\t1\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name.."\t"..wipeHP, "GUILD")
 						end
 					end
@@ -5806,17 +5829,17 @@ do
 						msg = DBM_CORE_BOSS_DOWN_I:format(difficultyText..name, totalKills)
 					elseif not lastTime then
 						msg = DBM_CORE_BOSS_DOWN:format(difficultyText..name, strFromTime(thisTime))
-						if (DBM:GetNumRealPlayersInZone() >= 20) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
+						if (DBM:GetNumGuildPlayersInZone() >= 10) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
 							SendAddonMessage("D4C", "GCE\t"..modId.."\t5\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name, "GUILD")
 						end
 					elseif thisTime < (bestTime or mhuge) then
 						msg = DBM_CORE_BOSS_DOWN_NR:format(difficultyText..name, strFromTime(thisTime), strFromTime(bestTime), totalKills)
-						if (DBM:GetNumRealPlayersInZone() >= 20) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
+						if (DBM:GetNumGuildPlayersInZone() >= 10) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
 							SendAddonMessage("D4C", "GCE\t"..modId.."\t5\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name, "GUILD")
 						end
 					else
 						msg = DBM_CORE_BOSS_DOWN_L:format(difficultyText..name, strFromTime(thisTime), strFromTime(lastTime), strFromTime(bestTime), totalKills)
-						if (DBM:GetNumRealPlayersInZone() >= 20) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
+						if (DBM:GetNumGuildPlayersInZone() >= 10) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
 							SendAddonMessage("D4C", "GCE\t"..modId.."\t5\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name, "GUILD")
 						end
 					end
