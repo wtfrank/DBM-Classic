@@ -5622,7 +5622,7 @@ do
 					self:AddMsg(DBM_CORE_BIGWIGS_ICON_CONFLICT)--Warn that one of them should be turned off to prevent conflict (which they turn off is obviously up to raid leaders preference, dbm accepts either or turned off to stop this alert)
 				end
 				if self.Options.EventSoundEngage2 and self.Options.EventSoundEngage2 ~= "" and self.Options.EventSoundEngage2 ~= "None" then
-					self:PlaySoundFile(self.Options.EventSoundEngage2)
+					self:PlaySoundFile(self.Options.EventSoundEngage2, nil, true)
 				end
 				fireEvent("DBM_MusicStart", "BossEncounter")
 				if self.Options.EventSoundMusic and self.Options.EventSoundMusic ~= "None" and self.Options.EventSoundMusic ~= "" and not (self.Options.EventMusicMythicFilter and (savedDifficulty == "mythic" or savedDifficulty == "challenge")) then
@@ -5799,7 +5799,7 @@ do
 						local random = fastrandom(3, #DBM.Defeat)
 						self:PlaySoundFile(DBM.Defeat[random].value)
 					else
-						self:PlaySoundFile(self.Options.EventSoundWipe)
+						self:PlaySoundFile(self.Options.EventSoundWipe, nil, true)
 					end
 				end
 			elseif not wipe and mod.stats then
@@ -5890,7 +5890,7 @@ do
 						local random = fastrandom(3, #DBM.Victory)
 						self:PlaySoundFile(DBM.Victory[random].value)
 					else
-						self:PlaySoundFile(self.Options.EventSoundVictory2)
+						self:PlaySoundFile(self.Options.EventSoundVictory2, nil, true)
 					end
 				end
 			end
@@ -6141,13 +6141,26 @@ do
 			end
 		else
 			if validate then
+				--Validate LibSharedMedia
 				if not LSMMediaCacheBuilt then buildLSMFileCache() end
 				if not sharedMediaFileCache[path] and not path:find("DBM") then
+					--This uses debug print because it has potential to cause mid fight spam
 					DBM:Debug("PlaySoundFile failed do to missing media at "..path..". To fix this, re-add missing sound or change setting using this sound to a different sound.")
 					return
 				end
+				--Validate Event packs
+				if not DBMVPSoundEventsPack and path:find("DBM-SoundEventsPack") then
+					--This users actual user print because these events only occure at start or end of instance or fight.
+					AddMsg("PlaySoundFile failed do to missing media at "..path..". To fix this, re-add/enable DBM-SoundEventsPack or change setting using this sound to a different sound.")
+					return
+				end
+				if not DBMVPSMGPack and path:find("DBM-SMGEventsPack") then
+					--This users actual user print because these events only occure at start or end of instance or fight.
+					AddMsg("PlaySoundFile failed do to missing media at "..path..". To fix this, re-add/enable DBM-SMGEventsPack or change setting using this sound to a different sound.")
+					return
+				end
 			end
-			fireEvent("DBM_PlaySound", path)
+			DBM:Debug("PlaySoundFile playing with media "..path, 3)
 			if soundSetting == "Dialog" then
 				PlaySoundFile(path, "Dialog")
 			elseif ignoreSFX or soundSetting == "Master" then
@@ -6155,6 +6168,7 @@ do
 			else
 				PlaySoundFile(path)
 			end
+			fireEvent("DBM_PlaySound", path)
 		end
 	end
 
