@@ -69,8 +69,8 @@ end
 
 DBM = {
 	Revision = parseCurseDate("@project-date-integer@"),
-	DisplayVersion = "1.13.8 alpha", -- the string that is shown as version
-	ReleaseRevision = releaseDate(2019, 9, 8) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+	DisplayVersion = "1.13.10 alpha", -- the string that is shown as version
+	ReleaseRevision = releaseDate(2019, 9, 15) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -126,7 +126,6 @@ DBM.DefaultOptions = {
 	SpecialWarningSound4 = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\HoodWolfTransformPlayer01.ogg",
 	SpecialWarningSound5 = "Interface\\AddOns\\DBM-Core\\sounds\\ClassicSupport\\LOA_NAXX_AGGRO02.ogg",
 	ModelSoundValue = "Short",
-	UseRetailShamanColor = false,
 	CountdownVoice = "Corsica",
 	CountdownVoice2 = "Kolt",
 	CountdownVoice3 = "Smooth",
@@ -1228,12 +1227,6 @@ do
 		end
 		if not savedDifficulty or not difficultyText or not difficultyIndex then--prevent error if savedDifficulty or difficultyText is nil
 			savedDifficulty, difficultyText, difficultyIndex, LastGroupSize = self:GetCurrentInstanceDifficulty()
-		end
-		if self.Options.UseRetailShamanColor then
-			RAID_CLASS_COLORS["SHAMAN"].colorStr = "ff006fdc"
-			RAID_CLASS_COLORS["SHAMAN"].b = 0.86666476726532
-			RAID_CLASS_COLORS["SHAMAN"].g = 0.4392147064209
-			RAID_CLASS_COLORS["SHAMAN"].r = 0
 		end
 	end
 
@@ -2812,6 +2805,29 @@ do
 			for i = 1, GetNumSubgroupMembers() do
 				local _, _, _, targetMapId = UnitPosition("party"..i)
 				if targetMapId == currentMapId then
+					total = total + 1
+				end
+			end
+		end
+		return total
+	end
+
+	function DBM:GetNumGuildPlayersInZone()
+		if not IsInGroup() then return 1 end
+		local total = 0
+		local myGuild = GetGuildInfo("player")
+		if IsInRaid() then
+			for i = 1, GetNumGroupMembers() do
+				local unitGuild = GetGuildInfo("raid"..i)--This api only works if unit is nearby, so don't even need to check location
+				if unitGuild and unitGuild == myGuild then
+					total = total + 1
+				end
+			end
+		else
+			total = 1--add player/self for "party" count
+			for i = 1, GetNumSubgroupMembers() do
+				local unitGuild = GetGuildInfo("party"..i)--This api only works if unit is nearby, so don't even need to check location
+				if unitGuild and unitGuild == myGuild then
 					total = total + 1
 				end
 			end
@@ -4406,7 +4422,7 @@ do
 
 		syncHandlers["GCB"] = function(sender, modId, ver, difficulty, name)
 			if not DBM.Options.ShowGuildMessages or not difficulty then return end
-			if not ver or not (ver == "2") then return end--Ignore old versions
+			if not ver or not (ver == "3") then return end--Ignore old versions
 			if DBM:AntiSpam(10, "GCB") then
 				if IsInInstance() then return end--Simple filter, if you are inside an instance, just filter it, if not in instance, good to go.
 				difficulty = tonumber(difficulty)
@@ -4417,7 +4433,7 @@ do
 
 		syncHandlers["GCE"] = function(sender, modId, ver, wipe, time, difficulty, name, wipeHP)
 			if not DBM.Options.ShowGuildMessages or not difficulty then return end
-			if not ver or not (ver == "5") then return end--Ignore old versions
+			if not ver or not (ver == "6") then return end--Ignore old versions
 			if DBM:AntiSpam(5, "GCE") then
 				if IsInInstance() then return end--Simple filter, if you are inside an instance, just filter it, if not in instance, good to go.
 				difficulty = tonumber(difficulty)
@@ -5590,8 +5606,8 @@ do
 						self:AddMsg(DBM_CORE_COMBAT_STARTED_IN_PROGRESS:format(difficultyText..name))
 					else
 						self:AddMsg(DBM_CORE_COMBAT_STARTED:format(difficultyText..name))
-						if (DBM:GetNumRealPlayersInZone() >= 20) and not statusGuildDisabled and not self.Options.DisableGuildStatus then--Only send relevant content, ie raids
-							SendAddonMessage("D4C", "GCB\t"..modId.."\t2\t"..difficultyIndex.."\t"..name, "GUILD")
+						if (DBM:GetNumGuildPlayersInZone() >= 10) and not statusGuildDisabled and not self.Options.DisableGuildStatus then--Only send relevant content, ie raids
+							SendAddonMessage("D4C", "GCB\t"..modId.."\t3\t"..difficultyIndex.."\t"..name, "GUILD")
 						end
 					end
 				end
@@ -5606,7 +5622,7 @@ do
 					self:AddMsg(DBM_CORE_BIGWIGS_ICON_CONFLICT)--Warn that one of them should be turned off to prevent conflict (which they turn off is obviously up to raid leaders preference, dbm accepts either or turned off to stop this alert)
 				end
 				if self.Options.EventSoundEngage2 and self.Options.EventSoundEngage2 ~= "" and self.Options.EventSoundEngage2 ~= "None" then
-					self:PlaySoundFile(self.Options.EventSoundEngage2)
+					self:PlaySoundFile(self.Options.EventSoundEngage2, nil, true)
 				end
 				fireEvent("DBM_MusicStart", "BossEncounter")
 				if self.Options.EventSoundMusic and self.Options.EventSoundMusic ~= "None" and self.Options.EventSoundMusic ~= "" and not (self.Options.EventMusicMythicFilter and (savedDifficulty == "mythic" or savedDifficulty == "challenge")) then
@@ -5757,8 +5773,8 @@ do
 				else
 					if self.Options.ShowDefeatMessage then
 						self:AddMsg(DBM_CORE_COMBAT_ENDED_AT_LONG:format(difficultyText..name, wipeHP, strFromTime(thisTime), totalPulls - totalKills))
-						if (DBM:GetNumRealPlayersInZone() >= 20) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
-							SendAddonMessage("D4C", "GCE\t"..modId.."\t5\t1\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name.."\t"..wipeHP, "GUILD")
+						if (DBM:GetNumGuildPlayersInZone() >= 10) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
+							SendAddonMessage("D4C", "GCE\t"..modId.."\t6\t1\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name.."\t"..wipeHP, "GUILD")
 						end
 					end
 				end
@@ -5783,7 +5799,7 @@ do
 						local random = fastrandom(3, #DBM.Defeat)
 						self:PlaySoundFile(DBM.Defeat[random].value)
 					else
-						self:PlaySoundFile(self.Options.EventSoundWipe)
+						self:PlaySoundFile(self.Options.EventSoundWipe, nil, true)
 					end
 				end
 			elseif not wipe and mod.stats then
@@ -5813,18 +5829,18 @@ do
 						msg = DBM_CORE_BOSS_DOWN_I:format(difficultyText..name, totalKills)
 					elseif not lastTime then
 						msg = DBM_CORE_BOSS_DOWN:format(difficultyText..name, strFromTime(thisTime))
-						if (DBM:GetNumRealPlayersInZone() >= 20) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
-							SendAddonMessage("D4C", "GCE\t"..modId.."\t5\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name, "GUILD")
+						if (DBM:GetNumGuildPlayersInZone() >= 10) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
+							SendAddonMessage("D4C", "GCE\t"..modId.."\t6\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name, "GUILD")
 						end
 					elseif thisTime < (bestTime or mhuge) then
 						msg = DBM_CORE_BOSS_DOWN_NR:format(difficultyText..name, strFromTime(thisTime), strFromTime(bestTime), totalKills)
-						if (DBM:GetNumRealPlayersInZone() >= 20) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
-							SendAddonMessage("D4C", "GCE\t"..modId.."\t5\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name, "GUILD")
+						if (DBM:GetNumGuildPlayersInZone() >= 10) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
+							SendAddonMessage("D4C", "GCE\t"..modId.."\t6\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name, "GUILD")
 						end
 					else
 						msg = DBM_CORE_BOSS_DOWN_L:format(difficultyText..name, strFromTime(thisTime), strFromTime(lastTime), strFromTime(bestTime), totalKills)
-						if (DBM:GetNumRealPlayersInZone() >= 20) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
-							SendAddonMessage("D4C", "GCE\t"..modId.."\t5\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name, "GUILD")
+						if (DBM:GetNumGuildPlayersInZone() >= 10) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
+							SendAddonMessage("D4C", "GCE\t"..modId.."\t6\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name, "GUILD")
 						end
 					end
 					self:Schedule(1, self.AddMsg, self, msg)
@@ -5874,7 +5890,7 @@ do
 						local random = fastrandom(3, #DBM.Victory)
 						self:PlaySoundFile(DBM.Victory[random].value)
 					else
-						self:PlaySoundFile(self.Options.EventSoundVictory2)
+						self:PlaySoundFile(self.Options.EventSoundVictory2, nil, true)
 					end
 				end
 			end
@@ -6125,13 +6141,26 @@ do
 			end
 		else
 			if validate then
+				--Validate LibSharedMedia
 				if not LSMMediaCacheBuilt then buildLSMFileCache() end
 				if not sharedMediaFileCache[path] and not path:find("DBM") then
+					--This uses debug print because it has potential to cause mid fight spam
 					DBM:Debug("PlaySoundFile failed do to missing media at "..path..". To fix this, re-add missing sound or change setting using this sound to a different sound.")
 					return
 				end
+				--Validate Event packs
+				if not DBMVPSoundEventsPack and path:find("DBM-SoundEventsPack") then
+					--This uses actual user print because these events only occure at start or end of instance or fight.
+					AddMsg("PlaySoundFile failed do to missing media at "..path..". To fix this, re-add/enable DBM-SoundEventsPack or change setting using this sound to a different sound.")
+					return
+				end
+				if not DBMVPSMGPack and path:find("DBM-SMGEventsPack") then
+					--This uses actual user print because these events only occure at start or end of instance or fight.
+					AddMsg("PlaySoundFile failed do to missing media at "..path..". To fix this, re-add/enable DBM-SMGEventsPack or change setting using this sound to a different sound.")
+					return
+				end
 			end
-			fireEvent("DBM_PlaySound", path)
+			DBM:Debug("PlaySoundFile playing with media "..path, 3)
 			if soundSetting == "Dialog" then
 				PlaySoundFile(path, "Dialog")
 			elseif ignoreSFX or soundSetting == "Master" then
@@ -6139,6 +6168,7 @@ do
 			else
 				PlaySoundFile(path)
 			end
+			fireEvent("DBM_PlaySound", path)
 		end
 	end
 
@@ -7979,38 +8009,42 @@ function DBM:GetBossHP(cIdOrGUID)
 	local uId = bossHealthuIdCache[cIdOrGUID] or "target"
 	local guid = UnitGUID(uId)
 	--Target or Cached (if already called with this cid or GUID before)
-	if (self:GetCIDFromGUID(guid) == cIdOrGUID or guid == cIdOrGUID) and UnitHealthMax(uId) ~= 0 then
+	if (self:GetCIDFromGUID(guid) == cIdOrGUID or guid == cIdOrGUID) then--and UnitHealthMax(uId) ~= 0
 		if bossHealth[cIdOrGUID] and (UnitHealth(uId) == 0 and not UnitIsDead(uId)) then return bossHealth[cIdOrGUID], uId, UnitName(uId) end--Return last non 0 value if value is 0, since it's last valid value we had.
-		local hp = UnitHealth(uId) / UnitHealthMax(uId) * 100
+		--local hp = UnitHealth(uId) / UnitHealthMax(uId) * 100
+		local hp = UnitHealth(uId)
 		bossHealth[cIdOrGUID] = hp
 		return hp, uId, UnitName(uId)
 	--Focus
-	elseif (self:GetCIDFromGUID(UnitGUID("focus")) == cIdOrGUID or UnitGUID("focus") == cIdOrGUID) and UnitHealthMax("focus") ~= 0 then
+	elseif (self:GetCIDFromGUID(UnitGUID("focus")) == cIdOrGUID or UnitGUID("focus") == cIdOrGUID) then--and UnitHealthMax("focus") ~= 0
 		if bossHealth[cIdOrGUID] and (UnitHealth("focus") == 0  and not UnitIsDead("focus")) then return bossHealth[cIdOrGUID], "focus", UnitName("focus") end--Return last non 0 value if value is 0, since it's last valid value we had.
-		local hp = UnitHealth("focus") / UnitHealthMax("focus") * 100
+		--local hp = UnitHealth("focus") / UnitHealthMax("focus") * 100
+		local hp = UnitHealth("focus")
 		bossHealth[cIdOrGUID] = hp
 		return hp, "focus", UnitName("focus")
 	else
 		--Boss UnitIds
-		for i = 1, 5 do
+		--[[for i = 1, 5 do
 			local unitID = "boss"..i
 			local bossguid = UnitGUID(unitID)
 			if (self:GetCIDFromGUID(bossguid) == cIdOrGUID or bossguid == cIdOrGUID) and UnitHealthMax(unitID) ~= 0 then
 				if bossHealth[cIdOrGUID] and (UnitHealth(unitID) == 0 and not UnitIsDead(unitID)) then return bossHealth[cIdOrGUID], unitID, UnitName(unitID) end--Return last non 0 value if value is 0, since it's last valid value we had.
-				local hp = UnitHealth(unitID) / UnitHealthMax(unitID) * 100
+				--local hp = UnitHealth(unitID) / UnitHealthMax(unitID) * 100
+				local hp = UnitHealth(unitId)
 				bossHealth[cIdOrGUID] = hp
 				bossHealthuIdCache[cIdOrGUID] = unitID
 				return hp, unitID, UnitName(unitID)
 			end
-		end
+		end--]]
 		--Scan raid/party target frames
 		local idType = (IsInRaid() and "raid") or "party"
 		for i = 0, GetNumGroupMembers() do
 			local unitId = ((i == 0) and "target") or idType..i.."target"
 			local bossguid = UnitGUID(unitId)
-			if (self:GetCIDFromGUID(bossguid) == cIdOrGUID or bossguid == cIdOrGUID) and UnitHealthMax(unitId) ~= 0 then
+			if (self:GetCIDFromGUID(bossguid) == cIdOrGUID or bossguid == cIdOrGUID) then--and UnitHealthMax(unitId) ~= 0
 				if bossHealth[cIdOrGUID] and (UnitHealth(unitId) == 0 and not UnitIsDead(unitId)) then return bossHealth[cIdOrGUID], unitId, UnitName(unitId) end--Return last non 0 value if value is 0, since it's last valid value we had.
-				local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
+				--local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
+				local hp = UnitHealth(unitId)
 				bossHealth[cIdOrGUID] = hp
 				bossHealthuIdCache[cIdOrGUID] = unitId
 				return hp, unitId, UnitName(unitId)
@@ -8021,12 +8055,13 @@ function DBM:GetBossHP(cIdOrGUID)
 end
 
 function DBM:GetBossHPByUnitID(uId)
-	if UnitHealthMax(uId) ~= 0 then
-		local hp = UnitHealth(uId) / UnitHealthMax(uId) * 100
+	--if UnitHealthMax(uId) ~= 0 then
+		--local hp = UnitHealth(uId) / UnitHealthMax(uId) * 100
+		local hp = UnitHealth(uId)
 		bossHealth[uId] = hp
 		return hp, uId, UnitName(uId)
-	end
-	return nil
+	--end
+	--return nil
 end
 
 function bossModPrototype:SetMainBossID(cid)
@@ -9633,7 +9668,7 @@ do
 							local ttext = _G[bar.frame:GetName().."BarName"]:GetText() or ""
 							ttext = ttext.."("..self.id..")"
 							if bar.timer > 0.2 then
-								if timer then
+								if timer and DBM.Options.AutoCorrectTimer then
 									self.correctedCast = timer - bar.timer--Store what lowest timer is in timer object
 									self.correctedDiff = difficultyIndex--Store index of correction to ensure the change is only used in one difficulty (so a mythic timer doesn't alter heroic for example)
 								end
@@ -9706,8 +9741,10 @@ do
 						local ttext = _G[bar.frame:GetName().."BarName"]:GetText() or ""
 						ttext = ttext.."("..self.id..")"
 						if bar.timer > 0.2 then
-							self.correctedCast = timer - bar.timer--Store what lowest timer is for advanced user feature
-							self.correctedDiff = difficultyIndex--Store index of correction to ensure the change is only used in one difficulty (so a mythic timer doesn't alter heroic for example
+							if DBM.Options.AutoCorrectTimer then
+								self.correctedCast = timer - bar.timer--Store what lowest timer is for advanced user feature
+								self.correctedDiff = difficultyIndex--Store index of correction to ensure the change is only used in one difficulty (so a mythic timer doesn't alter heroic for example
+							end
 							DBM:Debug("Timer "..ttext.. " refreshed before expired. Remaining time is : "..remaining, 2)
 						end
 					end
@@ -9869,6 +9906,7 @@ do
 		end
 		if self.type == "ai" then--A learning timer
 			if not DBM.Options.AITimer then return end
+			self.lastCast = nil
 			for i = 1, 4 do
 				--Check for any phase timers that are strings and never got a chance to become AI timers, then wipe them
 				if self["phase"..i.."CastTimer"] and type(self["phase"..i.."CastTimer"]) == "string" then

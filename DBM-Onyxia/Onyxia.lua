@@ -49,6 +49,7 @@ local timerBreath			= mod:NewCastTimer(5, 18584, nil, nil, nil, 3)
 --local timerBigAddCD			= mod:NewAddsTimer(44.9, 68959, nil, "-Healer")
 
 mod:AddBoolOption("SoundWTF3", true, "sound")
+mod:AddRangeFrameOption(8, 18392)
 
 mod.vb.warned_preP2 = false
 mod.vb.warned_preP3 = false
@@ -64,6 +65,12 @@ function mod:OnCombatStart(delay)
 		DBM:PlaySoundFile("Interface\\AddOns\\DBM-Onyxia\\sounds\\dps-very-very-slowly.ogg")
 		self:Schedule(20, DBM.PlaySoundFile, DBM, "Interface\\AddOns\\DBM-Onyxia\\sounds\\hit-it-like-you-mean-it.ogg")
 		self:Schedule(30, DBM.PlaySoundFile, DBM, "Interface\\AddOns\\DBM-Onyxia\\sounds\\now-hit-it-very-hard-and-fast.ogg")
+	end
+end
+
+function mod:OnCombatEnd()
+	if self.Options.RangeFrame then
+		DBM.RangeCheck:Hide()
 	end
 end
 
@@ -172,6 +179,9 @@ function mod:OnSync(msg)
 			self:Schedule(10, DBM.PlaySoundFile, DBM, "Interface\\AddOns\\DBM-Onyxia\\sounds\\throw-more-dots.ogg")
 			self:Schedule(17, DBM.PlaySoundFile, DBM, "Interface\\AddOns\\DBM-Onyxia\\sounds\\whelps-left-side-even-side-handle-it.ogg")
 		end
+		if self.Options.RangeFrame then
+			DBM.RangeCheck:Show(8)
+		end
 	elseif msg == "Phase3" then
 		self.vb.phase = 3
 		warnPhase3:Show()
@@ -185,6 +195,9 @@ function mod:OnSync(msg)
    			self:Schedule(40, DBM.PlaySoundFile, DBM, "Interface\\AddOns\\DBM-Onyxia\\sounds\\i-dont-see-enough-dots.ogg")
 			self:Schedule(50, DBM.PlaySoundFile, DBM, "Interface\\AddOns\\DBM-Onyxia\\sounds\\hit-it-like-you-mean-it.ogg")
 			self:Schedule(65, DBM.PlaySoundFile, DBM, "Interface\\AddOns\\DBM-Onyxia\\sounds\\throw-more-dots.ogg")
+		end
+		if self.Options.RangeFrame then
+			DBM.RangeCheck:Hide()
 		end
 	end
 end
