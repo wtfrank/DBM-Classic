@@ -33,6 +33,7 @@ mod:RegisterEventsInCombat(
 local warnWingBuffet		= mod:NewSpellAnnounce(18500, 2, nil, "Tank")
 local warnKnockAway			= mod:NewTargetNoFilterAnnounce(19633, 2, nil, false)
 local warnPhase2			= mod:NewPhaseAnnounce(2)
+local warnFireball			= mod:NewTargetNoFilterAnnounce(18392, 2, nil, false)
 local warnPhase3			= mod:NewPhaseAnnounce(3)
 local warnPhase2Soon		= mod:NewPrePhaseAnnounce(2)
 local warnPhase3Soon		= mod:NewPrePhaseAnnounce(3)
@@ -93,6 +94,7 @@ end
 do
 	function mod:FireballTarget(targetname, uId)
 		if not targetname then return end
+		warnFireball:Show(targetname)
 		if targetname == UnitName("player") then
 			yellFireball:Yell()
 		end
@@ -201,6 +203,7 @@ function mod:OnSync(msg)
 		--timerBigAddCD:Stop()
 		--warnWhelpsSoon:Cancel()
 		if self.Options.SoundWTF3 then
+			DBM:PlaySoundFile("Interface\\AddOns\\DBM-Onyxia\\sounds\\dps-very-very-slowly.ogg")
 			self:Schedule(30, DBM.PlaySoundFile, DBM, "Interface\\AddOns\\DBM-Onyxia\\sounds\\now-hit-it-very-hard-and-fast.ogg")
    			self:Schedule(40, DBM.PlaySoundFile, DBM, "Interface\\AddOns\\DBM-Onyxia\\sounds\\i-dont-see-enough-dots.ogg")
 			self:Schedule(50, DBM.PlaySoundFile, DBM, "Interface\\AddOns\\DBM-Onyxia\\sounds\\hit-it-like-you-mean-it.ogg")
