@@ -19,7 +19,7 @@ mod:RegisterEvents(
 --https://classic.wowhead.com/spell=17646/summon-onyxia-whelp
 --TODO, if blizzard makes classic wrath and this mod is used as foundation, remove the deep breath emote trigger (because pet added in wrath breaks it)
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 17086 18351 18564 18576 18584 18596 18609 18617 18435 18431 18500",
+	"SPELL_CAST_START 17086 18351 18564 18576 18584 18596 18609 18617 18435 18431 18500 18392",
 	"SPELL_CAST_SUCCESS 19633",
 	"SPELL_DAMAGE 15847",-- 68867
 	"UNIT_DIED",
@@ -39,6 +39,7 @@ local warnPhase3Soon		= mod:NewPrePhaseAnnounce(3)
 
 local specWarnBreath			= mod:NewSpecialWarningSpell(18584, nil, nil, nil, 2, 2)
 local specWarnBellowingRoar		= mod:NewSpecialWarningSpell(18431, nil, nil, nil, 2, 2)
+local yellFireball				= mod:NewYell(18392)
 --local specWarnBlastNova		= mod:NewSpecialWarningRun(68958, "Melee", nil, nil, 4, 2)
 --local specWarnAdds			= mod:NewSpecialWarningAdds(68959, "-Healer", nil, nil, 1, 2)
 
@@ -90,7 +91,14 @@ function mod:Whelps()--Not right, need to fix
 end
 
 do
-	local deepBreathCast, flameBreathCast, bellowingRoar, wingBuffet = DBM:GetSpellInfo(17086), DBM:GetSpellInfo(18435), DBM:GetSpellInfo(18431), DBM:GetSpellInfo(18500)
+	function mod:FireballTarget(targetname, uId)
+		if not targetname then return end
+		if targetname == UnitName("player") then
+			yellFireball:Yell()
+		end
+	end
+
+	local deepBreathCast, flameBreathCast, bellowingRoar, wingBuffet, fireball = DBM:GetSpellInfo(17086), DBM:GetSpellInfo(18435), DBM:GetSpellInfo(18431), DBM:GetSpellInfo(18500), DBM:GetSpellInfo(18392)
 	function mod:SPELL_CAST_START(args)
 		local spellName = args.spellName
 		if spellName == deepBreathCast and args:IsSrcTypeHostile() and self:AntiSpam(8, 1) then
@@ -105,6 +113,8 @@ do
 			specWarnBellowingRoar:Play("fearsoon")
 		elseif spellName == wingBuffet and args:IsSrcTypeHostile() then
 			warnWingBuffet:Show()
+		elseif spellName == fireball and args:IsSrcTypeHostile() then
+			self:BossTargetScanner(args.sourceGUID, "FireballTarget", 0.15, 12)
 		end
 	end
 end
