@@ -174,6 +174,7 @@ function mod:UNIT_HEALTH(uId)
 end
 
 function mod:OnSync(msg)
+	if not self:IsInCombat() then return end
 	if msg == "Breath" and self:AntiSpam(8, 1) then
 		specWarnBreath:Show()
 		specWarnBreath:Play("breathsoon")
