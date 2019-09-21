@@ -1439,7 +1439,11 @@ function mod:SetZoom(zoom, zoomChange)
 end
 
 function mod:SetFixedZoom(zoom)
-	fixedZoomScale = zoom
+	if type(zoom) == "number" then
+		fixedZoomScale = zoom
+	else
+		fixedZoomScale = nil
+	end
 end
 
 function mod:Update()
