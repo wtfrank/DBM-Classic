@@ -1320,10 +1320,10 @@ function mod:RegisterEncounterMarker(spellid, name, marker)
 	marker.RegisterCallback(self, "Free", "FreeEncounterMarker", key)
 end
 
-function mod:RegisterPositionMarker(spellid, name, texture, x, y, radius, duration, r, g, b, a, blend, localMap)
+function mod:RegisterPositionMarker(spellid, name, texture, x, y, radius, duration, r, g, b, a, blend, localMap, AreaID)
 	if localMap then
 		if x >= 0 and x <= 100 and y >= 0 and y <= 100 then
-			local localMap = C_Map.GetBestMapForUnit("player")
+			local localMap = tonumber(AreaID) or C_Map.GetBestMapForUnit("player")
 			local vector = CreateVector2D(x/100, y/100)
 			local _, temptable = C_Map.GetWorldPosFromMapPos(localMap, vector)
 			x, y = temptable.x, temptable.y
