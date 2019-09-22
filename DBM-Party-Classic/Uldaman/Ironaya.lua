@@ -8,7 +8,7 @@ mod:SetEncounterID(549)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_SUCCESS 8374 110762 11876"
+	"SPELL_CAST_SUCCESS 8374 11876"
 )
 
 local warningArcingSmash			= mod:NewSpellAnnounce(8374, 2)

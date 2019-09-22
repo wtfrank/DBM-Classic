@@ -848,6 +848,10 @@ do
 		function unregisterSpellId(event, spellId)
 			if not registeredSpellIds[event] then return end
 			local spellName = DBM:GetSpellInfo(spellId)
+			if spellId and not spellName then
+				DBM:Debug("DBM unregisterSpellId Error: "..spellId.." spell id does not exist!")
+				return
+			end
 			local refs = (registeredSpellIds[event][spellName] or 1) - 1
 			registeredSpellIds[event][spellName] = refs
 			if refs <= 0 then
