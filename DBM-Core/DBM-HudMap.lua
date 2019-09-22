@@ -1384,6 +1384,10 @@ function mod:FreeEncounterMarker(key)
 	end
 end
 
+function mod:GetEncounterMarker(key)
+	return encounterMarkers[key]
+end
+
 -- should be called to manually free marker
 function mod:FreeEncounterMarkerByTarget(spellid, name)
 	if not self.HUDEnabled then return end
