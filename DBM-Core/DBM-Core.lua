@@ -525,12 +525,12 @@ end
 local function checkForSafeSender(sender, checkFriends, checkGuild, filterRaid)
 	if checkFriends then
 		--Check Battle.net friends
-		local _, numBNetOnline = BNGetNumFriends()
-		for i = 1, numBNetOnline do
-			local presenceID, _, _, _, _, _, _, isOnline = BNGetFriendInfo(i)
+		local presenceID = BNGetFriendInfoByID(sender)
+		if presenceID then
 			local friendIndex = BNGetFriendIndex(presenceID)--Check if they are on more than one client at once (very likely with bnet launcher or mobile)
 			for i=1, BNGetNumFriendGameAccounts(friendIndex) do
 				local _, toonName, client = BNGetFriendGameAccountInfo(friendIndex, i)
+				--Check if it's a bnet friend sending a non bnet whisper
 				if toonName and client == BNET_CLIENT_WOW then--Check if toon name exists and if client is wow. If yes to both, we found right client
 					if toonName == sender then--Now simply see if this is sender
 						if filterRaid and DBM:GetRaidUnitId(toonName) then--Person is in raid group and filter raid enabled
