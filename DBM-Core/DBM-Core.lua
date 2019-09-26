@@ -155,7 +155,7 @@ DBM.DefaultOptions = {
 	ShowDefeatMessage = true,
 	ShowGuildMessages = true,
 	AutoRespond = true,
-	StatusEnabled = true,
+	EnableWBSharing = false,
 	WhisperStats = false,
 	DisableStatusWhisper = false,
 	DisableGuildStatus = false,
@@ -5670,26 +5670,28 @@ do
 				if IsInGuild() then
 					SendAddonMessage("D4C", "WBE\t"..modId.."\t"..playerRealm.."\t"..startHp.."\t8\t"..name, "GUILD")--Even guild syncs send realm so we can keep antispam the same across realid as well.
 				end
-				local _, numBNetOnline = BNGetNumFriends()
-				for i = 1, numBNetOnline do
-					local sameRealm = false
-					local presenceID, _, _, _, _, _, client, isOnline = BNGetFriendInfo(i)
-					if isOnline and client == BNET_CLIENT_WOW then
-						local _, _, _, userRealm = BNGetGameAccountInfo(presenceID)
-						if connectedServers then
-							for i = 1, #connectedServers do
-								if userRealm == connectedServers[i] then
+				if self.Options.EnableWBSharing then
+					local _, numBNetOnline = BNGetNumFriends()
+					for i = 1, numBNetOnline do
+						local sameRealm = false
+						local presenceID, _, _, _, _, _, client, isOnline = BNGetFriendInfo(i)
+						if isOnline and client == BNET_CLIENT_WOW then
+							local _, _, _, userRealm = BNGetGameAccountInfo(presenceID)
+							if connectedServers then
+								for i = 1, #connectedServers do
+									if userRealm == connectedServers[i] then
+										sameRealm = true
+										break
+									end
+								end
+							else
+								if userRealm == playerRealm then
 									sameRealm = true
-									break
 								end
 							end
-						else
-							if userRealm == playerRealm then
-								sameRealm = true
+							if sameRealm then
+								BNSendGameData(presenceID, "D4C", "WBE\t"..modId.."\t"..userRealm.."\t"..startHp.."\t8\t"..name)--Just send users realm for pull, so we can eliminate connectedServers checks on sync handler
 							end
-						end
-						if sameRealm then
-							BNSendGameData(presenceID, "D4C", "WBE\t"..modId.."\t"..userRealm.."\t"..startHp.."\t8\t"..name)--Just send users realm for pull, so we can eliminate connectedServers checks on sync handler
 						end
 					end
 				end
@@ -5873,26 +5875,28 @@ do
 					if IsInGuild() then
 						SendAddonMessage("D4C", "WBD\t"..modId.."\t"..playerRealm.."\t8\t"..name, "GUILD")--Even guild syncs send realm so we can keep antispam the same across realid as well.
 					end
-					local _, numBNetOnline = BNGetNumFriends()
-					for i = 1, numBNetOnline do
-						local sameRealm = false
-						local presenceID, _, _, _, _, _, client, isOnline = BNGetFriendInfo(i)
-						if isOnline and client == BNET_CLIENT_WOW then
-							local _, _, _, userRealm = BNGetGameAccountInfo(presenceID)
-							if connectedServers then
-								for i = 1, #connectedServers do
-									if userRealm == connectedServers[i] then
+					if self.Options.EnableWBSharing then
+						local _, numBNetOnline = BNGetNumFriends()
+						for i = 1, numBNetOnline do
+							local sameRealm = false
+							local presenceID, _, _, _, _, _, client, isOnline = BNGetFriendInfo(i)
+							if isOnline and client == BNET_CLIENT_WOW then
+								local _, _, _, userRealm = BNGetGameAccountInfo(presenceID)
+								if connectedServers then
+									for i = 1, #connectedServers do
+										if userRealm == connectedServers[i] then
+											sameRealm = true
+											break
+										end
+									end
+								else
+									if userRealm == playerRealm then
 										sameRealm = true
-										break
 									end
 								end
-							else
-								if userRealm == playerRealm then
-									sameRealm = true
+								if sameRealm then
+									BNSendGameData(presenceID, "D4C", "WBD\t"..modId.."\t"..userRealm.."\t8\t"..name)
 								end
-							end
-							if sameRealm then
-								BNSendGameData(presenceID, "D4C", "WBD\t"..modId.."\t"..userRealm.."\t8\t"..name)
 							end
 						end
 					end
@@ -6492,9 +6496,9 @@ do
 
 	-- sender is a presenceId for real id messages, a character name otherwise
 	local function onWhisper(msg, sender, isRealIdMessage)
-		if statusWhisperDisabled then return end--RL has disabled status whispers for entire raid.
+		if statusWhisperDisabled or not DBM.Options.AutoRespond then return end--RL has disabled status whispers for entire raid or you have it disabled
 		if not checkForSafeSender(sender, true, true, true) then return end--Automatically reject all whisper functions from non friends, non guildies, or people in group with us
-		if msg == "status" and #inCombat > 0 and DBM.Options.StatusEnabled then
+		if msg == "status" and #inCombat > 0 then
 			if not difficultyText then -- prevent error when timer recovery function worked and etc (StartCombat not called)
 				savedDifficulty, difficultyText, difficultyIndex, LastGroupSize = DBM:GetCurrentInstanceDifficulty()
 			end
@@ -6513,7 +6517,7 @@ do
 				hpText = hpText.." ("..BOSSES_KILLED:format(bossesKilled, mod.numBoss)..")"
 			end
 			sendWhisper(sender, chatPrefix..DBM_CORE_STATUS_WHISPER:format(difficultyText..(mod.combatInfo.name or ""), hpText, IsInInstance() and getNumRealAlivePlayers() or getNumAlivePlayers(), DBM:GetNumRealGroupMembers()))
-		elseif #inCombat > 0 and DBM.Options.AutoRespond then
+		elseif #inCombat > 0 then
 			if not difficultyText then -- prevent error when timer recovery function worked and etc (StartCombat not called)
 				savedDifficulty, difficultyText, difficultyIndex, LastGroupSize = DBM:GetCurrentInstanceDifficulty()
 			end
