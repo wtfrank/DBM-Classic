@@ -8,8 +8,8 @@ mod:SetEncounterID(478)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_SUCCESS 17405 66290 13704",
-	"SPELL_AURA_APPLIED 17405 66290",
+	"SPELL_CAST_SUCCESS 17405 13704",
+	"SPELL_AURA_APPLIED 17405",
 	"UNIT_DIED"
 )
 
