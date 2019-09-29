@@ -1289,6 +1289,11 @@ do
 				C_TimerAfter(15, function() AddMsg(self, DBM_CORE_DPMCORE) end)
 				return
 			end
+			if GetAddOnEnableState(playerName, "DBM-VictorySound") >= 1 then
+				self:Disable(true)
+				C_TimerAfter(15, function() AddMsg(self, DBM_CORE_VICTORYSOUND) end)
+				return
+			end
 			if GetAddOnEnableState(playerName, "DBM-LDB") >= 1 then
 				C_TimerAfter(15, function() AddMsg(self, DBM_CORE_DBMLDB) end)
 			end
