@@ -544,7 +544,7 @@ DBM_CORE_HUD_USAGE	= {
 	"Valid types: arrow, dot, red, blue, green, yellow, icon (requires a target with raid icon)",
 	"Valid targets: target, focus, <playername>",
 	"Valid durations: any number (in seconds). If left blank, 20min will be used.",
-	"/dbm hud hide:  disables user generated HUD objects"
+	"/dbm hud hide: disables user generated HUD objects"
 }
 
 DBM_ARROW_MOVABLE					= "Arrow movable"
