@@ -5142,6 +5142,7 @@ do
 		--This just can't be avoided, tryig to save cpu by using C_TimerAfter broke this
 		--This needs the redundancy and ability to pass args.
 		DBM:Schedule(0.5, scanForCombat, combatInfo.mod, mob, 0.5)
+		DBM:Schedule(1.25, scanForCombat, combatInfo.mod, mob, 1.25)
 		DBM:Schedule(2, scanForCombat, combatInfo.mod, mob, 2)
 		C_TimerAfter(2.1, function()
 			healthCombatInitialized = true
