@@ -30,11 +30,22 @@ local timerCombatStart	= mod:NewCombatTimer(73)
 mod.vb.addLeft = 8
 local addsGuidCheck = {}
 
+mod:AddRangeFrameOption("10", nil, "-Melee")
+
 function mod:OnCombatStart(delay)
 	table.wipe(addsGuidCheck)
 	self.vb.addLeft = 8
 	timerWrathRag:Start(26.7-delay)
 	timerSubmerge:Start(180-delay)
+	if self.Options.RangeFrame then
+		DBM.RangeCheck:Show(10)
+	end
+end
+
+function mod:OnCombatEnd()
+	if self.Options.RangeFrame then
+		DBM.RangeCheck:Hide()
+	end
 end
 
 local function emerged(self)
