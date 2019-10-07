@@ -7818,8 +7818,11 @@ do
 	--External call Needs Review
 	function bossModPrototype:IsMeleeDps(uId)
 		if uId then--This version includes ONLY melee dps
-			local role = UnitGroupRolesAssigned(uId)
-			if role == "HEALER" or role == "TANK" then--Auto filter healer from dps check
+			--local role = UnitGroupRolesAssigned(uId)
+			--if role == "HEALER" or role == "TANK" then--Auto filter healer from dps check
+			--	return false
+			--end
+			if GetPartyAssignment("MAINTANK", uId, 1) then--Auto filter tank from dps check, can't filter healers in classic
 				return false
 			end
 			local _, class = UnitClass(uId)
@@ -7915,10 +7918,10 @@ do
 		end
 	end
 
-	--External call Needs Review
 	function bossModPrototype:IsDps(uId)
 		if uId then--External unit call.
-			if UnitGroupRolesAssigned(uId) == "DAMAGER" then
+			--if UnitGroupRolesAssigned(uId) == "DAMAGER" then
+			if not GetPartyAssignment("MAINTANK", uId, 1) then--Can't really do anything about healers without UnitGroupRolesAssigned, so this just filters tank
 				return true
 			end
 			return false
@@ -7936,9 +7939,10 @@ do
 	--External call Needs Review
 	function bossModPrototype:IsHealer(uId)
 		if uId then--External unit call.
-			if UnitGroupRolesAssigned(uId) == "HEALER" then
-				return true
-			end
+			--if UnitGroupRolesAssigned(uId) == "HEALER" then
+			--	return true
+			--end
+			print("bossModPrototype:IsHealer should not be called in classic, report this message")
 			return false
 		end
 		if not currentSpecID then
