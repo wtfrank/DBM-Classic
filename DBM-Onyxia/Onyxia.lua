@@ -116,7 +116,7 @@ do
 		elseif spellName == wingBuffet and args:IsSrcTypeHostile() then
 			warnWingBuffet:Show()
 		elseif spellName == fireball and args:IsSrcTypeHostile() then
-			self:BossTargetScanner(args.sourceGUID, "FireballTarget", 0.15, 12)
+			self:BossTargetScanner(args.sourceGUID, "FireballTarget", 0.3, 6)
 		end
 	end
 end
