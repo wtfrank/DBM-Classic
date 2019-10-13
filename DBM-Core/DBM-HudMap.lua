@@ -14,7 +14,7 @@ local error, print = error, print
 
 local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0")
 local updateFrame = CreateFrame("Frame", "DBMHudMapUpdateFrame")
-local fixedOnUpdateRate = 0.035
+local fixedOnUpdateRate = 0.03
 local onUpdate, Point, Edge
 local callbacks = CallbackHandler:New(mod)
 local activeMarkers = 0
@@ -1461,7 +1461,7 @@ function mod:SetFixedUpdateRate(updateRate)
 	if type(updateRate) == "number" and updateRate > 0 then
 		fixedOnUpdateRate = updateRate
 	else
-		fixedOnUpdateRate = 0.035
+		fixedOnUpdateRate = 0.03
 	end
 end
 
