@@ -316,6 +316,7 @@ L.Panel_ExtraFeatures		= "Extra Features"
 --
 L.Area_ChatAlerts			= "Text Alert Options"
 L.WorldBossAlert			= "Show alert message when world bosses might have been engaged on your realm by guildies or friends"
+L.WorldBuffAlert			= "Show alert message and timer when world buff RP has been started on your realm"
 --
 L.Area_SoundAlerts			= "Sound/Flash Alert Options"
 L.LFDEnhance				= "Play ready check sound and flash application icon for role checks &amp; BG proposals in Master or Dialog audio channel (I.E. sounds work even if SFX are off and are generally louder)"

@@ -3241,6 +3241,7 @@ local function CreateOptionsMenu()
 		local extraFeaturesPanel 	= DBM_GUI_Frame:CreateNewPanel(L.Panel_ExtraFeatures, "option")
 		local chatAlertsArea		= extraFeaturesPanel:CreateArea(L.Area_ChatAlerts, nil, 100, true)
 		local WorldBossAlert		= chatAlertsArea:CreateCheckButton(L.WorldBossAlert, true, nil, "WorldBossAlert")
+		local WorldBuffAlert		= chatAlertsArea:CreateCheckButton(L.WorldBuffAlert, true, nil, "WorldBuffAlert")
 
 		local soundAlertsArea		= extraFeaturesPanel:CreateArea(L.Area_SoundAlerts, nil, 100, true)
 		local LFDEnhance			= soundAlertsArea:CreateCheckButton(L.LFDEnhance, true, nil, "LFDEnhance")
