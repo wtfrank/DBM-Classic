@@ -281,6 +281,7 @@ DBM.DefaultOptions = {
 	DebugMode = false,
 	DebugLevel = 1,
 	WorldBossAlert = true,
+	WorldBuffAlert = true,
 	AutoAcceptFriendInvite = false,
 	AutoAcceptGuildInvite = false,
 	FakeBWVersion = false,
@@ -388,6 +389,7 @@ local bossuIdCache = {}
 local savedDifficulty, difficultyText, difficultyIndex
 local lastBossEngage = {}
 local lastBossDefeat = {}
+local lastWorldBuff = {}
 local bossuIdFound = false
 local timerRequestInProgress = false
 local updateNotificationDisplayed = 0
@@ -608,6 +610,43 @@ local function sendLoggedSync(prefix, msg)
 			C_ChatInfo.SendAddonMessageLogged("D4C", prefix .. "\t" .. msg, "PARTY")
 		else--for solo raid
 			C_ChatInfo.SendAddonMessageLogged("D4C", prefix .. "\t" .. msg, "WHISPER", playerName)
+		end
+	end
+end
+
+--Sync Object specifically for world boss and world buff sync messages that have different rules than standard syncs
+local function SendWorldSync(self, prefix, msg, noBNet)
+	if IsInRaid() then
+		SendAddonMessage("D4C", prefix.."\t"..msg, "RAID")
+	elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
+		SendAddonMessage("D4C", prefix.."\t"..msg, "PARTY")
+	end
+	if IsInGuild() then
+		SendAddonMessage("D4C", prefix.."\t"..msg, "GUILD")--Even guild syncs send realm so we can keep antispam the same across realid as well.
+	end
+	if self.Options.EnableWBSharing and not noBNet then
+		local _, numBNetOnline = BNGetNumFriends()
+		for i = 1, numBNetOnline do
+			local sameRealm = false
+			local presenceID, _, _, _, _, _, client, isOnline = BNGetFriendInfo(i)
+			if isOnline and client == BNET_CLIENT_WOW then
+				local _, _, _, userRealm = BNGetGameAccountInfo(presenceID)
+				if connectedServers then
+					for i = 1, #connectedServers do
+						if userRealm == connectedServers[i] then
+							sameRealm = true
+							break
+						end
+					end
+				else
+					if userRealm == playerRealm then
+						sameRealm = true
+					end
+				end
+				if sameRealm then--Only sending to friends on same realm
+					BNSendGameData(presenceID, "D4C", prefix.."\t"..msg)
+				end
+			end
 		end
 	end
 end
@@ -3958,6 +3997,7 @@ do
 	-- II = Instance Info
 	-- WBE = World Boss engage info
 	-- WBD = World Boss defeat info
+	-- WBA = World Buff Activation
 	-- DSW = Disable Send Whisper
 	-- NS = Note Share
 
@@ -4508,6 +4548,22 @@ do
 			end
 		end
 
+		syncHandlers["WBA"] = function(sender, bossName, faction, buffName, time)
+			--if not ver or not (ver == "8") then return end--Ignore old versions
+			if lastBossEngage[bossName..faction] and (GetTime() - lastBossEngage[bossName..faction] < 30) then return end--We recently got a sync about this buff on this realm, so do nothing.
+			lastBossEngage[bossName..faction] = GetTime()
+			if DBM.Options.WorldBuffAlert and not IsEncounterInProgress() then
+				local factionText = faction == "Alliance" and FACTION_ALLIANCE or faction == "Horde" and FACTION_HORDE or DBM_CORE_BOTH
+				DBM:AddMsg(DBM_CORE_WORLDBUFF_STARTED:format(buffName, factionText, sender))
+				local timer = tonumber(time)
+				local myFaction = faction == "Both" and true or UnitFactionGroup("player") == faction
+				if timer and myFaction then
+					DBM.Bars:CreateBar(timer, buffName, 136106)
+				end
+			end
+		end
+
+		--YAY duplicate code (to handle all world boss/buff stuff for whisper handler)
 		whisperSyncHandlers["WBE"] = function(sender, modId, realm, health, ver, name)
 			if not ver or not (ver == "8") then return end--Ignore old versions
 			if lastBossEngage[modId..realm] and (GetTime() - lastBossEngage[modId..realm] < 30) then return end
@@ -4529,6 +4585,20 @@ do
 				modId = tonumber(modId)--If it fails to convert into number, this makes it nil
 				local bossName = modId and EJ_GetEncounterInfo and EJ_GetEncounterInfo(modId) or name or DBM_CORE_UNKNOWN
 				DBM:AddMsg(DBM_CORE_WORLDBOSS_DEFEATED:format(bossName, toonName))
+			end
+		end
+
+		whisperSyncHandlers["WBA"] = function(sender, bossName, faction, buffName, time)
+			--if not ver or not (ver == "8") then return end--Ignore old versions
+			if lastBossEngage[bossName..faction] and (GetTime() - lastBossEngage[bossName..faction] < 30) then return end--We recently got a sync about this buff on this realm, so do nothing.
+			lastBossEngage[bossName..faction] = GetTime()
+			if DBM.Options.WorldBuffAlert and not IsEncounterInProgress() then
+				local factionText = faction == "Alliance" and FACTION_ALLIANCE or faction == "Horde" and FACTION_HORDE or DBM_CORE_BOTH
+				DBM:AddMsg(DBM_CORE_WORLDBUFF_STARTED:format(buffName, factionText, sender))
+				local timer = tonumber(time)
+				if timer then
+					DBM.Bars:CreateBar(timer, buffName, 136106)
+				end
 			end
 		end
 
@@ -5352,6 +5422,24 @@ do
 			local targetName = target or "nil"
 			self:Debug("CHAT_MSG_MONSTER_YELL from "..npc.." while looking at "..targetName, 2)
 		end
+		if not IsInInstance() and self.Options.WorldBuffEvents then
+			if msg:find(DBM_CORE_WORLD_BUFFS.hordeOny) then
+				local spellName = DBM:GetSpellInfo(22888)
+				SendWorldSync(self, "WBA", "Onyxia\tHorde\t"..spellName.."\t15")
+			elseif msg:find(DBM_CORE_WORLD_BUFFS.allianceOny) then
+				local spellName = DBM:GetSpellInfo(22888)
+				SendWorldSync(self, "WBA", "Onyxia\tAlliance\t"..spellName.."\t17")
+			elseif msg:find(DBM_CORE_WORLD_BUFFS.hordeNef) then
+				local spellName = DBM:GetSpellInfo(22888)
+				SendWorldSync(self, "WBA", "Nefarian\tHorde\t"..spellName.."\t17")
+			elseif msg:find(DBM_CORE_WORLD_BUFFS.allianceNef) then
+				local spellName = DBM:GetSpellInfo(22888)
+				SendWorldSync(self, "WBA", "Nefarian\tAlliance\t"..spellName.."\t17")
+			elseif msg:find(DBM_CORE_WORLD_BUFFS.rendHead) then
+				local spellName = DBM:GetSpellInfo(16609)
+				SendWorldSync(self, "WBA", "rendBlackhand\tHorde\t"..spellName.."\t59", true)
+			end
+		end
 		return onMonsterMessage(self, "yell", msg)
 	end
 
@@ -5386,6 +5474,12 @@ do
 	end
 
 	function DBM:CHAT_MSG_MONSTER_SAY(msg)
+		if not IsInInstance() and self.Options.WorldBuffEvents then
+			if msg:find(DBM_CORE_WORLD_BUFFS.zgHeart) then
+				local spellName = DBM:GetSpellInfo(24425)
+				SendWorldSync(self, "WBA", "Zandalar\tBoth\t"..spellName.."\t12")
+			end
+		end
 		return onMonsterMessage(self, "say", msg)
 	end
 end
@@ -5696,34 +5790,7 @@ do
 			if savedDifficulty == "worldboss" and not mod.noWBEsync then
 				if lastBossEngage[modId..playerRealm] and (GetTime() - lastBossEngage[modId..playerRealm] < 30) then return end--Someone else synced in last 10 seconds so don't send out another sync to avoid needless sync spam.
 				lastBossEngage[modId..playerRealm] = GetTime()--Update last engage time, that way we ignore our own sync
-				if IsInGuild() then
-					SendAddonMessage("D4C", "WBE\t"..modId.."\t"..playerRealm.."\t"..startHp.."\t8\t"..name, "GUILD")--Even guild syncs send realm so we can keep antispam the same across realid as well.
-				end
-				if self.Options.EnableWBSharing then
-					local _, numBNetOnline = BNGetNumFriends()
-					for i = 1, numBNetOnline do
-						local sameRealm = false
-						local presenceID, _, _, _, _, _, client, isOnline = BNGetFriendInfo(i)
-						if isOnline and client == BNET_CLIENT_WOW then
-							local _, _, _, userRealm = BNGetGameAccountInfo(presenceID)
-							if connectedServers then
-								for i = 1, #connectedServers do
-									if userRealm == connectedServers[i] then
-										sameRealm = true
-										break
-									end
-								end
-							else
-								if userRealm == playerRealm then
-									sameRealm = true
-								end
-							end
-							if sameRealm then
-								BNSendGameData(presenceID, "D4C", "WBE\t"..modId.."\t"..userRealm.."\t"..startHp.."\t8\t"..name)--Just send users realm for pull, so we can eliminate connectedServers checks on sync handler
-							end
-						end
-					end
-				end
+				SendWorldSync(self, "WBE", modId.."\t"..playerRealm.."\t"..startHp.."\t8\t"..name)
 			end
 		end
 	end
@@ -5901,34 +5968,7 @@ do
 				if savedDifficulty == "worldboss" and not mod.noWBEsync then
 					if lastBossDefeat[modId..playerRealm] and (GetTime() - lastBossDefeat[modId..playerRealm] < 30) then return end--Someone else synced in last 10 seconds so don't send out another sync to avoid needless sync spam.
 					lastBossDefeat[modId..playerRealm] = GetTime()--Update last defeat time before we send it, so we don't handle our own sync
-					if IsInGuild() then
-						SendAddonMessage("D4C", "WBD\t"..modId.."\t"..playerRealm.."\t8\t"..name, "GUILD")--Even guild syncs send realm so we can keep antispam the same across realid as well.
-					end
-					if self.Options.EnableWBSharing then
-						local _, numBNetOnline = BNGetNumFriends()
-						for i = 1, numBNetOnline do
-							local sameRealm = false
-							local presenceID, _, _, _, _, _, client, isOnline = BNGetFriendInfo(i)
-							if isOnline and client == BNET_CLIENT_WOW then
-								local _, _, _, userRealm = BNGetGameAccountInfo(presenceID)
-								if connectedServers then
-									for i = 1, #connectedServers do
-										if userRealm == connectedServers[i] then
-											sameRealm = true
-											break
-										end
-									end
-								else
-									if userRealm == playerRealm then
-										sameRealm = true
-									end
-								end
-								if sameRealm then
-									BNSendGameData(presenceID, "D4C", "WBD\t"..modId.."\t"..userRealm.."\t8\t"..name)
-								end
-							end
-						end
-					end
+					SendWorldSync(self, "WBD", modId.."\t"..playerRealm.."\t8\t"..name)
 				end
 				if self.Options.EventSoundVictory2 and self.Options.EventSoundVictory2 ~= "None" and self.Options.EventSoundVictory2 ~= "" then
 					if self.Options.EventSoundVictory2 == "Random" then
