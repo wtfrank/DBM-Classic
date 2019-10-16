@@ -531,7 +531,7 @@ local function checkForSafeSender(sender, checkFriends, checkGuild, filterRaid)
 		for i = 1, numBNetOnline do
 			local presenceID, _, _, _, _, _, _, isOnline = BNGetFriendInfo(i)
 			local friendIndex = BNGetFriendIndex(presenceID)--Check if they are on more than one client at once (very likely with bnet launcher or mobile)
-			for j=1, BNGetNumFriendGameAccounts(friendIndex) do
+			for j = 1, BNGetNumFriendGameAccounts(friendIndex) do
 				local _, toonName, client = BNGetFriendGameAccountInfo(friendIndex, j)
 				if toonName and client == BNET_CLIENT_WOW then--Check if toon name exists and if client is wow. If yes to both, we found right client
 					if toonName == sender then--Now simply see if this is sender
@@ -2614,6 +2614,10 @@ do
 		end
 		if GetAddOnEnableState(playerName, "DPMCore") >= 1 then
 			self:AddMsg(DBM_CORE_DPMCORE)
+			return
+		end
+		if GetAddOnEnableState(playerName, "DBM-VictorySound") >= 1 then
+			self:AddMsg(DBM_CORE_VICTORYSOUND)
 			return
 		end
 		if not dbmIsEnabled then
