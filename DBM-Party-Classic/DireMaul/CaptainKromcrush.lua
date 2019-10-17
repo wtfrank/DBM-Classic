@@ -4,8 +4,10 @@ local L		= mod:GetLocalizedStrings()
 mod:SetRevision("@file-date-integer@")
 mod:SetCreatureID(14325)
 mod:SetEncounterID(366)
+mod:SetMinSyncRevision(20190917000000)--2019, 9, 17
 
 mod:RegisterCombat("combat")
+mod:DisableFriendlyDetection()
 
 --[[
 mod:RegisterEventsInCombat(
