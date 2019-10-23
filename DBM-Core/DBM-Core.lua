@@ -69,7 +69,7 @@ end
 
 DBM = {
 	Revision = parseCurseDate("@project-date-integer@"),
-	DisplayVersion = "1.13.17", -- the string that is shown as version
+	DisplayVersion = "1.13.18 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2019, 10, 20) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
@@ -5893,6 +5893,14 @@ do
 							SendAddonMessage("D4C", "GCE\t"..modId.."\t6\t1\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name.."\t"..wipeHP, "GUILD")
 						end
 					end
+					if self.Options.EventSoundWipe and self.Options.EventSoundWipe ~= "None" and self.Options.EventSoundWipe ~= "" then
+						if self.Options.EventSoundWipe == "Random" then
+							local random = fastrandom(3, #DBM.Defeat)
+							self:PlaySoundFile(DBM.Defeat[random].value)
+						else
+							self:PlaySoundFile(self.Options.EventSoundWipe, nil, true)
+						end
+					end
 				end
 				if not self.Options.DontShowReminders and showConstantReminder == 2 and IsInGroup() and savedDifficulty ~= "lfr" and savedDifficulty ~= "lfr25" then
 					showConstantReminder = 1
@@ -5910,14 +5918,6 @@ do
 					sendWhisper(k, msg)
 				end
 				fireEvent("DBM_Wipe", mod)
-				if self.Options.EventSoundWipe and self.Options.EventSoundWipe ~= "None" and self.Options.EventSoundWipe ~= "" then
-					if self.Options.EventSoundWipe == "Random" then
-						local random = fastrandom(3, #DBM.Defeat)
-						self:PlaySoundFile(DBM.Defeat[random].value)
-					else
-						self:PlaySoundFile(self.Options.EventSoundWipe, nil, true)
-					end
-				end
 			elseif not wipe and mod.stats then
 				mod.lastKillTime = GetTime()
 				local thisTime = GetTime() - (mod.combatInfo.pull or 0)
