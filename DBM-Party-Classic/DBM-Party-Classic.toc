@@ -71,7 +71,6 @@ UpperBlackrockSpire\PyroguardEmberseer.lua
 UpperBlackrockSpire\SolakarFlamewreath.lua
 UpperBlackrockSpire\GoralukAnvilcrack.lua
 UpperBlackrockSpire\JedRunewatcher.lua
-UpperBlackrockSpire\Gyth.lua
 UpperBlackrockSpire\WarchiefRendBlackhand.lua
 UpperBlackrockSpire\TheBeast.lua
 UpperBlackrockSpire\GeneralDrakkisath.lua
