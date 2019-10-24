@@ -308,14 +308,6 @@ L:SetGeneralLocalization{
 	name 		= "Jed Runewatcher"
 }
 -----------------------------
---  Gyth  --
------------------------------
-L = DBM:GetModLocalization("Gyth")
-
-L:SetGeneralLocalization{
-	name 		= "Gyth"
-}
------------------------------
 --  Warchief Rend Blackhand  --
 -----------------------------
 L = DBM:GetModLocalization("WarchiefRendBlackhand")
