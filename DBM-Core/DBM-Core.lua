@@ -69,7 +69,7 @@ end
 
 DBM = {
 	Revision = parseCurseDate("@project-date-integer@"),
-	DisplayVersion = "1.13.18", -- the string that is shown as version
+	DisplayVersion = "1.13.19 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2019, 10, 29) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
@@ -616,6 +616,7 @@ end
 
 --Sync Object specifically for world boss and world buff sync messages that have different rules than standard syncs
 local function SendWorldSync(self, prefix, msg, noBNet)
+	DBM:Debug("SendWorldSync running for "..prefix)
 	if IsInRaid() then
 		SendAddonMessage("D4C", prefix.."\t"..msg, "RAID")
 	elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
@@ -4553,10 +4554,12 @@ do
 		end
 
 		syncHandlers["WBA"] = function(sender, bossName, faction, buffName, time)
+			DBM:Debug("WBA sync recieved")
 			--if not ver or not (ver == "8") then return end--Ignore old versions
 			if lastBossEngage[bossName..faction] and (GetTime() - lastBossEngage[bossName..faction] < 30) then return end--We recently got a sync about this buff on this realm, so do nothing.
 			lastBossEngage[bossName..faction] = GetTime()
-			if DBM.Options.WorldBuffAlert and not IsEncounterInProgress() then
+			if DBM.Options.WorldBuffAlert and #inCombat == 0 then
+				DBM:Debug("WBA sync processing")
 				local factionText = faction == "Alliance" and FACTION_ALLIANCE or faction == "Horde" and FACTION_HORDE or DBM_CORE_BOTH
 				DBM:AddMsg(DBM_CORE_WORLDBUFF_STARTED:format(buffName, factionText, sender))
 				local timer = tonumber(time)
@@ -4572,7 +4575,7 @@ do
 			if not ver or not (ver == "8") then return end--Ignore old versions
 			if lastBossEngage[modId..realm] and (GetTime() - lastBossEngage[modId..realm] < 30) then return end
 			lastBossEngage[modId..realm] = GetTime()
-			if realm == playerRealm and DBM.Options.WorldBossAlert and not IsEncounterInProgress() then
+			if realm == playerRealm and DBM.Options.WorldBossAlert and #inCombat == 0 then
 				local _, toonName = BNGetGameAccountInfo(sender)
 				modId = tonumber(modId)--If it fails to convert into number, this makes it nil
 				local bossName = modId and EJ_GetEncounterInfo and EJ_GetEncounterInfo(modId) or name or DBM_CORE_UNKNOWN
@@ -4584,7 +4587,7 @@ do
 			if not ver or not (ver == "8") then return end--Ignore old versions
 			if lastBossDefeat[modId..realm] and (GetTime() - lastBossDefeat[modId..realm] < 30) then return end
 			lastBossDefeat[modId..realm] = GetTime()
-			if realm == playerRealm and DBM.Options.WorldBossAlert and not IsEncounterInProgress() then
+			if realm == playerRealm and DBM.Options.WorldBossAlert and #inCombat == 0 then
 				local _, toonName = BNGetGameAccountInfo(sender)
 				modId = tonumber(modId)--If it fails to convert into number, this makes it nil
 				local bossName = modId and EJ_GetEncounterInfo and EJ_GetEncounterInfo(modId) or name or DBM_CORE_UNKNOWN
@@ -4593,10 +4596,12 @@ do
 		end
 
 		whisperSyncHandlers["WBA"] = function(sender, bossName, faction, buffName, time)
+			DBM:Debug("WBA sync recieved")
 			--if not ver or not (ver == "8") then return end--Ignore old versions
 			if lastBossEngage[bossName..faction] and (GetTime() - lastBossEngage[bossName..faction] < 30) then return end--We recently got a sync about this buff on this realm, so do nothing.
 			lastBossEngage[bossName..faction] = GetTime()
-			if DBM.Options.WorldBuffAlert and not IsEncounterInProgress() then
+			if DBM.Options.WorldBuffAlert and #inCombat == 0 then
+				DBM:Debug("WBA sync processing")
 				local factionText = faction == "Alliance" and FACTION_ALLIANCE or faction == "Horde" and FACTION_HORDE or DBM_CORE_BOTH
 				DBM:AddMsg(DBM_CORE_WORLDBUFF_STARTED:format(buffName, factionText, sender))
 				local timer = tonumber(time)
@@ -5427,22 +5432,27 @@ do
 			local targetName = target or "nil"
 			self:Debug("CHAT_MSG_MONSTER_YELL from "..npc.." while looking at "..targetName, 2)
 		end
-		if not IsInInstance() and self.Options.WorldBuffEvents then
+		if not IsInInstance() then
 			if msg:find(DBM_CORE_WORLD_BUFFS.hordeOny) then
 				local spellName = DBM:GetSpellInfo(22888)
 				SendWorldSync(self, "WBA", "Onyxia\tHorde\t"..spellName.."\t15")
+				DBM:Debug("DBM_CORE_WORLD_BUFFS.hordeOny detected")
 			elseif msg:find(DBM_CORE_WORLD_BUFFS.allianceOny) then
 				local spellName = DBM:GetSpellInfo(22888)
 				SendWorldSync(self, "WBA", "Onyxia\tAlliance\t"..spellName.."\t17")
+				DBM:Debug("DBM_CORE_WORLD_BUFFS.allianceOny detected")
 			elseif msg:find(DBM_CORE_WORLD_BUFFS.hordeNef) then
 				local spellName = DBM:GetSpellInfo(22888)
 				SendWorldSync(self, "WBA", "Nefarian\tHorde\t"..spellName.."\t17")
+				DBM:Debug("DBM_CORE_WORLD_BUFFS.hordeNef detected")
 			elseif msg:find(DBM_CORE_WORLD_BUFFS.allianceNef) then
 				local spellName = DBM:GetSpellInfo(22888)
 				SendWorldSync(self, "WBA", "Nefarian\tAlliance\t"..spellName.."\t17")
+				DBM:Debug("DBM_CORE_WORLD_BUFFS.allianceNef detected")
 			elseif msg:find(DBM_CORE_WORLD_BUFFS.rendHead) then
 				local spellName = DBM:GetSpellInfo(16609)
 				SendWorldSync(self, "WBA", "rendBlackhand\tHorde\t"..spellName.."\t59", true)
+				DBM:Debug("DBM_CORE_WORLD_BUFFS.rendHead detected")
 			end
 		end
 		return onMonsterMessage(self, "yell", msg)
@@ -5479,7 +5489,7 @@ do
 	end
 
 	function DBM:CHAT_MSG_MONSTER_SAY(msg)
-		if not IsInInstance() and self.Options.WorldBuffEvents then
+		if not IsInInstance() then
 			if msg:find(DBM_CORE_WORLD_BUFFS.zgHeart) then
 				local spellName = DBM:GetSpellInfo(24425)
 				SendWorldSync(self, "WBA", "Zandalar\tBoth\t"..spellName.."\t12")
