@@ -5439,7 +5439,7 @@ do
 				DBM:Debug("DBM_CORE_WORLD_BUFFS.hordeOny detected")
 			elseif msg:find(DBM_CORE_WORLD_BUFFS.allianceOny) then
 				local spellName = DBM:GetSpellInfo(22888)
-				SendWorldSync(self, "WBA", "Onyxia\tAlliance\t"..spellName.."\t17")
+				SendWorldSync(self, "WBA", "Onyxia\tAlliance\t"..spellName.."\t15")
 				DBM:Debug("DBM_CORE_WORLD_BUFFS.allianceOny detected")
 			elseif msg:find(DBM_CORE_WORLD_BUFFS.hordeNef) then
 				local spellName = DBM:GetSpellInfo(22888)
