@@ -6093,7 +6093,7 @@ do
 	function DBM:StartLogging(timer, checkFunc)
 		self:Unschedule(DBM.StopLogging)
 		if self.Options.LogOnlyRaidBosses and not IsInRaid() then return end
-		if self.Options.AutologBosses then--Start logging here to catch pre pots.
+		if self.Options.AutologBosses then
 			if not LoggingCombat() then
 				autoLog = true
 				self:AddMsg("|cffffff00"..COMBATLOGENABLED.."|r")

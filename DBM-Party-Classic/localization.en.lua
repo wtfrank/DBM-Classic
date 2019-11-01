@@ -1095,7 +1095,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization("KamDeepfury")
 
 L:SetGeneralLocalization{
-	name 		= "Kam Deepfuryd"
+	name 		= "Kam Deepfury"
 }
 -----------------------------
 --  Hamhock  --

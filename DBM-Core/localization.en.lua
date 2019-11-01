@@ -93,7 +93,7 @@ DBM_CORE_SOUNDKIT_MIGRATION			= "One or more of your warning/special warning sou
 
 DBM_CORE_WORLDBOSS_ENGAGED			= "%s was possibly engaged on your realm at %s percent health. (Sent by %s)"
 DBM_CORE_WORLDBOSS_DEFEATED			= "%s was possibly defeated on your realm (Sent by %s)."
-DBM_CORE_WORLDBUFF_STARTED			= "%s buff has started on your realm for % faction (Sent by %s)."
+DBM_CORE_WORLDBUFF_STARTED			= "%s buff has started on your realm for %s faction (Sent by %s)."
 
 DBM_CORE_TIMER_FORMAT_SECS			= "%.2f |4second:seconds;"
 DBM_CORE_TIMER_FORMAT_MINS			= "%d |4minute:minutes;"
