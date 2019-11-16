@@ -173,7 +173,8 @@ DBM.DefaultOptions = {
 	--FilterSelfHud = true,
 	AutologBosses = false,
 	AdvancedAutologBosses = false,
-	LogOnlyRaidBosses = false,
+	RecordOnlyBosses = false,
+	LogOnlyNonTrivial = true,
 	UseSoundChannel = "Master",
 	LFDEnhance = true,
 	WorldBossNearAlert = false,
@@ -3810,6 +3811,14 @@ do
 				DBM.RangeCheck:Hide(true)
 			end
 		end
+		-- Auto Logging for entire zone if record only bosses is off
+		if not DBM.Options.RecordOnlyBosses then
+			if LastInstanceType == "raid" or LastInstanceType == "party" then
+				self:StartLogging(0, nil)
+			else
+				self:StopLogging()
+			end
+		end
 	end
 	--Faster and more accurate loading for instances, but useless outside of them
 	function DBM:LOADING_SCREEN_DISABLED()
@@ -3976,7 +3985,7 @@ end
 
 do
 	local function checkForActualPull()
-		if #inCombat == 0 then
+		if DBM.Options.RecordOnlyBosses and #inCombat == 0 then
 			DBM:StopLogging()
 		end
 	end
@@ -4164,7 +4173,9 @@ do
 				dummyMod.text:Schedule(timer, DBM_CORE_ANNOUNCE_PULL_NOW)
 			end
 		end
-		DBM:StartLogging(timer, checkForActualPull)
+		if DBM.Options.RecordOnlyBosses then
+			DBM:StartLogging(timer, checkForActualPull)
+		end
 		--[[if DBM.Options.CheckGear then
 			local bagilvl, equippedilvl = GetAverageItemLevel()
 			local difference = bagilvl - equippedilvl
@@ -5692,7 +5703,9 @@ do
 			end
 			--process global options
 			self:HideBlizzardEvents(1)
-			self:StartLogging(0, nil)
+			if self.Options.RecordOnlyBosses then
+				self:StartLogging(0, nil)
+			end
 			if self.Options.HideObjectivesFrame and not InCombatLockdown() then
 				if QuestWatchFrame:IsVisible() then
 					--ObjectiveTrackerFrame:Hide()
@@ -6008,7 +6021,9 @@ do
 			if #inCombat == 0 then--prevent error if you pulled multiple boss. (Earth, Wind and Fire)
 				statusWhisperDisabled = false
 				statusGuildDisabled = false
-				self:Schedule(10, self.StopLogging, self)--small delay to catch kill/died combatlog events
+				if self.Options.RecordOnlyBosses then
+					self:Schedule(10, self.StopLogging, self)--small delay to catch kill/died combatlog events
+				end
 				self:HideBlizzardEvents(0)
 				self:Unschedule(checkBossHealth)
 				self:Unschedule(checkCustomBossHealth)
@@ -6091,7 +6106,7 @@ do
 
 	function DBM:StartLogging(timer, checkFunc)
 		self:Unschedule(DBM.StopLogging)
-		if self.Options.LogOnlyRaidBosses and not IsInRaid() then return end
+		if self.Options.LogOnlyNonTrivial and not IsInRaid() then return end
 		if self.Options.AutologBosses then
 			if not LoggingCombat() then
 				autoLog = true
