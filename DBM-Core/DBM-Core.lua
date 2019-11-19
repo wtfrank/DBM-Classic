@@ -69,7 +69,7 @@ end
 
 DBM = {
 	Revision = parseCurseDate("@project-date-integer@"),
-	DisplayVersion = "1.13.19", -- the string that is shown as version
+	DisplayVersion = "1.13.20", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2019, 11, 19) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
@@ -6171,7 +6171,7 @@ end
 function DBM:GetCurrentInstanceDifficulty()
 	local _, instanceType, difficulty, difficultyName, _, _, _, _, instanceGroupSize = GetInstanceInfo()
 	if difficulty == 0 or (difficulty == 1 and instanceType == "none") then--draenor field returns 1, causing world boss mod bug.
-		return "worldboss", RAID_INFO_WORLD_BOSS.." - ", difficulty, instanceGroupSize, keystoneLevel
+		return "worldboss", RAID_INFO_WORLD_BOSS.." - ", difficulty, instanceGroupSize
 	elseif difficulty == 1 then--5 man Normal Dungeon
 		return "normal5", difficultyName.." - ", difficulty, instanceGroupSize
 	elseif difficulty == 2 then--5 man Heroic Dungeon
@@ -6187,7 +6187,7 @@ function DBM:GetCurrentInstanceDifficulty()
 	elseif difficulty == 7 then--Legacy 25 man LFR (ie pre WoD zones)
 		return "lfr25", difficultyName.." - ", difficulty, instanceGroupSize
 	elseif difficulty == 8 then--Dungeon, Mythic+ (Challenge modes in mists and wod)
-		--local keystoneLevel = C_ChallengeMode.GetActiveKeystoneInfo() or 0
+		local keystoneLevel = C_ChallengeMode and C_ChallengeMode.GetActiveKeystoneInfo() or 0
 		return "challenge5", PLAYER_DIFFICULTY6.."+ ("..keystoneLevel..") - ", difficulty, instanceGroupSize
 	elseif difficulty == 9 then--Legacy 40 man raids, no longer returned as index 3 (normal 10man raids)
 		return "normal40", difficultyName.." - ",difficulty, instanceGroupSize
