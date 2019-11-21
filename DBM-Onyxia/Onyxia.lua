@@ -200,7 +200,7 @@ function mod:OnSync(msg)
 	elseif msg == "Phase3" then
 		self.vb.phase = 3
 		warnPhase3:Show()
-		self:UnscheduleMethod("Whelps")
+		--self:UnscheduleMethod("Whelps")
 		--timerWhelps:Stop()
 		--timerNextDeepBreath:Stop()
 		--timerBigAddCD:Stop()
