@@ -108,8 +108,11 @@ do
 		elseif spellName == flameBreathCast and args:IsSrcTypeHostile() then        -- Flame Breath (Ground phases)
 			timerNextFlameBreath:Start()
 		elseif spellName == bellowingRoar and args:IsSrcTypeHostile() then
-			specWarnBellowingRoar:Show()
-			specWarnBellowingRoar:Play("fearsoon")
+			self:SendSync("Fear")
+			if self:AntiSpam(3, 3) then
+				specWarnBellowingRoar:Show()
+				specWarnBellowingRoar:Play("fearsoon")
+			end
 		elseif spellName == wingBuffet and args:IsSrcTypeHostile() then
 			warnWingBuffet:Show()
 		elseif spellName == fireball and args:IsSrcTypeHostile() then
@@ -219,5 +222,8 @@ function mod:OnSync(msg, guid)
 		end
 	elseif msg == "Fireball" and guid and self:AntiSpam(3, 2) then
 		self:BossTargetScanner(guid, "FireballTarget", 0.3, 6)
+	elseif msg == "Fear" and self:AntiSpam(3, 3) then
+		specWarnBellowingRoar:Show()
+		specWarnBellowingRoar:Play("fearsoon")
 	end
 end
