@@ -113,7 +113,10 @@ do
 		elseif spellName == wingBuffet and args:IsSrcTypeHostile() then
 			warnWingBuffet:Show()
 		elseif spellName == fireball and args:IsSrcTypeHostile() then
-			self:BossTargetScanner(args.sourceGUID, "FireballTarget", 0.3, 6)
+			self:SendSync("Fireball", args.sourceGUID)
+			if self:AntiSpam(3, 2) then
+				self:BossTargetScanner(args.sourceGUID, "FireballTarget", 0.3, 6)
+			end
 		end
 	end
 end
@@ -173,7 +176,7 @@ function mod:UNIT_HEALTH(uId)
 	end
 end
 
-function mod:OnSync(msg)
+function mod:OnSync(msg, guid)
 	if not self:IsInCombat() then return end
 	if msg == "Breath" and self:AntiSpam(8, 1) then
 		specWarnBreath:Show()
@@ -214,5 +217,7 @@ function mod:OnSync(msg)
 			self:Schedule(35, DBM.PlaySoundFile, DBM, "Interface\\AddOns\\DBM-Onyxia\\sounds\\hit-it-like-you-mean-it.ogg")
 			self:Schedule(45, DBM.PlaySoundFile, DBM, "Interface\\AddOns\\DBM-Onyxia\\sounds\\now-hit-it-very-hard-and-fast.ogg")
 		end
+	elseif msg == "Fireball" and guid and self:AntiSpam(3, 2) then
+		self:BossTargetScanner(guid, "FireballTarget", 0.3, 6)
 	end
 end

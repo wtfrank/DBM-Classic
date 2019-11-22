@@ -38,24 +38,55 @@ do
 		local spellName = args.spellName
 		--if spellId == 20619 then
 		if spellName == MagicReflect then
-			specWarnMagicReflect:Show(BOSS)--Always a threat to casters
-			specWarnMagicReflect:Play("stopattack")
-			timerMagicReflect:Start()
-			timerShieldCD:Start()
+			self:SendSync("MagicReflect")
+			if self:AntiSpam(5, 1) then
+				specWarnMagicReflect:Show(BOSS)--Always a threat to casters
+				specWarnMagicReflect:Play("stopattack")
+				timerMagicReflect:Start()
+				timerShieldCD:Start()
+			end
 		--elseif spellId == 21075 then
 		elseif spellName == MeleeReflect then
-			if self.Options.SpecWarn21075reflect and (self:IsDifficulty("event40") or not self:IsTrivial(75)) then--Not a threat to high level melee
-				specWarnDamageShield:Show(BOSS)
-				specWarnDamageShield:Play("stopattack")
-			else
-				warnDamageShield:Show()
+			self:SendSync("MeleeReflect")
+			if self:AntiSpam(5, 2) then
+				if self.Options.SpecWarn21075reflect and (self:IsDifficulty("event40") or not self:IsTrivial(75)) then--Not a threat to high level melee
+					specWarnDamageShield:Show(BOSS)
+					specWarnDamageShield:Play("stopattack")
+				else
+					warnDamageShield:Show()
+				end
+				timerDamageShield:Start()
+				timerShieldCD:Start()
 			end
-			timerDamageShield:Start()
-			timerShieldCD:Start()
 		--elseif spellId == 20534 then
 		elseif spellName == Teleport then
-			warnTeleport:Show(args.destName)
-			timerTeleportCD:Start()
+			self:SendSync("Teleport")
+			if self:AntiSpam(5, 3) then
+				warnTeleport:Show(args.destName)
+				timerTeleportCD:Start()
+			end
 		end
+	end
+end
+
+function mod:OnSync(msg, guid)
+	if not self:IsInCombat() then return end
+	if msg == "MagicReflect" and self:AntiSpam(5, 1) then
+		specWarnMagicReflect:Show(BOSS)--Always a threat to casters
+		specWarnMagicReflect:Play("stopattack")
+		timerMagicReflect:Start()
+		timerShieldCD:Start()
+	elseif msg == "MeleeReflect" and self:AntiSpam(5, 2) then
+		if self.Options.SpecWarn21075reflect and (self:IsDifficulty("event40") or not self:IsTrivial(75)) then--Not a threat to high level melee
+			specWarnDamageShield:Show(BOSS)
+			specWarnDamageShield:Play("stopattack")
+		else
+			warnDamageShield:Show()
+		end
+		timerDamageShield:Start()
+		timerShieldCD:Start()
+	elseif msg == "Teleport" and self:AntiSpam(5, 3) then
+		warnTeleport:Show(args.destName)
+		timerTeleportCD:Start()
 	end
 end

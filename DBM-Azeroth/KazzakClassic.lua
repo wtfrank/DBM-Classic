@@ -49,11 +49,29 @@ do
 		local spellName = args.spellName
 		--if spellId == 21056 then
 		if spellName == MarkofKaz then
-			if args:IsPlayer() then
+			self:SendSync("Mark", args.destName)
+			if self:AntiSpam(5, 1) then
+				if args:IsPlayer() then
+					specWarnMark:Show()
+					specWarnMark:Play("targetyou")
+				else
+					warningMark:Show(args.destName)
+				end
+			end
+		end
+	end
+end
+
+do
+	local playerName = UnitName("player")
+	function mod:OnSync(msg, targetName)
+		if not self:IsInCombat() then return end
+		if msg == "Mark" and targetName and self:AntiSpam(5, 1) then
+			if targetName == playerName then
 				specWarnMark:Show()
 				specWarnMark:Play("targetyou")
 			else
-				warningMark:Show(args.destName)
+				warningMark:Show(targetName)
 			end
 		end
 	end

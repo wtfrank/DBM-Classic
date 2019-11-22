@@ -62,8 +62,11 @@ do
 	function mod:SPELL_CAST_SUCCESS(args)
 		--if args.spellId == 20566 then
 		if args.spellName == Wrath then
-			warnWrathRag:Show()
-			timerWrathRag:Start()
+			self:SendSync("WrathRag")
+			if self:AntiSpam(5, 1) then
+				warnWrathRag:Show()
+				timerWrathRag:Start()
+			end
 		end
 	end
 end
@@ -112,5 +115,8 @@ function mod:OnSync(msg, guid)
 			self:Unschedule(emerged)
 			emerged(self)
 		end
+	elseif msg == "WrathRag" and self:AntiSpam(5, 1) then
+		warnWrathRag:Show()
+		timerWrathRag:Start()
 	end
 end
