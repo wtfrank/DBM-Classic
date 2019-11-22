@@ -5,6 +5,8 @@ mod:SetRevision("@file-date-integer@")
 mod:SetCreatureID(12264)
 mod:SetEncounterID(667)
 mod:SetModelID(13032)
+mod:SetHotfixNoticeRev(20191122000000)--2019, 11, 22
+
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
@@ -71,9 +73,21 @@ do
 			timerCounterSpellCD:Start()
 		--elseif args.spellId == 23138 then
 		elseif spellName == Gate then
-			specWarnGate:Show(args.sourceName)
-			specWarnGate:Play("tauntboss")
-			timerGateCD:Start()
+			self:SendSync("Teleport")
+			if self:AntiSpam(5, 1) then
+				specWarnGate:Show(args.sourceName)
+				specWarnGate:Play("tauntboss")
+				timerGateCD:Start()
+			end
 		end
+	end
+end
+
+function mod:OnSync(msg, guid)
+	if not self:IsInCombat() then return end
+	if msg == "Teleport" and self:AntiSpam(5, 1) then
+		specWarnGate:Show(args.sourceName)
+		specWarnGate:Play("tauntboss")
+		timerGateCD:Start()
 	end
 end

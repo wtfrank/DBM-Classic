@@ -5,6 +5,8 @@ mod:SetRevision("@file-date-integer@")
 mod:SetCreatureID(11502)
 mod:SetEncounterID(672)
 mod:SetModelID(11121)
+mod:SetHotfixNoticeRev(20191122000000)--2019, 11, 22
+
 mod:RegisterCombat("combat")
 
 mod:RegisterEvents(

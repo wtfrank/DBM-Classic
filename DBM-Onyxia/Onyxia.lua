@@ -6,6 +6,7 @@ mod:SetCreatureID(10184)
 mod:SetEncounterID(1084)
 mod:SetZone()
 mod:SetModelID(8570)
+mod:SetHotfixNoticeRev(20191122000000)--2019, 11, 22
 
 mod:RegisterCombat("combat")
 
