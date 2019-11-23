@@ -62,7 +62,7 @@ do
 			end
 		--elseif spellId == 20534 then
 		elseif spellName == Teleport then
-			self:SendSync("Teleport")
+			self:SendSync("Teleport", args.destName)
 			if self:AntiSpam(5, 3) then
 				warnTeleport:Show(args.destName)
 				timerTeleportCD:Start()
@@ -71,7 +71,7 @@ do
 	end
 end
 
-function mod:OnSync(msg, guid)
+function mod:OnSync(msg, targetName)
 	if not self:IsInCombat() then return end
 	if msg == "MagicReflect" and self:AntiSpam(5, 1) then
 		specWarnMagicReflect:Show(BOSS)--Always a threat to casters
@@ -87,8 +87,8 @@ function mod:OnSync(msg, guid)
 		end
 		timerDamageShield:Start()
 		timerShieldCD:Start()
-	elseif msg == "Teleport" and self:AntiSpam(5, 3) then
-		warnTeleport:Show(args.destName)
+	elseif msg == "Teleport" and targetName and self:AntiSpam(5, 3) then
+		warnTeleport:Show(targetName)
 		timerTeleportCD:Start()
 	end
 end
