@@ -96,8 +96,11 @@ do
 			timerInfernoCD:Start()
 		--elseif spellId == 19659 then
 		elseif spellName == Ignite and args:IsSrcTypeHostile() then
-			warnIgnite:Show()
-			timerIgniteManaCD:Start()
+			self:SendSync("IgniteMana")
+			if self:AntiSpam(5, 2) then
+				warnIgnite:Show()
+				timerIgniteManaCD:Start()
+			end
 		--elseif spellId == 20478 then
 		elseif spellName == Armageddon then
 			warnArmageddon:Show()
@@ -126,5 +129,8 @@ function mod:OnSync(msg, targetName)
 		else
 			warnBomb:Show(targetName)
 		end
+	elseif msg == "IgniteMana" and self:AntiSpam(5, 2) then
+		warnIgnite:Show()
+		timerIgniteManaCD:Start()
 	end
 end

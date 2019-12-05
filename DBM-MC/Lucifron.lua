@@ -35,13 +35,19 @@ do
 		local spellName = args.spellName
 		--if spellId == 19702 then
 		if spellName == Doom then
-			warnDoom:Show()
---			timerDoom:Start()
-			timerDoomCD:Start()
+			self:SendSync("Doom")
+			if self:AntiSpam(5, 1) then
+				warnDoom:Show()
+--				timerDoom:Start()
+				timerDoomCD:Start()
+			end
 		--elseif spellId == 19703 then
 		elseif spellName == Curse then
-			warnCurse:Show()
-			timerCurseCD:Start()
+			self:SendSync("Curse")
+			if self:AntiSpam(5, 2) then
+				warnCurse:Show()
+				timerCurseCD:Start()
+			end
 		end
 	end
 end
@@ -53,5 +59,17 @@ do
 		if args.spellName == MindControl then
 			warnMC:CombinedShow(1, args.destName)
 		end
+	end
+end
+
+function mod:OnSync(msg, targetName)
+	if not self:IsInCombat() then return end
+	if msg == "Doom" and self:AntiSpam(5, 1) then
+		warnDoom:Show()
+--		timerDoom:Start()
+		timerDoomCD:Start()
+	elseif msg == "Curse" and self:AntiSpam(5, 2) then
+		warnCurse:Show()
+		timerCurseCD:Start()
 	end
 end
