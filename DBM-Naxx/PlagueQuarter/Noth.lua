@@ -8,7 +8,7 @@ mod:SetModelID(16590)
 mod:RegisterCombat("combat_yell", L.Pull)
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_SUCCESS 29213 54835 29212",
+	"SPELL_CAST_SUCCESS 29213 29212",--54835 Add in wrath
 	--"CHAT_MSG_MONSTER_YELL",
 	"CHAT_MSG_RAID_BOSS_EMOTE",
 	"UNIT_SPELLCAST_SUCCEEDED"
