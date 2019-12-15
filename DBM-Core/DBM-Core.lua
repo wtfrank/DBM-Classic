@@ -3714,7 +3714,7 @@ function DBM:UPDATE_BATTLEFIELD_STATUS(queueID)
 			if self.Options.ShowQueuePop and not self.Options.DontShowBossTimers then
 				queuedBattlefield[i] = select(2, GetBattlefieldStatus(i))
 				local expiration = GetBattlefieldPortExpiration(queueID)
-				local timerIcon = GetPlayerFactionGroup("player") == "Alliance" and 132486 or 132485
+				local timerIcon = UnitFactionGroup("player") == "Alliance" and 132486 or 132485
 				self.Bars:CreateBar(expiration or 85, queuedBattlefield[i], timerIcon)
 				fireEvent("DBM_TimerStart", "DBMBFSTimer", queuedBattlefield[i], expiration or 85, tostring(timerIcon), "extratimer", nil, 0)
 			end
