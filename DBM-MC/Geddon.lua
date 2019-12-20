@@ -67,7 +67,7 @@ do
 					warnBomb:Show(args.destName)
 				end
 			end
-		elseif spellName == Ignite then
+		elseif spellName == Ignite and self:CheckDispelFilter() then
 			specWarnIgnite:CombinedShow(0.3, args.destName)
 			specWarnIgnite:ScheduleVoice(0.3, "helpdispel")
 		end
