@@ -449,6 +449,7 @@ local LD
 if LibStub("LibDurability", true) then
 	LD = LibStub("LibDurability")
 end
+--While it's no longer hard embed, if lib exists might as well still use it
 local ThreatLib
 if LibStub("ThreatClassic-1.0", true) and WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
 	ThreatLib = LibStub("ThreatClassic-1.0")
