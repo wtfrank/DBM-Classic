@@ -455,8 +455,8 @@ if LibStub("ThreatClassic-1.0", true) and WOW_PROJECT_ID == WOW_PROJECT_CLASSIC 
 	ThreatLib = LibStub("ThreatClassic-1.0")
 end
 local ThreatLib2
-if LibStub("ThreatClassic2", true) and WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
-	ThreatLib2 = LibStub("ThreatClassic2")
+if LibStub("LibThreatClassic2", true) and WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	ThreatLib2 = LibStub("LibThreatClassic2")
 end
 
 --------------------------------------------------------
