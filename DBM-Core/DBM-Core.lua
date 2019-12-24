@@ -605,8 +605,7 @@ local function sendSync(prefix, msg)
 		elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 			SendAddonMessage("D4C", prefix .. "\t" .. msg, "PARTY")
 		else--for solo raid
-			handleSync("WHISPER", playerName, strsplit("\t", msg))
-			--SendAddonMessage("D4C", prefix .. "\t" .. msg, "WHISPER", playerName)
+			handleSync("SOLO", playerName, prefix, strsplit("\t", msg))
 		end
 	end
 end
