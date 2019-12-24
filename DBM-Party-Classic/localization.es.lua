@@ -1,4 +1,4 @@
-if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
+if GetLocale() ~= "esES" then return end
 local L
 
 --------------------------------
@@ -561,7 +561,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization(418)
 
 L:SetGeneralLocalization{
-	name 		= "Golpeamasa 9-60"
+	name 		= "Gopleamasa 9-60"
 }
 -----------------------------
 --  Mekgineer Thermaplugg  --
@@ -799,7 +799,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization("EarthcallerHalmgar")
 
 L:SetGeneralLocalization{
-	name 		= "Clamatierras Halmgar"
+	name 		= "Clamor de Tierra Halmgar"
 }
 
 -----------------------------
@@ -1038,7 +1038,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization("OdotheBlindwatcher")
 
 L:SetGeneralLocalization{
-	name 		= "Odo el vigía ciego"
+	name 		= "Odo el Cegato"
 }
 
 -----------------------------
@@ -1117,7 +1117,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization("DextrenWard")
 
 L:SetGeneralLocalization{
-	name 		= "Dextren Ward"
+	name 		= "Dextren Tutor"
 }
 -----------------------------
 --  Bruegal Ironknuckle  --
