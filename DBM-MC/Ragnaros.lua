@@ -11,7 +11,8 @@ mod:RegisterCombat("combat")
 
 mod:RegisterEvents(
 	"CHAT_MSG_MONSTER_YELL",
-	"SPELL_CAST_SUCCESS 20566 19773 19774"
+	"SPELL_CAST_START 19774",
+	"SPELL_CAST_SUCCESS 20566 19773"
 )
 mod:RegisterEventsInCombat(
 --	"SPELL_CAST_SUCCESS 20566 19773",
@@ -61,7 +62,17 @@ local function emerged(self)
 end
 
 do
-	local Wrath, domoDeath, summonRag = DBM:GetSpellInfo(20566), DBM:GetSpellInfo(19773), DBM:GetSpellInfo(19774)
+	local summonRag = DBM:GetSpellInfo(19774)
+	function mod:SPELL_CAST_START(args)
+		--if args.spellId == 20566 then
+		if args.spellName == summonRag and self:AntiSpam(5, 4) then
+			self:SendSync("SummonRag")
+		end
+	end
+end
+
+do
+	local Wrath, domoDeath = DBM:GetSpellInfo(20566), DBM:GetSpellInfo(19773)
 	function mod:SPELL_CAST_SUCCESS(args)
 		--if args.spellId == 20566 then
 		if args.spellName == Wrath then
@@ -72,8 +83,6 @@ do
 			end
 		elseif args.spellName = domoDeath then
 			self:SendSync("DomoDeath")
-		elseif args.spellName = summonRag and self:AntiSpam(5, 4) then
-			self:SendSync("SummonRag")
 		end
 	end
 end
