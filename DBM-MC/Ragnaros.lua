@@ -5,14 +5,15 @@ mod:SetRevision("@file-date-integer@")
 mod:SetCreatureID(11502)
 mod:SetEncounterID(672)
 mod:SetModelID(11121)
-mod:SetHotfixNoticeRev(20191122000000)--2019, 11, 22
+mod:SetHotfixNoticeRev(20191226000000)--2019, 12, 26
+mod:SetMinSyncRevision(20191226000000)
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEvents(
-	"CHAT_MSG_MONSTER_YELL",
 	"SPELL_CAST_START 19774",
-	"SPELL_CAST_SUCCESS 20566 19773"
+	"SPELL_CAST_SUCCESS 20566 19773",
+	"CHAT_MSG_MONSTER_YELL"
 )
 mod:RegisterEventsInCombat(
 --	"SPELL_CAST_SUCCESS 20566 19773",
@@ -31,14 +32,14 @@ local timerSubmerge		= mod:NewTimer(180, "TimerSubmerge", "Interface\\AddOns\\DB
 local timerEmerge		= mod:NewTimer(90, "TimerEmerge", "Interface\\AddOns\\DBM-Core\\textures\\CryptFiendUnBurrow.blp", nil, nil, 6, nil, nil, 1, 5)
 local timerCombatStart	= mod:NewCombatTimer(73)
 
-mod.vb.addLeft = 8
+mod.vb.addLeft = 0
 local addsGuidCheck = {}
 
 mod:AddRangeFrameOption("10", nil, "-Melee")
 
 function mod:OnCombatStart(delay)
 	table.wipe(addsGuidCheck)
-	self.vb.addLeft = 8
+	self.vb.addLeft = 0
 	timerWrathRag:Start(26.7-delay)
 	timerSubmerge:Start(180-delay)
 	if self.Options.RangeFrame then
@@ -57,8 +58,6 @@ local function emerged(self)
 	warnEmerge:Show()
 	timerWrathRag:Start(26.7)--need to find out what it is first.
 	timerSubmerge:Start(180)
-	table.wipe(addsGuidCheck)
-	self.vb.addLeft = 8
 end
 
 do
@@ -107,9 +106,6 @@ end
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Submerge then
 		self:SendSync("Submerge")
-	--Could also use this instead
-	--"<37.8 22:36:31> [CLEU] SPELL_CAST_START#false#Creature-0-3137-409-16929-54404-00007003D3#Majordomo Executus#2584#0##nil#-2147483648#-2147483648#19774#Summon Ragnaros#4", -- [1677]
-	--"<38.0 22:36:31> [CHAT_MSG_MONSTER_YELL] CHAT_MSG_MONSTER_YELL#Impudent whelps! You've rushed headlong to your own deaths! See now, the master stirs!\r\n#Majordomo Executus###Shiramura
 	elseif msg == L.Pull and self:AntiSpam(5, 4) then
 		self:SendSync("SummonRag")
 	end
@@ -123,6 +119,7 @@ function mod:OnSync(msg, guid)
 		warnSubmerge:Show()
 		timerEmerge:Start(90)
 		self:Schedule(90, emerged, self)
+		self.vb.addLeft = self.vb.addLeft + 8
 	elseif msg == "AddDied" and guid and not addsGuidCheck[guid] then
 		--A unit died we didn't detect ourselves, so we correct our adds counter from sync
 		addsGuidCheck[guid] = true
