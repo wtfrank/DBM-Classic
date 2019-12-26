@@ -10,10 +10,11 @@ mod:SetHotfixNoticeRev(20191122000000)--2019, 11, 22
 mod:RegisterCombat("combat")
 
 mod:RegisterEvents(
-	"CHAT_MSG_MONSTER_YELL"
+	"CHAT_MSG_MONSTER_YELL",
+	"SPELL_CAST_SUCCESS 20566 19773 19774"
 )
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_SUCCESS 20566",
+--	"SPELL_CAST_SUCCESS 20566 19773",
 	"UNIT_DIED"
 )
 
@@ -60,7 +61,7 @@ local function emerged(self)
 end
 
 do
-	local Wrath = DBM:GetSpellInfo(20566)
+	local Wrath, domoDeath, summonRag = DBM:GetSpellInfo(20566), DBM:GetSpellInfo(19773), DBM:GetSpellInfo(19774)
 	function mod:SPELL_CAST_SUCCESS(args)
 		--if args.spellId == 20566 then
 		if args.spellName == Wrath then
@@ -69,6 +70,10 @@ do
 				warnWrathRag:Show()
 				timerWrathRag:Start()
 			end
+		elseif args.spellName = domoDeath then
+			self:SendSync("DomoDeath")
+		elseif args.spellName = summonRag and self:AntiSpam(5, 4) then
+			self:SendSync("SummonRag")
 		end
 	end
 end
@@ -96,8 +101,8 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 	--Could also use this instead
 	--"<37.8 22:36:31> [CLEU] SPELL_CAST_START#false#Creature-0-3137-409-16929-54404-00007003D3#Majordomo Executus#2584#0##nil#-2147483648#-2147483648#19774#Summon Ragnaros#4", -- [1677]
 	--"<38.0 22:36:31> [CHAT_MSG_MONSTER_YELL] CHAT_MSG_MONSTER_YELL#Impudent whelps! You've rushed headlong to your own deaths! See now, the master stirs!\r\n#Majordomo Executus###Shiramura
-	elseif msg == L.Pull then
-		timerCombatStart:Start()
+	elseif msg == L.Pull and self:AntiSpam(5, 4) then
+		self:SendSync("SummonRag")
 	end
 end
 
@@ -120,5 +125,15 @@ function mod:OnSync(msg, guid)
 	elseif msg == "WrathRag" and self:AntiSpam(5, 1) then
 		warnWrathRag:Show()
 		timerWrathRag:Start()
+	elseif msg == "SummonRag" and self:AntiSpam(5, 2) then
+		timerCombatStart:Start()
+	elseif msg == "DomoDeath" and self:AntiSpam(5, 3) then
+		--The timer between yell/summon start and ragnaros being attackable is variable, but time between domo death and him being attackable is not.
+		--As such, we start lowest timer of that variation on the RP start, but adjust timer if it's less than 10 seconds at time domo dies
+		local remaining = timerCombatStart:GetRemaining()
+		if remaining < 10 then
+			local adjust = 10 - remaining
+			timerCombatStart:AddTime(adjust)
+		end
 	end
 end
