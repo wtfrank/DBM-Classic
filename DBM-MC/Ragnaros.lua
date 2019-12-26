@@ -80,7 +80,7 @@ do
 				warnWrathRag:Show()
 				timerWrathRag:Start()
 			end
-		elseif args.spellName = domoDeath then
+		elseif args.spellName == domoDeath then
 			self:SendSync("DomoDeath")
 		end
 	end
