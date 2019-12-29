@@ -873,7 +873,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization("Fairbanks")
 
 L:SetGeneralLocalization{
-	name 		= "Alto Inquisidor Ribalimpia"
+	name 		= "Alto inquisidor Ribalimpia"
 }
 
 -------------------------
