@@ -92,7 +92,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization(373)
 
 L:SetGeneralLocalization{
-	name 		= "Piromántico Fruto del Saber"
+	name 		= "Piromántico Cultugrano"
 }
 --------------------
 -- Lord Incendius --
@@ -270,7 +270,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization(396)
 
 L:SetGeneralLocalization{
-	name 		= "Señor Supremo Vermiothalak"
+	name 		= "Señor supremo Vermiothalak"
 }
 
 -------------------------
@@ -1449,7 +1449,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization("DeviateFaerie")
 
 L:SetGeneralLocalization{
-	name 		= "Dragón férico descarriado"
+	name 		= "Dragón feérico descarriado"
 }
 
 -------------------------
