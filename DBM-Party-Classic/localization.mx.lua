@@ -111,12 +111,12 @@ L:SetGeneralLocalization{
 	name 		= "Depositario Stilgiss"
 }
 ----------------------
--- Finoso Vironegro --
+-- Finoso Virunegro --
 ----------------------
 L = DBM:GetModLocalization(376)
 
 L:SetGeneralLocalization{
-	name 		= "Finoso Vironegro"
+	name 		= "Finoso Virunegro"
 }
 --------------
 -- Bael'Gar --
