@@ -1478,7 +1478,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization(485)
 
 L:SetGeneralLocalization{
-	name 		= "Theka la Mártir"
+	name 		= "Theka el Mártir"
 }
 
 -----------------------------
