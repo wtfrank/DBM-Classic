@@ -69,8 +69,8 @@ end
 
 DBM = {
 	Revision = parseCurseDate("@project-date-integer@"),
-	DisplayVersion = "1.13.26", -- the string that is shown as version
-	ReleaseRevision = releaseDate(2019, 12, 30) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+	DisplayVersion = "1.13.27", -- the string that is shown as version
+	ReleaseRevision = releaseDate(2020, 1, 3) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -4154,7 +4154,7 @@ do
 		end
 		if (lastMapID and tonumber(lastMapID) ~= LastInstanceMapID) or (not lastMapID and DBM.Options.DontShowPTNoID) then return end
 		timer = tonumber(timer or 0)
-		if timer > 60 or timer < 0 then -- Avoid negative numbers
+		if timer > 60 or timer < 3 then
 			return
 		end
 		if not dummyMod then
