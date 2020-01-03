@@ -132,7 +132,7 @@ function mod:OnSync(msg, guid)
 	elseif msg == "WrathRag" and self:IsInCombat() and self:AntiSpam(5, 1) then
 		warnWrathRag:Show()
 		timerWrathRag:Start()
-	elseif msg == "DomoDeath" and self:IsInCombat() and self:AntiSpam(5, 3) then
+	elseif msg == "DomoDeath" and self:AntiSpam(5, 3) then
 		--The timer between yell/summon start and ragnaros being attackable is variable, but time between domo death and him being attackable is not.
 		--As such, we start lowest timer of that variation on the RP start, but adjust timer if it's less than 10 seconds at time domo dies
 		local remaining = timerCombatStart:GetRemaining()
