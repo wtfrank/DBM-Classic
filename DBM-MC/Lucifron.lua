@@ -5,12 +5,15 @@ mod:SetRevision("@file-date-integer@")
 mod:SetCreatureID(12118)--, 12119
 mod:SetEncounterID(663)
 mod:SetModelID(13031)
+mod:SetUsedIcons(1, 2)
+
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 20604",
-	"SPELL_CAST_SUCCESS 19702 19703"
---	"SPELL_AURA_APPLIED 20604"
+	"SPELL_CAST_SUCCESS 19702 19703",
+--	"SPELL_AURA_APPLIED 20604",
+	"SPELL_AURA_REMOVED 20604"
 )
 
 --[[
@@ -27,7 +30,12 @@ local timerCurseCD	= mod:NewCDTimer(20.5, 19703, nil, nil, nil, 3, nil, DBM_CORE
 local timerDoomCD	= mod:NewCDTimer(20, 19702, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)--20-25
 --local timerDoom		= mod:NewCastTimer(10, 19702, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
 
+mod:AddSetIconOption("SetIconOnMC", 20604, true, false, {1, 2})
+
+mod.vb.lastIcon = 1
+
 function mod:OnCombatStart(delay)
+	self.vb.lastIcon = 1
 	timerDoomCD:Start(7-delay)--7-8
 	timerCurseCD:Start(12-delay)--12-15
 end
@@ -41,6 +49,15 @@ do
 			specWarnMC:Show()
 			specWarnMC:Play("targetyou")
 			yellMC:Yell()
+		end
+		if self.Options.SetIconOnMC then
+			self:SetIcon(targetname, self.vb.lastIcon)
+		end
+		--Alternate icon between 1 and 2
+		if self.vb.lastIcon == 1 then
+			self.vb.lastIcon = 2
+		else
+			self.vb.lastIcon = 1
 		end
 	end
 
@@ -57,6 +74,15 @@ do
 			warnMC:CombinedShow(1, args.destName)
 		end
 	end--]]
+
+	function mod:SPELL_AURA_REMOVED(args)
+		--if args.spellId == 20604 then
+		if args.spellName == MindControl and args:IsDestTypePlayer() then
+			if self.Options.SetIconOnMC then
+				self:SetIcon(args.destName, 0)
+			end
+		end
+	end
 end
 
 do
