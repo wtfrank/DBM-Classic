@@ -1163,7 +1163,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization(446)
 
 L:SetGeneralLocalization{
-	name 		= "Maestro cañonero Willey"
+	name 		= "Cañonero Jefe Willey"
 }
 
 -----------------------------
