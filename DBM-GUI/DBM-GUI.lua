@@ -4675,10 +4675,10 @@ do
 							else
 								button = catpanel:CreateCheckButton(mod.localization.options[v], true)
 							end
-							button:SetScript("OnShow", function(self)
+							button:HookScript("OnShow", function(self)
 								self:SetChecked(mod.Options[v])
 							end)
-							button:SetScript("OnClick", function(self)
+							button:HookScript("OnClick", function(self)
 								mod.Options[v] = not mod.Options[v]
 								if mod.optionFuncs and mod.optionFuncs[v] then
 									mod.optionFuncs[v]()
@@ -4690,7 +4690,8 @@ do
 						elseif mod.editboxes and mod.editboxes[v] then
 							local editBox = mod.editboxes[v]
 							button = catpanel:CreateEditBox(mod.localization.options[v], mod.Options[v], editBox.width, editBox.height)
-							button:SetScript("OnTextChanged", function(self)
+							button:SetScript("OnEnterPressed", function(self)
+								mod.Options[v] = self:GetText()
 								if mod.optionFuncs and mod.optionFuncs[v] then
 									mod.optionFuncs[v]()
 								end
@@ -4698,10 +4699,11 @@ do
 						elseif mod.sliders and mod.sliders[v] then
 							local slider = mod.sliders[v]
 							button = catpanel:CreateSlider(mod.localization.options[v], slider.minValue, slider.maxValue, slider.valueStep)
-							button:SetScript("OnShow", function(self)
+							button:HookScript("OnShow", function(self)
 								self:SetValue(mod.Options[v])
 							end)
 							button:HookScript("OnValueChanged", function(self)
+								mod.Options[v] = self:GetValue()
 								if mod.optionFuncs and mod.optionFuncs[v] then
 									mod.optionFuncs[v]()
 								end
