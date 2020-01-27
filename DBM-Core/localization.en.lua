@@ -468,7 +468,7 @@ DBM_CORE_AUTO_TIMER_TEXTS = {
 	addsshort		= "Adds",
 	addscustom		= "Incoming Adds (%%s)",
 	addscustomshort	= "Adds (%%s)",
-	roleplay		= GUILD_INTEREST_RP
+	roleplay		= "Roleplay"
 }
 
 DBM_CORE_AUTO_TIMER_OPTIONS = {
