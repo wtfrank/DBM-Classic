@@ -458,7 +458,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization(408)
 
 L:SetGeneralLocalization{
-	name 		= "Magister Kelendris"
+	name 		= "Magister Kalendris"
 }
 -----------------------------
 --  Immol'thar  --
