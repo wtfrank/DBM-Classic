@@ -92,7 +92,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization(373)
 
 L:SetGeneralLocalization{
-	name 		= "Piromántico Cultugrano"
+	name 		= "Piromántico Fruto del Saber"
 }
 --------------------
 -- Lord Incendius --
@@ -938,7 +938,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization("InstructorMalicia")
 
 L:SetGeneralLocalization{
-	name 		= "Instructor Malicia"
+	name 		= "Instructora Malicia"
 }
 
 -----------------------------
@@ -1203,12 +1203,12 @@ L:SetGeneralLocalization{
 }
 
 -----------------------------
---  Narub'enkan  --
+--  Nerub'enkan  --
 -----------------------------
 L = DBM:GetModLocalization(452)
 
 L:SetGeneralLocalization{
-	name 		= "Narub'enkan"
+	name 		= "Nerub'enkan"
 }
 
 -----------------------------
