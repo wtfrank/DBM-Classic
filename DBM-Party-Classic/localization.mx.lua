@@ -2,7 +2,7 @@ if GetLocale() ~= "esMX" then return end
 local L
 
 --------------------------------
--- Cavernas de Brazanegra (1) --
+-- Blackfathom Deeps (1) --
 --------------------------------
 --  Ghamoo-Ra  --
 -----------------------------
@@ -12,7 +12,7 @@ L:SetGeneralLocalization{
 	name 		= "Ghamoo-Ra"
 }
 -----------------------------
---  Lady Serevess  --
+--  Lady Sarevess  --
 -----------------------------
 L = DBM:GetModLocalization("LadySerevess")
 
@@ -53,9 +53,9 @@ L:SetGeneralLocalization{
 }
 
 -------------------------------------------------
--- Profundidades de Roca Negra - 228J/230M (2) --
+-- Blackrock Depths - 228J/230M (2) --
 -------------------------------------------------
--- Alta interrogadora Gerstahn --
+-- High Interrogator Gerstahn --
 ---------------------------------
 L = DBM:GetModLocalization(369)
 
@@ -71,7 +71,7 @@ L:SetGeneralLocalization{
 	name 		= "Lord Roccor"
 }
 ------------------------------
--- Maestro de canes Grebmar --
+-- Hound Master Grebmar --
 ------------------------------
 L = DBM:GetModLocalization(371)
 
@@ -79,7 +79,7 @@ L:SetGeneralLocalization{
 	name 		= "Maestro de canes Grebmar"
 }
 ---------------------------------------------------------
--- Círculo de la Ley (Alto justiciero Piedrasiniestra) --
+-- Ring of Law --
 ---------------------------------------------------------
 L = DBM:GetModLocalization(372)
 
@@ -87,7 +87,7 @@ L:SetGeneralLocalization{
 	name 		= "Círculo de la Ley"
 }
 ---------------------------------
--- Piromántico Fruto del Saber --
+-- Pyromancer Loregrain --
 ---------------------------------
 L = DBM:GetModLocalization(373)
 
@@ -103,7 +103,7 @@ L:SetGeneralLocalization{
 	name 		= "Lord Incendius"
 }
 --------------------------
--- Depositario Stilgiss --
+-- Warden Stilgiss --
 --------------------------
 L = DBM:GetModLocalization(375)
 
@@ -111,7 +111,7 @@ L:SetGeneralLocalization{
 	name 		= "Depositario Stilgiss"
 }
 ----------------------
--- Finoso Virunegro --
+-- Fineous Darkvire --
 ----------------------
 L = DBM:GetModLocalization(376)
 
@@ -127,7 +127,7 @@ L:SetGeneralLocalization{
 	name 		= "Bael'Gar"
 }
 --------------------------
--- General Forjainquina --
+-- General Angerforge --
 --------------------------
 L = DBM:GetModLocalization(378)
 
@@ -135,7 +135,7 @@ L:SetGeneralLocalization{
 	name 		= "General Forjainquina"
 }
 ---------------------------
--- Señor gólem Argelmach --
+-- Golem Lord Argelmach --
 ---------------------------
 L = DBM:GetModLocalization(379)
 
@@ -143,7 +143,7 @@ L:SetGeneralLocalization{
 	name 		= "Señor Gólem Argelmach"
 }
 ----------------------
--- Hurley Negrálito --
+-- Hurley Blackbreath --
 ----------------------
 L = DBM:GetModLocalization(380)
 
@@ -151,7 +151,7 @@ L:SetGeneralLocalization{
 	name 		= "Hurley Negrálito"
 }
 -------------
--- Flaange --
+-- Phalanx --
 -------------
 L = DBM:GetModLocalization(381)
 
@@ -159,7 +159,7 @@ L:SetGeneralLocalization{
 	name 		= "Falange"
 }
 -----------------------
--- Plugger Aropatoso --
+-- Plugger Spazzring --
 -----------------------
 L = DBM:GetModLocalization(383)
 
@@ -167,7 +167,7 @@ L:SetGeneralLocalization{
 	name 		= "Plugger Aropatoso"
 }
 -------------------------
--- Embajador Latifuego --
+-- Ambassador Flamelash --
 -------------------------
 L = DBM:GetModLocalization(384)
 
@@ -175,7 +175,7 @@ L:SetGeneralLocalization{
 	name 		= "Embajador Latifuego"
 }
 ---------------
--- Los siete --
+-- The Seven --
 ---------------
 L = DBM:GetModLocalization(385)
 
@@ -191,7 +191,7 @@ L:SetGeneralLocalization{
 	name 		= "Magmus"
 }
 ---------------------------------
--- Emperador Dagran Thaurissan --
+-- Emperor Dagran Thaurissan --
 ---------------------------------
 L = DBM:GetModLocalization(387)
 
@@ -399,9 +399,9 @@ L:SetGeneralLocalization{
 	name 		= "Cocinitas"
 }
 --------------------------------
--- La Masacre - 230J/429M (3) --
+-- Dire Maul - 230J/429M (3) --
 --------------------------------
--- Zevrim Pezuñahendida --
+-- Zevrim Thornhoof --
 --------------------------
 L = DBM:GetModLocalization(402)
 
@@ -409,7 +409,7 @@ L:SetGeneralLocalization{
 	name 		= "Zevrim Pezuñahendida"
 }
 ------------------
--- Hidromilecio --
+-- Hydrospawn --
 ------------------
 L = DBM:GetModLocalization(403)
 
@@ -425,7 +425,7 @@ L:SetGeneralLocalization{
 	name 		= "Lethtendris"
 }
 --------------------------
--- Alzzin el Formaferal --
+-- Alzzin the Wildshaper --
 --------------------------
 L = DBM:GetModLocalization(405)
 
@@ -433,7 +433,7 @@ L:SetGeneralLocalization{
 	name 		= "Alzzin el Formaferal"
 }
 --------------------
--- Tendris Alabeo --
+-- Tendris Warpwood --
 --------------------
 L = DBM:GetModLocalization(406)
 
@@ -441,7 +441,7 @@ L:SetGeneralLocalization{
 	name 		= "Tendris Alabeo"
 }
 --------------------------
--- Illyanna Roblecuervo --
+-- Illyanna Ravenoak --
 --------------------------
 L = DBM:GetModLocalization(407)
 
@@ -465,7 +465,7 @@ L:SetGeneralLocalization{
 	name 		= "Immol'thar"
 }
 --------------------------
--- Príncipe Tortheldrin --
+-- Prince Tortheldrin --
 --------------------------
 L = DBM:GetModLocalization(410)
 
@@ -473,7 +473,7 @@ L:SetGeneralLocalization{
 	name 		= "Príncipe Tortheldrin"
 }
 ---------------------
--- Guardia Mol'dar --
+-- Guard Mol'dar --
 ---------------------
 L = DBM:GetModLocalization(411)
 
@@ -481,7 +481,7 @@ L:SetGeneralLocalization{
 	name 		= "Guardia Mol'dar"
 }
 ----------------------
--- Vapuleador Kreeg --
+-- Stomper Kreeg --
 ----------------------
 L = DBM:GetModLocalization(412)
 
@@ -489,7 +489,7 @@ L:SetGeneralLocalization{
 	name 		= "Vapuleador Kreeg"
 }
 --------------------
--- Guardia Fengus --
+-- Guard Fengus --
 --------------------
 L = DBM:GetModLocalization(413)
 
@@ -497,7 +497,7 @@ L:SetGeneralLocalization{
 	name 		= "Guardia Fengus"
 }
 ----------------------
--- Guardia Slip'kik --
+-- Guard Slip'kik --
 ----------------------
 L = DBM:GetModLocalization(414)
 
@@ -505,7 +505,7 @@ L:SetGeneralLocalization{
 	name 		= "Guardia Slip'kik"
 }
 -----------------------
--- Capitán Kromcrush --
+-- Captain Kromcrush --
 -----------------------
 L = DBM:GetModLocalization(415)
 
@@ -513,7 +513,7 @@ L:SetGeneralLocalization{
 	name 		= "Capitán Kromcrush"
 }
 ----------------------------
--- Cho'Rush el Observador --
+-- Cho'Rush the Observer --
 ----------------------------
 L = DBM:GetModLocalization(416)
 
@@ -521,7 +521,7 @@ L:SetGeneralLocalization{
 	name 		= "Cho'Rush el Observador"
 }
 ----------------
--- Rey Gordok --
+-- King Gordok --
 ----------------
 L = DBM:GetModLocalization(417)
 
