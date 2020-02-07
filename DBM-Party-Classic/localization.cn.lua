@@ -12,7 +12,7 @@ L:SetGeneralLocalization{
 	name 		= "加摩拉"
 }
 -----------------------------
---  Lady Serevess  --
+--  Lady Sarevess  --
 -----------------------------
 L = DBM:GetModLocalization("LadySerevess")
 
@@ -103,12 +103,12 @@ L:SetGeneralLocalization{
 	name 		= "伊森迪奥斯"
 }
 -----------------------------
---  Warden Stilgiss  --
+--  Warder Stilgiss  --
 -----------------------------
 L = DBM:GetModLocalization(375)
 
 L:SetGeneralLocalization{
-	name 		= "Warden Stilgiss"
+	name 		= "典狱官斯迪尔基斯"
 }
 -----------------------------
 --  Fineous Darkvire  --
@@ -636,7 +636,7 @@ L:SetGeneralLocalization{
 }
 
 -----------------------------
---  Mordress Fire Eye  --
+--  Mordresh Fire Eye  --
 -----------------------------
 L = DBM:GetModLocalization("MordreshFireEye")
 
@@ -818,9 +818,126 @@ L = DBM:GetModLocalization("Fairbanks")
 L:SetGeneralLocalization{
 	name 		= "大检察官法尔班克斯"
 }
-
 -------------------------
---  Stormwind Stockaid (12)  --
+--  Scholomance 289M (13C)  --
+-----------------------------
+--  Kirtonos the Herald  --
+-----------------------------
+L = DBM:GetModLocalization("KirtonostheHerald")
+
+L:SetGeneralLocalization{
+	name 		= "传令官基尔图诺斯"
+}
+
+-----------------------------
+--  Jandice Barov  --
+-----------------------------
+L = DBM:GetModLocalization("JandiceBarov")
+
+L:SetGeneralLocalization{
+	name 		= "詹迪斯·巴罗夫"
+}
+
+-----------------------------
+--  Rattlegore  --
+-----------------------------
+L = DBM:GetModLocalization("Rattlegore")
+
+L:SetGeneralLocalization{
+	name 		= "血骨傀儡"
+}
+
+-----------------------------
+--  Marduk Blackpool  --
+-----------------------------
+L = DBM:GetModLocalization("MardukBlackpool")
+
+L:SetGeneralLocalization{
+	name 		= "马杜克·布莱克波尔"
+}
+
+-----------------------------
+--  Vectus  --
+-----------------------------
+L = DBM:GetModLocalization("Vectus")
+
+L:SetGeneralLocalization{
+	name 		= "维克图斯"
+}
+
+-----------------------------
+--  Ras Frostwhisper  --
+-----------------------------
+L = DBM:GetModLocalization("RasFrostwhisper")
+
+L:SetGeneralLocalization{
+	name 		= "莱斯·霜语"
+}
+
+-----------------------------
+--  Instructor Malicia  --
+-----------------------------
+L = DBM:GetModLocalization("InstructorMalicia")
+
+L:SetGeneralLocalization{
+	name 		= "讲师玛丽希亚"
+}
+
+-----------------------------
+--  Doctor Theolen Krastinov  --
+-----------------------------
+L = DBM:GetModLocalization("DoctorTheolenKrastinov")
+
+L:SetGeneralLocalization{
+	name 		= "瑟尔林·卡斯迪诺夫教授"
+}
+
+-----------------------------
+--  Lorekeeper Polkelt  --
+-----------------------------
+L = DBM:GetModLocalization("LorekeeperPolkelt")
+
+L:SetGeneralLocalization{
+	name 		= "博学者普克尔特"
+}
+
+-----------------------------
+--  The Ravenian  --
+-----------------------------
+L = DBM:GetModLocalization("TheRavenian")
+
+L:SetGeneralLocalization{
+	name 		= "拉文尼亚"
+}
+
+-----------------------------
+--  Lord Alexei Barov  --
+-----------------------------
+L = DBM:GetModLocalization("LordAlexeiBarov")
+
+L:SetGeneralLocalization{
+	name 		= "阿雷克斯·巴罗夫"
+}
+
+-----------------------------
+--  Lady Illucia Barov  --
+-----------------------------
+L = DBM:GetModLocalization("LadyIlluciaBarov")
+
+L:SetGeneralLocalization{
+	name 		= "伊露希亚·巴罗夫"
+}
+
+-----------------------------
+--  Darkmaster Gandling  --
+-----------------------------
+L = DBM:GetModLocalization("DarkmasterGandling")
+
+L:SetGeneralLocalization{
+	name 		= "黑暗院长加丁"
+}
+-------------------------
+--  Stormwind Stockade (12)  --
 -----------------------------
 --  Targorr the Dread  --
 -----------------------------
@@ -868,6 +985,178 @@ L = DBM:GetModLocalization("BruegalIronknuckle")
 
 L:SetGeneralLocalization{
 	name 		= "布鲁戈·艾尔克纳寇"
+}
+-------------------------
+--  Stratholme 236J/329M (10L/16C)  --
+-----------------------------
+--  Hearthsinger Forresten  --
+-----------------------------
+L = DBM:GetModLocalization(443)
+
+L:SetGeneralLocalization{
+	name 		= "弗雷斯特恩"
+}
+
+-----------------------------
+--  Timmy the Cruel  --
+-----------------------------
+L = DBM:GetModLocalization(445)
+
+L:SetGeneralLocalization{
+	name 		= "悲惨的提米"
+}
+
+-----------------------------
+--  Malor the Zealous  --
+-----------------------------
+L = DBM:GetModLocalization(749)
+
+L:SetGeneralLocalization{
+	name 		= "狂热的玛洛尔"
+}
+
+-----------------------------
+--  Cannon Master Willey  --
+-----------------------------
+L = DBM:GetModLocalization(446)
+
+L:SetGeneralLocalization{
+	name 		= "炮手威利"
+}
+
+-----------------------------
+--  Archivist Galford  --
+-----------------------------
+L = DBM:GetModLocalization(448)
+
+L:SetGeneralLocalization{
+	name 		= "档案管理员加尔福特"
+}
+
+-----------------------------
+--  Balnazzar  --
+-----------------------------
+L = DBM:GetModLocalization(449)
+
+L:SetGeneralLocalization{
+	name 		= "巴纳扎尔"
+}
+
+-----------------------------
+--  The Unforgiven  --
+-----------------------------
+L = DBM:GetModLocalization(450)
+
+L:SetGeneralLocalization{
+	name 		= "不可宽恕者"
+}
+
+-----------------------------
+--  Baroness Anastari  --
+-----------------------------
+L = DBM:GetModLocalization(451)
+
+L:SetGeneralLocalization{
+	name 		= "安娜丝塔丽男爵夫人"
+}
+
+-----------------------------
+--  Nerub'enkan  --
+-----------------------------
+L = DBM:GetModLocalization(452)
+
+L:SetGeneralLocalization{
+	name 		= "奈鲁布恩坎"
+}
+
+-----------------------------
+--  Maleki the Pallid  --
+-----------------------------
+L = DBM:GetModLocalization(453)
+
+L:SetGeneralLocalization{
+	name 		= "苍白的玛勒基"
+}
+
+-----------------------------
+--  Magistrate Barthilas  --
+-----------------------------
+L = DBM:GetModLocalization(454)
+
+L:SetGeneralLocalization{
+	name 		= "巴瑟拉斯镇长"
+}
+
+-----------------------------
+--  Ramstein the Gorger  --
+-----------------------------
+L = DBM:GetModLocalization(455)
+
+L:SetGeneralLocalization{
+	name 		= "吞咽者拉姆斯登"
+}
+
+-----------------------------
+--  Baron Rivendare  --
+-----------------------------
+L = DBM:GetModLocalization(456)
+
+L:SetGeneralLocalization{
+	name 		= "瑞文戴尔男爵"
+}
+-------------------------
+--  Sunken Temple 237J/109M (11L/17C)  --
+-----------------------------
+--  Avatar of Hakkar  --
+-----------------------------
+L = DBM:GetModLocalization(457)
+
+L:SetGeneralLocalization{
+	name 		= "哈卡的化身"
+}
+-----------------------------
+--  Jammal'an the Prophet  --
+-----------------------------
+L = DBM:GetModLocalization(458)
+
+L:SetGeneralLocalization{
+	name 		= "预言者迦玛兰"
+}
+----------------------------------------------
+--	Wardens of the Dream					--
+--	(Dreamscythe, Weaver, Morphaz, Hazzas)	--
+----------------------------------------------
+L = DBM:GetModLocalization("Dreamscythe")
+
+L:SetGeneralLocalization{
+	name 		= "德姆塞卡尔"
+}
+
+L = DBM:GetModLocalization("Weaver")
+
+L:SetGeneralLocalization{
+	name 		= "德拉维沃尔"
+}
+
+L = DBM:GetModLocalization("Morphaz")
+
+L:SetGeneralLocalization{
+	name 		= "摩弗拉斯"
+}
+
+L = DBM:GetModLocalization("Hazzas")
+
+L:SetGeneralLocalization{
+	name 		= "哈扎斯"
+}
+
+-----------------------------
+--  Shade of Eranikus  --
+-----------------------------
+L = DBM:GetModLocalization(463)
+
+L:SetGeneralLocalization{
+	name 		= "伊兰尼库斯的阴影"
 }
 
 -------------------------
@@ -954,7 +1243,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Wailing Caverns 229J/70M (12L/16C)  --
+--  Uldaman 229J/70M (12L/16C)  --
 -----------------------------
 --  Revelosh  --
 -----------------------------
@@ -1077,7 +1366,7 @@ L:SetGeneralLocalization{
 }
 
 -----------------------------
---  Veran the Everliving  --
+--  Verdan the Everliving  --
 -----------------------------
 L = DBM:GetModLocalization(480)
 
