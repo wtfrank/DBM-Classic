@@ -103,7 +103,7 @@ L:SetGeneralLocalization{
 	name 		= "Lorde Incendius"
 }
 --------------------------
--- Warden Stilgiss --
+-- Warder Stilgiss --
 --------------------------
 L = DBM:GetModLocalization(375)
 
@@ -399,7 +399,7 @@ L:SetGeneralLocalization{
 	name 		= "Cuca"
 }
 --------------------------------
--- La Masacre - 230J/429M (3) --
+-- Dire Maul - 230J/429M (3) --
 --------------------------------
 -- Zevrim Thornhoof --
 --------------------------
@@ -449,7 +449,7 @@ L:SetGeneralLocalization{
 	name 		= "Illyanna Corvalho"
 }
 ------------------------
--- Magister Kelendris --
+-- Magister Kalendris --
 ------------------------
 L = DBM:GetModLocalization(408)
 
@@ -693,7 +693,7 @@ L:SetGeneralLocalization{
 }
 
 -----------------------------
---  Mordress Fire Eye  --
+--  Mordresh Fire Eye  --
 -----------------------------
 L = DBM:GetModLocalization("MordreshFireEye")
 
@@ -729,7 +729,7 @@ L:SetGeneralLocalization{
 }
 
 -----------------------------
---  PlaguemawtheRotting  --
+--  Plaguemaw the Rotting  --
 -----------------------------
 L = DBM:GetModLocalization("PlaguemawtheRotting")
 
@@ -1078,7 +1078,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Stormwind Stockaid 34M (10L/15C)  --
+--  Stormwind Stockade 34M (10L/15C)  --
 -----------------------------
 --  Targorr the Dread  --
 -----------------------------
@@ -1203,7 +1203,7 @@ L:SetGeneralLocalization{
 }
 
 -----------------------------
---  Narub'enkan  --
+--  Nerub'enkan  --
 -----------------------------
 L = DBM:GetModLocalization(452)
 
