@@ -449,7 +449,7 @@ L:SetGeneralLocalization{
 	name 		= "Illyanna Ravenoak"
 }
 ------------------------
--- Magister Kelendris --
+-- Magister Kalendris --
 ------------------------
 L = DBM:GetModLocalization(408)
 
@@ -729,7 +729,7 @@ L:SetGeneralLocalization{
 }
 
 -----------------------------
---  PlaguemawtheRotting  --
+--  Plaguemaw the Rotting  --
 -----------------------------
 L = DBM:GetModLocalization("PlaguemawtheRotting")
 
