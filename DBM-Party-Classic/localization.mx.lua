@@ -693,7 +693,7 @@ L:SetGeneralLocalization{
 }
 
 -----------------------------
---  Mordress Fire Eye  --
+--  Mordresh Fire Eye  --
 -----------------------------
 L = DBM:GetModLocalization("MordreshFireEye")
 
@@ -729,7 +729,7 @@ L:SetGeneralLocalization{
 }
 
 -----------------------------
---  PlaguemawtheRotting  --
+--  Plaguemaw the Rotting  --
 -----------------------------
 L = DBM:GetModLocalization("PlaguemawtheRotting")
 
@@ -1078,7 +1078,7 @@ L:SetGeneralLocalization{
 }
 
 -------------------------
---  Stormwind Stockaid 34M (10L/15C)  --
+--  Stormwind Stockade 34M (10L/15C)  --
 -----------------------------
 --  Targorr the Dread  --
 -----------------------------
@@ -1342,7 +1342,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization(470)
 
 L:SetGeneralLocalization{
-	name 		= "Vigilante pétreo anciano"
+	name 		= "Vigilante de piedra anciano"
 }
 -----------------------------
 --  Galgann Firehammer  --
