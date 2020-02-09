@@ -449,12 +449,12 @@ L:SetGeneralLocalization{
 	name 		= "Illyanna Roblecuervo"
 }
 ------------------------
--- Magister Kelendris --
+-- Magister Kalendris --
 ------------------------
 L = DBM:GetModLocalization(408)
 
 L:SetGeneralLocalization{
-	name 		= "Magister Kelendris"
+	name 		= "Magister Kalendris"
 }
 ----------------
 -- Immol'thar --
@@ -911,7 +911,7 @@ L:SetGeneralLocalization{
 L = DBM:GetModLocalization("MardukBlackpool")
 
 L:SetGeneralLocalization{
-	name 		= "Marduz Pozonegro"
+	name 		= "Marduk Pozonegro"
 }
 
 -----------------------------
