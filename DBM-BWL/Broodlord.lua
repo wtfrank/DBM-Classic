@@ -13,7 +13,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_REMOVED 24573"
 )
 
---TODO, more timers?
+--MS timer, 10-20, blast wave 12-32, Knock away 13-30. TL/DR, timers on this fight would be utterly useless
+--(ability.id = 18670 or ability.id = 23331 or ability.id = 24573) and type = "cast"
 local warnBlastWave		= mod:NewSpellAnnounce(23331, 2)
 local warnKnockAway		= mod:NewSpellAnnounce(18670, 3)
 local warnMortal		= mod:NewTargetNoFilterAnnounce(24573, 2, nil, "Tank", 2)
