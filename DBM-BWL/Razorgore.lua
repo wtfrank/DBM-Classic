@@ -24,7 +24,9 @@ mod:RegisterEventsInCombat(
 local warnPhase2			= mod:NewPhaseAnnounce(2)
 local warnFireballVolley	= mod:NewCastAnnounce(22425, 3)
 local warnConflagration		= mod:NewTargetNoFilterAnnounce(23023, 2)
---local warnEggsLeft			= mod:NewCountAnnounce(19873, 1)
+--local warnEggsLeft		= mod:NewCountAnnounce(19873, 1)--Not reliable in current form, can't rely on cast of egg breaking do to both CLEU reporting issues
+
+local specWarnFireballVolley= mod:NewSpecialWarningMoveTo(22425, false, nil, nil, 2, 2)
 
 local timerAddsSpawn		= mod:NewTimer(47, "TimerAddsSpawn", 19879, nil, nil, 1)--Only for start of adds, not adds after the adds.
 
@@ -44,7 +46,12 @@ do
 		if args.spellName == fireballVolley  then
 			self:SendSync("fireballVolley", args.destName)
 			if self:AntiSpam(5, 1) then
-				warnFireballVolley:Show()
+				if self.Options.SpecWarn22425moveto then
+					specWarnFireballVolley:Show(DBM_CORE_BREAK_LOS)
+					specWarnFireballVolley:Play("findshelter")
+				else
+					warnFireballVolley:Show()
+				end
 			end
 		end
 	end
@@ -108,6 +115,11 @@ function mod:OnSync(msg, name)
 	elseif msg == "Win" then
 		DBM:EndCombat(self)
 	elseif msg == "fireballVolley" and self:AntiSpam(5, 1) then
-		warnFireballVolley:Show()
+		if self.Options.SpecWarn22425moveto then
+			specWarnFireballVolley:Show(DBM_CORE_BREAK_LOS)
+			specWarnFireballVolley:Play("findshelter")
+		else
+			warnFireballVolley:Show()
+		end
 	end
 end
