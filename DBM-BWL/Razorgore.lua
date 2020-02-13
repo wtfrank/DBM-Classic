@@ -29,12 +29,12 @@ local warnConflagration		= mod:NewTargetNoFilterAnnounce(23023, 2)
 local timerAddsSpawn		= mod:NewTimer(47, "TimerAddsSpawn", 19879, nil, nil, 1)--Only for start of adds, not adds after the adds.
 
 mod.vb.phase = 1
-mod.vb.eggsLeft = 27
+mod.vb.eggsLeft = 30
 
 function mod:OnCombatStart(delay)
 	timerAddsSpawn:Start()
 	self.vb.phase = 1
-	self.vb.eggsLeft = 27
+	self.vb.eggsLeft = 30
 end
 
 do
@@ -56,7 +56,7 @@ do
 		--if args.spellId == 23023 and args:IsDestTypePlayer() then
 		if args.spellName == warmingFlames then
 			self:SendSync("Phase2")
-		elseif args.spellName == destroyEgg then
+		elseif args.spellName == destroyEgg then--Reflects cast succeeding but not how many eggs are destroyed
 			--Not synced because latency would screw this all up
 			self.vb.eggsLeft = self.vb.eggsLeft - 1
 			DBM:Debug("Eggs Remaining: " .. self.vb.eggsLeft)

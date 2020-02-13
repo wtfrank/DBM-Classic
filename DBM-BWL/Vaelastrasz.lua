@@ -75,10 +75,11 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 end
 
 function mod:OnSync(msg, targetName)
-	if not self:IsInCombat() then return end
 	if msg == "PullRP" then
 		timerCombatStart:Start()
-	elseif msg == "Breath" and self:AntiSpam(5, 1) then
+	end
+	if not self:IsInCombat() then return end
+	if msg == "Breath" and self:AntiSpam(5, 1) then
 		warnBreath:Show()
 	elseif msg == "Adrenaline" and targetName and self:AntiSpam(5, targetName) then
 		warnAdrenaline:Show(targetName)
