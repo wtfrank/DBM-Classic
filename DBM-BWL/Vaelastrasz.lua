@@ -19,7 +19,7 @@ mod:RegisterEventsInCombat(
 
 --TODO, Burning Adrenaline have an actual CD timer?
 local warnBreath			= mod:NewCastAnnounce(23461, 2, nil, nil, "Tank", 2)
-local warnAdrenaline		= mod:NewTargetAnnounce(18173, 2)
+local warnAdrenaline		= mod:NewTargetNoFilterAnnounce(18173, 2)
 
 local specWarnAdrenaline	= mod:NewSpecialWarningYou(18173, nil, nil, nil, 1, 2)
 local yellAdrenaline		= mod:NewYell(18173, nil, false)

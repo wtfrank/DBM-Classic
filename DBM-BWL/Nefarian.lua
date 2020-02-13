@@ -7,12 +7,17 @@ mod:SetEncounterID(617)
 mod:SetModelID(11380)
 mod:RegisterCombat("combat")
 mod:SetWipeTime(25)--guesswork
+mod:SetHotfixNoticeRev(20200212000000)--2020, Feb, 12th
+mod:SetMinSyncRevision(20200212000000)--2020, Feb, 12th
+
+mod:RegisterEvents(
+	"CHAT_MSG_MONSTER_YELL"
+)
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 22539 22686",
 	"SPELL_AURA_APPLIED 22687 22667",
-	"UNIT_HEALTH mouseover target",
-	"CHAT_MSG_MONSTER_YELL"
+	"UNIT_HEALTH mouseover target"
 )
 
 local warnClassCall		= mod:NewAnnounce("WarnClassCall", 3, "136116")
@@ -24,6 +29,7 @@ local warnFear			= mod:NewCastAnnounce(22686, 2)
 local specwarnMC		= mod:NewSpecialWarningTarget(22667, nil, nil, 2, 1, 2)
 local specwarnVeilShadow= mod:NewSpecialWarningDispel(22687, "RemoveCurse", nil, nil, 1, 2)
 
+local timerPhase		= mod:NewPhaseTimer(10)
 local timerClassCall	= mod:NewTimer(30, "TimerClassCall", "136116", nil, nil, 5)
 local timerFearNext		= mod:NewCDTimer(30, 22686, nil, nil, nil, 2)
 
@@ -114,17 +120,20 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 end
 
 function mod:OnSync(msg, arg)
-	if msg == "ClassCall" and arg then
-		warnClassCall:Show(arg)
-		timerClassCall:Start(arg)
-	elseif msg == "Phase" and arg then
+	if msg == "Phase" and arg then
 		local phase = tonumber(arg) or 0
 		if phase == 2 then
 			self.vb.phase = 2
+			timerPhase:Start(10)
 		elseif phase == 3 then
 			self.vb.phase = 3
 		end
 		warnPhase:Show(DBM_CORE_AUTO_ANNOUNCE_TEXTS.stage:format(arg))
+	end
+	if not self:IsInCombat() then return end
+	if msg == "ClassCall" and arg then
+		warnClassCall:Show(arg)
+		timerClassCall:Start(arg)
 	elseif msg == "Shadowflame" and self:AntiSpam(5, 1) then
 		warnShadowFlame:Show()
 	elseif msg == "Fear" and self:AntiSpam(5, 2) then
