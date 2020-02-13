@@ -11,7 +11,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 23309 23313 23189 23316 23312",
 	"SPELL_AURA_APPLIED 23155 23169 23153 23154 23170 23128 23537",
 --	"SPELL_AURA_REFRESH",
-	"SPELL_AURA_REMOVED 23128",
+	"SPELL_AURA_REMOVED 23155 23169 23153 23154 23170 23128",
 	"UNIT_HEALTH mouseover target"
 )
 
@@ -23,18 +23,22 @@ local warnBlack			= mod:NewSpellAnnounce(23154, 2, nil, false)
 local warnFrenzy		= mod:NewSpellAnnounce(23128, 3, nil, "Tank|RemoveEnrage", 3)
 local warnPhase2Soon	= mod:NewPrePhaseAnnounce(2, 1)
 local warnPhase2		= mod:NewPhaseAnnounce(2)
+local warnMutation		= mod:NewCountAnnounce(23174, 4)
 
 local specWarnBronze	= mod:NewSpecialWarningYou(23170, nil, nil, nil, 1, 8)
 
+local timerBreath		= mod:NewCastTimer(2, "TimerBreath", 23316, nil, nil, 3)
 local timerBreathCD		= mod:NewTimer(60, "TimerBreathCD", 23316, nil, nil, 3)
 local timerFrenzy		= mod:NewBuffActiveTimer(8, 23128, nil, "Tank|RemoveEnrage", 2, 5, nil, DBM_CORE_TANK_ICON..DBM_CORE_ENRAGE_ICON)
 
 mod.vb.phase = 1
+local mydebuffs = 0
 
 function mod:OnCombatStart(delay)
 	timerBreathCD:Start(30-delay, L.Breath1)
 	timerBreathCD:Start(-delay, L.Breath2)--60
 	self.vb.phase = 1
+	mydebuffs = 0
 end
 
 do
@@ -45,7 +49,8 @@ do
 			self:SendSync("Breath", args.spellName)
 			if self:AntiSpam(5, 1) then
 				warnBreath:Show(args.spellName)
-				timerBreathCD:Start(args.spellName)
+				timerBreath:Start(2, args.spellName)
+				timerBreathCD:Start(60, args.spellName)
 			end
 		end
 	end
@@ -56,21 +61,57 @@ do
 	local Frenzy, Enrage = DBM:GetSpellInfo(23128), DBM:GetSpellInfo(23537)
 	function mod:SPELL_AURA_APPLIED(args)
 		--if args.spellId == 23155 and self:AntiSpam(3, 1) then
-		if args.spellName == BroodAffRed and self:AntiSpam(3, 3) then
-			warnRed:Show()
+		if args.spellName == BroodAffRed then
+			if self:AntiSpam(3, 3) then
+				warnRed:Show()
+			end
+			if args:IsPlayer() then
+				mydebuffs = mydebuffs + 1
+				if mydebuffs >= 3 then
+					warnMutation:Show(mydebuffs.."/5")
+				end
+			end
 		--elseif args.spellId == 23169 and self:AntiSpam(3, 2) then
-		elseif args.spellName == BroodAffGreen and self:AntiSpam(3, 4) then
-			warnGreen:Show()
+		elseif args.spellName == BroodAffGreen then
+			if self:AntiSpam(3, 4) then
+				warnGreen:Show()
+			end
+			if args:IsPlayer() then
+				mydebuffs = mydebuffs + 1
+				if mydebuffs >= 3 then
+					warnMutation:Show(mydebuffs.."/5")
+				end
+			end
 		--elseif args.spellId == 23153 and self:AntiSpam(3, 3) then
-		elseif args.spellName == BroodAffBlue and self:AntiSpam(3, 5) then
-			warnBlue:Show()
+		elseif args.spellName == BroodAffBlue then
+			if self:AntiSpam(3, 5) then
+				warnBlue:Show()
+			end
+			if args:IsPlayer() then
+				mydebuffs = mydebuffs + 1
+				if mydebuffs >= 3 then
+					warnMutation:Show(mydebuffs.."/5")
+				end
+			end
 		--elseif args.spellId == 23154 and self:AntiSpam(3, 4) then
-		elseif args.spellName == BroodAffBlack and self:AntiSpam(3, 6) then
-			warnBlack:Show()
+		elseif args.spellName == BroodAffBlack then
+			if self:AntiSpam(3, 6) then
+				warnBlack:Show()
+			end
+			if args:IsPlayer() then
+				mydebuffs = mydebuffs + 1
+				if mydebuffs >= 3 then
+					warnMutation:Show(mydebuffs.."/5")
+				end
+			end
 		--elseif args.spellId == 23170 and args:IsPlayer() then
 		elseif args.spellName == BroodAffBronze and args:IsPlayer() then
 			specWarnBronze:Show()
 			specWarnBronze:Play("useitem")
+			mydebuffs = mydebuffs + 1
+			if mydebuffs >= 3 then
+				warnMutation:Show(mydebuffs.."/5")
+			end
 		--elseif args.spellId == 23128 then
 		elseif args.spellName == Frenzy and args:IsDestTypeHostile() then
 			self:SendSync("Frenzy")
@@ -92,7 +133,21 @@ do
 
 	function mod:SPELL_AURA_REMOVED(args)
 		--if args.spellId == 23128 then
-		if args.spellName == Frenzy and args:IsDestTypeHostile() then
+		if args.spellName == BroodAffRed and args:IsPlayer() then
+			mydebuffs = mydebuffs - 1
+		--elseif args.spellId == 23169 and self:AntiSpam(3, 2) then
+		elseif args.spellName == BroodAffGreen and args:IsPlayer()  then
+			mydebuffs = mydebuffs - 1
+		--elseif args.spellId == 23153 and self:AntiSpam(3, 3) then
+		elseif args.spellName == BroodAffBlue and args:IsPlayer() then
+			mydebuffs = mydebuffs - 1
+		--elseif args.spellId == 23154 and self:AntiSpam(3, 4) then
+		elseif args.spellName == BroodAffBlack and args:IsPlayer() then
+			mydebuffs = mydebuffs - 1
+		--elseif args.spellId == 23170 and args:IsPlayer() then
+		elseif args.spellName == BroodAffBronze and args:IsPlayer() then
+			mydebuffs = mydebuffs - 1
+		elseif args.spellName == Frenzy and args:IsDestTypeHostile() then
 			timerFrenzy:Stop()
 		end
 	end
