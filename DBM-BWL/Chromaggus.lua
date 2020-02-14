@@ -8,13 +8,14 @@ mod:SetModelID(14367)
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 23309 23313 23189 23316 23312",
+	"SPELL_CAST_START 23309 23313 23189 23315 23312",
 	"SPELL_AURA_APPLIED 23155 23169 23153 23154 23170 23128 23537",
 --	"SPELL_AURA_REFRESH",
 	"SPELL_AURA_REMOVED 23155 23169 23153 23154 23170 23128",
 	"UNIT_HEALTH mouseover target"
 )
 
+--(ability.id = 23309 or ability.id = 23313 or ability.id = 23189 or ability.id = 23315 or ability.id = 23312) and type = "begincast"
 local warnBreath		= mod:NewAnnounce("WarnBreath", 2, 23316)
 local warnRed			= mod:NewSpellAnnounce(23155, 2, nil, false)
 local warnGreen			= mod:NewSpellAnnounce(23169, 2, nil, false)
@@ -36,18 +37,18 @@ local mydebuffs = 0
 
 function mod:OnCombatStart(delay)
 	timerBreathCD:Start(30-delay, L.Breath1)
-	timerBreathCD:Start(-delay, L.Breath2)--60
+	timerBreathCD:Start(60-delay, L.Breath2)--60
 	self.vb.phase = 1
 	mydebuffs = 0
 end
 
 do
-	local Incinerate, CorrosiveAcid, FrostBurn, IgniteFlesh, TimeLaps = DBM:GetSpellInfo(23309), DBM:GetSpellInfo(23313), DBM:GetSpellInfo(23189), DBM:GetSpellInfo(23316), DBM:GetSpellInfo(23312)
+	local Incinerate, CorrosiveAcid, FrostBurn, IgniteFlesh, TimeLaps = DBM:GetSpellInfo(23309), DBM:GetSpellInfo(23313), DBM:GetSpellInfo(23189), DBM:GetSpellInfo(23315), DBM:GetSpellInfo(23312)
 	function mod:SPELL_CAST_START(args)
-		--if args:IsSpellID(23309, 23313, 23189, 23316, 23312) then
+		--if args:IsSpellID(23309, 23313, 23189, 23315, 23312) then
 		if args.spellName == Incinerate or args.spellName == CorrosiveAcid or args.spellName == FrostBurn or args.spellName == IgniteFlesh or args.spellName == TimeLaps then
 			self:SendSync("Breath", args.spellName)
-			if self:AntiSpam(5, 1) then
+			if self:AntiSpam(15, 1) then
 				warnBreath:Show(args.spellName)
 				timerBreath:Start(2, args.spellName)
 				timerBreathCD:Start(60, args.spellName)
@@ -115,7 +116,7 @@ do
 		--elseif args.spellId == 23128 then
 		elseif args.spellName == Frenzy and args:IsDestTypeHostile() then
 			self:SendSync("Frenzy")
-			if self:AntiSpam(5, 2) then
+			if self:AntiSpam(15, 2) then
 				warnFrenzy:Show()
 				timerFrenzy:Start()
 			end
@@ -162,10 +163,10 @@ end
 
 function mod:OnSync(msg, Name)
 	if not self:IsInCombat() then return end
-	if msg == "Breath" and Name and self:AntiSpam(5, 1) then
+	if msg == "Breath" and Name and self:AntiSpam(15, 1) then
 		warnBreath:Show(Name)
 		timerBreathCD:Start(Name)
-	elseif msg == "Frenzy" and self:AntiSpam(5, 2) then
+	elseif msg == "Frenzy" and self:AntiSpam(15, 2) then
 		warnFrenzy:Show()
 		timerFrenzy:Start()
 	elseif msg == "Phase2" and self.vb.phase < 2 then

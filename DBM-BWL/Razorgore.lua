@@ -45,7 +45,7 @@ do
 		--if args.spellId == 23023 and args:IsDestTypePlayer() then
 		if args.spellName == fireballVolley  then
 			self:SendSync("fireballVolley", args.destName)
-			if self:AntiSpam(5, 1) then
+			if self:AntiSpam(8, 1) then
 				if self.Options.SpecWarn22425moveto then
 					specWarnFireballVolley:Show(DBM_CORE_BREAK_LOS)
 					specWarnFireballVolley:Play("findshelter")
@@ -80,7 +80,7 @@ do
 		--if args.spellId == 23023 and args:IsDestTypePlayer() then
 		if args.spellName == Conflagration and args:IsDestTypePlayer() then
 			self:SendSync("Conflag", args.destName)
-			if self:AntiSpam(5, args.destName) then
+			if self:AntiSpam(8, args.destName) then
 				warnConflagration:CombinedShow(0.3, args.destName)
 			end
 		end
@@ -110,11 +110,11 @@ function mod:OnSync(msg, name)
 	if msg == "Phase2" and self.vb.phase < 2 then
 		warnPhase2:Show()
 		self.vb.phase = 2
-	elseif msg == "Conflag" and name and self:AntiSpam(5, name) then
+	elseif msg == "Conflag" and name and self:AntiSpam(8, name) then
 		warnConflagration:Show(name)
 	elseif msg == "Win" then
 		DBM:EndCombat(self)
-	elseif msg == "fireballVolley" and self:AntiSpam(5, 1) then
+	elseif msg == "fireballVolley" and self:AntiSpam(8, 1) then
 		if self.Options.SpecWarn22425moveto then
 			specWarnFireballVolley:Show(DBM_CORE_BREAK_LOS)
 			specWarnFireballVolley:Play("findshelter")

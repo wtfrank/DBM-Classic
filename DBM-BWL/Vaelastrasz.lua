@@ -33,7 +33,7 @@ do
 		--if args.spellId == 23461 then
 		if args.spellName == FlameBreath then
 			self:SendSync("Breath")
-			if self:AntiSpam(5, 1) then
+			if self:AntiSpam(8, 1) then
 				warnBreath:Show()
 			end
 		end
@@ -79,7 +79,7 @@ function mod:OnSync(msg, targetName)
 		timerCombatStart:Start()
 	end
 	if not self:IsInCombat() then return end
-	if msg == "Breath" and self:AntiSpam(5, 1) then
+	if msg == "Breath" and self:AntiSpam(8, 1) then
 		warnBreath:Show()
 	elseif msg == "Adrenaline" and targetName and self:AntiSpam(5, targetName) then
 		warnAdrenaline:Show(targetName)

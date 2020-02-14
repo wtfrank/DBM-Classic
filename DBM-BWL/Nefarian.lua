@@ -45,13 +45,13 @@ do
 		--if args.spellId == 22539 then
 		if args.spellName == ShadowFlame then
 			self:SendSync("Shadowflame")
-			if self:AntiSpam(5, 1) then
+			if self:AntiSpam(8, 1) then
 				warnShadowFlame:Show()
 			end
 		--elseif args.spellId == 22686 then
 		elseif args.spellName == BellowingRoar then
 			self:SendSync("Fear")
-			if self:AntiSpam(5, 2) then
+			if self:AntiSpam(8, 2) then
 				warnFear:Show()
 				timerFearNext:Start()
 			end
@@ -65,7 +65,7 @@ do
 		--if args.spellId == 22687 then
 		if args.spellName == VielShadow then
 			self:SendSync("VielShadow", args.destName)
-			if self:AntiSpam(5, args.destName .. "1") then
+			if self:AntiSpam(8, args.destName .. "1") then
 				if self:CheckDispelFilter() then
 					specwarnVeilShadow:Show(args.destName)
 					specwarnVeilShadow:Play("dispelnow")
@@ -74,7 +74,7 @@ do
 		--elseif args.spellId == 22667 then
 		elseif args.spellName == ShadowCommand then
 			self:SendSync("MindControl", args.destName)
-			if self:AntiSpam(5, args.destName .. "2") then
+			if self:AntiSpam(8, args.destName .. "2") then
 				specwarnMC:Show(args.destName)
 				specwarnMC:Play("findmc")
 			end
@@ -134,17 +134,17 @@ function mod:OnSync(msg, arg)
 	if msg == "ClassCall" and arg then
 		warnClassCall:Show(arg)
 		timerClassCall:Start(arg)
-	elseif msg == "Shadowflame" and self:AntiSpam(5, 1) then
+	elseif msg == "Shadowflame" and self:AntiSpam(8, 1) then
 		warnShadowFlame:Show()
-	elseif msg == "Fear" and self:AntiSpam(5, 2) then
+	elseif msg == "Fear" and self:AntiSpam(8, 2) then
 		warnFear:Show()
 		timerFearNext:Start()
-	elseif msg == "VielShadow" and arg and self:AntiSpam(5, arg .. "1") then
+	elseif msg == "VielShadow" and arg and self:AntiSpam(8, arg .. "1") then
 		if self:CheckDispelFilter() then
 			specwarnVeilShadow:Show(arg)
 			specwarnVeilShadow:Play("dispelnow")
 		end
-	elseif msg == "MindControl" and arg and self:AntiSpam(5, arg .. "2") then
+	elseif msg == "MindControl" and arg and self:AntiSpam(8, arg .. "2") then
 		specwarnMC:Show(arg)
 		specwarnMC:Play("findmc")
 	end

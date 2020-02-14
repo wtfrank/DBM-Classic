@@ -31,13 +31,13 @@ do
 		--if args.spellId == 23331 then
 		if args.spellName == BlastWave and args:IsSrcTypeHostile() then
 			self:SendSync("BlastWave")
-			if self:AntiSpam(5, 1) then
+			if self:AntiSpam(8, 1) then
 				warnBlastWave:Show()
 			end
 		--elseif args.spellId == 18670 then
 		elseif args.spellName == KnockAway then
 			self:SendSync("KnockAway")
-			if self:AntiSpam(5, 2) then
+			if self:AntiSpam(8, 2) then
 				warnKnockAway:Show()
 			end
 		end
@@ -64,9 +64,9 @@ end
 
 function mod:OnSync(msg, targetName)
 	if not self:IsInCombat() then return end
-	if msg == "BlastWave" and self:AntiSpam(5, 1) then
+	if msg == "BlastWave" and self:AntiSpam(8, 1) then
 		warnBlastWave:Show()
-	elseif msg == "KnockAway" and self:AntiSpam(5, 2) then
+	elseif msg == "KnockAway" and self:AntiSpam(8, 2) then
 		warnKnockAway:Show()
 	end
 end
