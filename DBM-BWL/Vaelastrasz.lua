@@ -29,6 +29,7 @@ local timerCombatStart		= mod:NewCombatTimer(43)
 
 do
 	local FlameBreath = DBM:GetSpellInfo(23461)
+	print(FlameBreath)
 	function mod:SPELL_CAST_START(args)
 		--if args.spellId == 23461 then
 		if args.spellName == FlameBreath then
@@ -45,7 +46,9 @@ do
 	function mod:SPELL_AURA_APPLIED(args)
 		--if args.spellId == 18173 then
 		if args.spellName == BurningAdrenaline then
-			self:SendSync("Adrenaline", args.destName)
+			if self:AntiSpam(5, "Adrenaline") then
+				self:SendSync("Adrenaline", args.destName)
+			end
 			if self:AntiSpam(5, args.destName) then
 				timerAdrenaline:Start(args.destName)
 				if args:IsPlayer() then
@@ -62,7 +65,9 @@ do
 	function mod:SPELL_AURA_REMOVED(args)
 		--if args.spellId == 18173 then
 		if args.spellName == BurningAdrenaline then
-			self:SendSync("AdrenalineOver", args.destName)
+			if self:AntiSpam(5, "AdrenalineOver") then
+				self:SendSync("AdrenalineOver", args.destName)
+			end
 			timerAdrenaline:Stop(args.destName)
 		end
 	end
@@ -70,11 +75,16 @@ end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.Event or msg:find(L.Event) then
-		self:SendSync("PullRP")
+		if self:AntiSpam(5, "PullRP") then
+			self:SendSync("PullRP")
+		end
 	end
 end
 
 function mod:OnSync(msg, targetName)
+	if self:AntiSpam(5, msg) then
+		--Do nothing, this is just an antispam threshold for syncing
+	end
 	if msg == "PullRP" then
 		timerCombatStart:Start()
 	end

@@ -44,13 +44,17 @@ do
 	function mod:SPELL_CAST_START(args)
 		--if args.spellId == 22539 then
 		if args.spellName == ShadowFlame then
-			self:SendSync("Shadowflame")
+			if self:AntiSpam(5, "Shadowflame") then
+				self:SendSync("Shadowflame")
+			end
 			if self:AntiSpam(8, 1) then
 				warnShadowFlame:Show()
 			end
 		--elseif args.spellId == 22686 then
 		elseif args.spellName == BellowingRoar then
-			self:SendSync("Fear")
+			if self:AntiSpam(5, "Fear") then
+				self:SendSync("Fear")
+			end
 			if self:AntiSpam(8, 2) then
 				warnFear:Show()
 				timerFearNext:Start()
@@ -90,27 +94,27 @@ function mod:UNIT_HEALTH(uId)
 end
 
 function mod:CHAT_MSG_MONSTER_YELL(msg)
-	if msg == L.YellDK or msg:find(L.YellDK) then
+	if msg == L.YellDK or msg:find(L.YellDK) and self:AntiSpam(5, "ClassCall") then
 		self:SendSync("ClassCall", "DK")
-	elseif msg == L.YellDruid or msg:find(L.YellDruid) then
+	elseif msg == L.YellDruid or msg:find(L.YellDruid) and self:AntiSpam(5, "ClassCall")  then
 		self:SendSync("ClassCall", "Druid")
-	elseif msg == L.YellHunter or msg:find(L.YellHunter) then
+	elseif msg == L.YellHunter or msg:find(L.YellHunter) and self:AntiSpam(5, "ClassCall")  then
 		self:SendSync("ClassCall", "Hunter")
-	elseif msg == L.YellMage or msg:find(L.YellMage) then
+	elseif msg == L.YellMage or msg:find(L.YellMage) and self:AntiSpam(5, "ClassCall")  then
 		self:SendSync("ClassCall", "Mage")
-	elseif msg == L.YellPaladin or msg:find(L.YellPaladin) then
+	elseif msg == L.YellPaladin or msg:find(L.YellPaladin) and self:AntiSpam(5, "ClassCall")  then
 		self:SendSync("ClassCall", "Paladin")
-	elseif msg == L.YellPriest or msg:find(L.YellPriest) then
+	elseif msg == L.YellPriest or msg:find(L.YellPriest) and self:AntiSpam(5, "ClassCall")  then
 		self:SendSync("ClassCall", "Priest")
-	elseif msg == L.YellRogue or msg:find(L.YellRogue) then
+	elseif msg == L.YellRogue or msg:find(L.YellRogue) and self:AntiSpam(5, "ClassCall")  then
 		self:SendSync("ClassCall", "Rogue")
-	elseif msg == L.YellShaman or msg:find(L.YellShaman) then
+	elseif msg == L.YellShaman or msg:find(L.YellShaman) and self:AntiSpam(5, "ClassCall")  then
 		self:SendSync("ClassCall", "Shaman")
-	elseif msg == L.YellWarlock or msg:find(L.YellWarlock) then
+	elseif msg == L.YellWarlock or msg:find(L.YellWarlock) and self:AntiSpam(5, "ClassCall")  then
 		self:SendSync("ClassCall", "Warlock")
-	elseif msg == L.YellWarrior or msg:find(L.YellWarrior) then
+	elseif msg == L.YellWarrior or msg:find(L.YellWarrior) and self:AntiSpam(5, "ClassCall")  then
 		self:SendSync("ClassCall", "Warrior")
-	elseif msg == L.YellMonk or msg:find(L.YellMonk) then
+	elseif msg == L.YellMonk or msg:find(L.YellMonk) and self:AntiSpam(5, "ClassCall")  then
 		self:SendSync("ClassCall", "Monk")
 	elseif msg == L.YellP2 or msg:find(L.YellP2) then
 		self:SendSync("Phase", 2)
@@ -120,6 +124,9 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 end
 
 function mod:OnSync(msg, arg)
+	if self:AntiSpam(5, msg) then
+		--Do nothing, this is just an antispam threshold for syncing
+	end
 	if msg == "Phase" and arg then
 		local phase = tonumber(arg) or 0
 		if phase == 2 then

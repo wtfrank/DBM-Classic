@@ -44,7 +44,9 @@ do
 	function mod:SPELL_CAST_START(args)
 		--if args.spellId == 23023 and args:IsDestTypePlayer() then
 		if args.spellName == fireballVolley  then
-			self:SendSync("fireballVolley", args.destName)
+			if self:AntiSpam(5, "fireballVolley") then
+				self:SendSync("fireballVolley", args.destName)
+			end
 			if self:AntiSpam(8, 1) then
 				if self.Options.SpecWarn22425moveto then
 					specWarnFireballVolley:Show(DBM_CORE_BREAK_LOS)
@@ -61,7 +63,7 @@ do
 	local warmingFlames, destroyEgg = DBM:GetSpellInfo(23040), DBM:GetSpellInfo(19873)
 	function mod:SPELL_CAST_SUCCESS(args)
 		--if args.spellId == 23023 and args:IsDestTypePlayer() then
-		if args.spellName == warmingFlames then
+		if args.spellName == warmingFlames and self.vb.phase < 2 then
 			self:SendSync("Phase2")
 		elseif args.spellName == destroyEgg then--Reflects cast succeeding but not how many eggs are destroyed
 			--Not synced because latency would screw this all up
@@ -89,7 +91,7 @@ end
 
 --For some reason this no longer works
 function mod:CHAT_MSG_MONSTER_EMOTE(msg)
-	if msg == L.Phase2Emote or msg:find(L.Phase2Emote) then
+	if (msg == L.Phase2Emote or msg:find(L.Phase2Emote)) and self.vb.phase < 2 then
 		self:SendSync("Phase2")
 	end
 end
@@ -107,6 +109,9 @@ function mod:UNIT_DIED(args)
 end
 
 function mod:OnSync(msg, name)
+	if self:AntiSpam(5, msg) then
+		--Do nothing, this is just an antispam threshold for syncing
+	end
 	if msg == "Phase2" and self.vb.phase < 2 then
 		warnPhase2:Show()
 		self.vb.phase = 2

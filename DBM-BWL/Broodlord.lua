@@ -30,13 +30,17 @@ do
 	function mod:SPELL_CAST_SUCCESS(args)
 		--if args.spellId == 23331 then
 		if args.spellName == BlastWave and args:IsSrcTypeHostile() then
-			self:SendSync("BlastWave")
+			if self:AntiSpam(5, "BlastWave") then
+				self:SendSync("BlastWave")
+			end
 			if self:AntiSpam(8, 1) then
 				warnBlastWave:Show()
 			end
 		--elseif args.spellId == 18670 then
 		elseif args.spellName == KnockAway then
-			self:SendSync("KnockAway")
+			if self:AntiSpam(5, "KnockAway") then
+				self:SendSync("KnockAway")
+			end
 			if self:AntiSpam(8, 2) then
 				warnKnockAway:Show()
 			end
@@ -63,6 +67,9 @@ do
 end
 
 function mod:OnSync(msg, targetName)
+	if self:AntiSpam(5, msg) then
+		--Do nothing, this is just an antispam threshold for syncing
+	end
 	if not self:IsInCombat() then return end
 	if msg == "BlastWave" and self:AntiSpam(8, 1) then
 		warnBlastWave:Show()

@@ -47,7 +47,9 @@ do
 	function mod:SPELL_CAST_START(args)
 		--if args:IsSpellID(23309, 23313, 23189, 23315, 23312) then
 		if args.spellName == Incinerate or args.spellName == CorrosiveAcid or args.spellName == FrostBurn or args.spellName == IgniteFlesh or args.spellName == TimeLaps then
-			self:SendSync("Breath", args.spellName)
+			if self:AntiSpam(5, "Breath") then
+				self:SendSync("Breath", args.spellName)
+			end
 			if self:AntiSpam(15, 1) then
 				warnBreath:Show(args.spellName)
 				timerBreath:Start(2, args.spellName)
@@ -115,14 +117,18 @@ do
 			end
 		--elseif args.spellId == 23128 then
 		elseif args.spellName == Frenzy and args:IsDestTypeHostile() then
-			self:SendSync("Frenzy")
+			if self:AntiSpam(5, "Frenzy") then
+				self:SendSync("Frenzy")
+			end
 			if self:AntiSpam(15, 2) then
 				warnFrenzy:Show()
 				timerFrenzy:Start()
 			end
 		--elseif args.spellId == 23537 then
 		elseif args.spellName == Enrage and args:IsDestTypeHostile() then
-			self:SendSync("Phase2")
+			if self:AntiSpam(5, "Phase2") then
+				self:SendSync("Phase2")
+			end
 			if self.vb.phase < 2 then
 				self.vb.phase = 2
 				warnPhase2:Show()
@@ -162,6 +168,9 @@ function mod:UNIT_HEALTH(uId)
 end
 
 function mod:OnSync(msg, Name)
+	if self:AntiSpam(5, msg) then
+		--Do nothing, this is just an antispam threshold for syncing
+	end
 	if not self:IsInCombat() then return end
 	if msg == "Breath" and Name and self:AntiSpam(15, 1) then
 		warnBreath:Show(Name)
