@@ -33,6 +33,7 @@ do
 		if args.spellName == WingBuffet then
 			warnWingBuffet:Show()
 			timerWingBuffet:Start()
+			DBM:AddMsg("if you see this message, @deadlybossmods on twitter")
 		--elseif args.spellId == 22539 then
 		elseif args.spellName == ShadowFlame then
 			warnShadowFlame:Show()
