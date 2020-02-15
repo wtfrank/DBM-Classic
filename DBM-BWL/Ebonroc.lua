@@ -22,10 +22,11 @@ local specWarnShadowYou		= mod:NewSpecialWarningYou(23340, nil, nil, nil, 1, 2)
 local specWarnShadow		= mod:NewSpecialWarningTaunt(23340, nil, nil, nil, 1, 2)
 
 local timerWingBuffet		= mod:NewCDTimer(31, 23339, nil, nil, nil, 2)
---local timerShadowFlameCD	= mod:NewCDTimer(14, 22539)--14-21
+local timerShadowFlameCD	= mod:NewCDTimer(14, 22539, nil, false)--14-21
 local timerShadow			= mod:NewTargetTimer(8, 23340, nil, "Tank", 2, 5, nil, DBM_CORE_TANK_ICON)
 
 function mod:OnCombatStart(delay)
+	timerShadowFlameCD:Start(18-delay)
 	timerWingBuffet:Start(30-delay)
 end
 
@@ -39,6 +40,7 @@ do
 		--elseif args.spellId == 22539 then
 		elseif args.spellName == ShadowFlame then
 			warnShadowFlame:Show()
+			timerShadowFlameCD:Start()
 		end
 	end
 end
