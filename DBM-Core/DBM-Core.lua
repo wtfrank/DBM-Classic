@@ -5696,9 +5696,6 @@ do
 				self:Debug("StartCombat called by individual mod or unknown reason. LastInstanceMapID is "..LastInstanceMapID)
 			end
 			--check completed. starting combat
-			if self.Options.DisableGuildStatus and UnitIsGroupLeader("player") then
-				sendSync("DGP")
-			end
 			tinsert(inCombat, mod)
 			if mod.inCombatOnlyEvents and not mod.inCombatOnlyEventsRegistered then
 				mod.inCombatOnlyEventsRegistered = 1
@@ -5814,8 +5811,13 @@ do
 				if not synced then
 					sendSync("C", (delay or 0).."\t"..modId.."\t"..(mod.revision or 0).."\t"..startHp.."\t"..tostring(DBM.Revision).."\t"..(mod.hotfixNoticeRev or 0))
 				end
-				if self.Options.DisableStatusWhisper and UnitIsGroupLeader("player") and (difficultyIndex == 8 or difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16) then
-					sendSync("DSW")
+				if UnitIsGroupLeader("player") then
+					if self.Options.DisableGuildStatus then
+						sendSync("DGP")
+					end
+					if self.Options.DisableStatusWhisper and (difficultyIndex == 8 or difficultyIndex == 14 or difficultyIndex == 15 or difficultyIndex == 16) then
+						sendSync("DSW")
+					end
 				end
 				--show bigbrother check
 				if self.Options.ShowBigBrotherOnCombatStart and BigBrother and type(BigBrother.ConsumableCheck) == "function" then
@@ -6024,25 +6026,20 @@ do
 				local totalKills = mod.stats[statVarTable[savedDifficulty].."Kills"]
 				if self.Options.ShowDefeatMessage then
 					local msg = ""
+					local thisTimeString = thisTime and strFromTime(thisTime)
 					if not mod.combatInfo.pull then--was a bad pull so we ignored thisTime, should never happen
 						msg = DBM_CORE_BOSS_DOWN:format(difficultyText..name, DBM_CORE_UNKNOWN)
 					elseif mod.ignoreBestkill then
 						msg = DBM_CORE_BOSS_DOWN_I:format(difficultyText..name, totalKills)
 					elseif not lastTime then
-						msg = DBM_CORE_BOSS_DOWN:format(difficultyText..name, strFromTime(thisTime))
-						if difficultyIndex ~= 1 and (DBM:GetNumGuildPlayersInZone() >= 10) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
-							SendAddonMessage("D4C", "GCE\t"..modId.."\t7\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name, "GUILD")
-						end
+						msg = DBM_CORE_BOSS_DOWN:format(difficultyText..name, thisTimeString)
 					elseif thisTime < (bestTime or mhuge) then
 						msg = DBM_CORE_BOSS_DOWN_NR:format(difficultyText..name, strFromTime(thisTime), strFromTime(bestTime), totalKills)
-						if difficultyIndex ~= 1 and (DBM:GetNumGuildPlayersInZone() >= 10) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
-							SendAddonMessage("D4C", "GCE\t"..modId.."\t7\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name, "GUILD")
-						end
 					else
 						msg = DBM_CORE_BOSS_DOWN_L:format(difficultyText..name, strFromTime(thisTime), strFromTime(lastTime), strFromTime(bestTime), totalKills)
-						if difficultyIndex ~= 1 and (DBM:GetNumGuildPlayersInZone() >= 10) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
-							SendAddonMessage("D4C", "GCE\t"..modId.."\t7\t0\t"..strFromTime(thisTime).."\t"..difficultyIndex.."\t"..name, "GUILD")
-						end
+					end
+					if thisTimeString and difficultyIndex ~= 1 and (DBM:GetNumGuildPlayersInZone() >= 10) and not statusGuildDisabled and not self.Options.DisableGuildStatus then
+						SendAddonMessage("D4C", "GCE\t"..modId.."\t7\t0\t"..thisTimeString.."\t"..difficultyIndex.."\t"..name, "GUILD")
 					end
 					self:Schedule(1, self.AddMsg, self, msg)
 				end
@@ -6596,7 +6593,7 @@ function DBM:SendTimerInfo(mod, target)
 				end
 				timeLeft = totalTime - elapsed
 				if timeLeft > 0 and totalTime > 0 then
-					SendAddonMessage("D4", ("TI\t%s\t%s\t%s\t%s"):format(mod.id, timeLeft, totalTime, uId), "WHISPER", target)
+					SendAddonMessage("D4C", ("TI\t%s\t%s\t%s\t%s"):format(mod.id, timeLeft, totalTime, uId), "WHISPER", target)
 				end
 			end
 		end
