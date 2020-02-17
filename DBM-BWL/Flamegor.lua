@@ -25,6 +25,7 @@ function mod:OnCombatStart(delay)
 	timerFrenzyNext:Start(9.6-delay)
 	timerShadowFlameCD:Start(18-delay)
 	timerWingBuffet:Start(30-delay)
+	DBM:AddMsg("Shadowflame timer off by default because 14-21sec variance.")
 end
 
 do
