@@ -104,6 +104,7 @@ L:SetGeneralLocalization{
 	name = "Nefarian"
 }
 L:SetWarningLocalization{
+	WarnAddsLeft		= "%d kills remaining",
 	WarnClassCall		= "%s call"
 }
 L:SetTimerLocalization{
@@ -111,6 +112,7 @@ L:SetTimerLocalization{
 }
 L:SetOptionLocalization{
 	TimerClassCall		= "Show timer for class call duration",
+	WarnAddsLeft		= "Announce kills remaining until Stage 2 is triggered",
 	WarnClassCall		= "Announce class calls"
 }
 L:SetMiscLocalization{

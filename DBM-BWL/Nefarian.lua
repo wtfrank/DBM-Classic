@@ -37,8 +37,10 @@ local timerFearNext			= mod:NewCDTimer(26.7, 22686, nil, false, 2, 2)--26-42.5
 
 mod.vb.phase = 1
 mod.vb.addLeft = 20
+local addsGuidCheck = {}
 
 function mod:OnCombatStart(delay, yellTriggered)
+	table.wipe(addsGuidCheck)
 	DBM:AddMsg("Bellowing Roar: 26-42.5. Because of this, timer is now off by default (but you can still elect to use it)")
 	--if yellTriggered then--Triggered by Phase 1 yell from talking to Nefarian (uncomment if ENCOUNTER_START isn't actually fixed with weekly reset)
 		self.vb.phase = 1
@@ -102,7 +104,7 @@ function mod:UNIT_DIED(args)
 		if not addsGuidCheck[guid] then
 			addsGuidCheck[guid] = true
 			self.vb.addLeft = self.vb.addLeft - 1
-			if self.vb.addLeft >= 1 (self.vb.addLeft % 3 == 0) then
+			if self.vb.addLeft >= 1 and (self.vb.addLeft % 3 == 0) then
 				WarnAddsLeft:Show(self.vb.addLeft)
 			end
 		end
@@ -182,7 +184,7 @@ function mod:OnSync(msg, arg)
 		--A unit died we didn't detect ourselves, so we correct our adds counter from sync
 		addsGuidCheck[arg] = true
 		self.vb.addLeft = self.vb.addLeft - 1
-		if self.vb.addLeft >= 1 (self.vb.addLeft % 3 == 0) then
+		if self.vb.addLeft >= 1 and (self.vb.addLeft % 3 == 0) then
 			WarnAddsLeft:Show(self.vb.addLeft)
 		end
 	end
