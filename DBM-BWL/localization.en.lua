@@ -83,16 +83,19 @@ L:SetWarningLocalization{
 }
 L:SetTimerLocalization{
 	TimerBreathCD	= "%s CD",
-	TimerBreath		= "%s cast"
+	TimerBreath		= "%s cast",
+	TimerVulnCD		= "Vulnerability CD"
 }
 L:SetOptionLocalization{
 	WarnBreath		= "Show warning when Chromaggus casts one of his Breaths",
 	TimerBreathCD	= "Show Breath CD",
-	TimerBreath		= "Show Breath cast"
+	TimerBreath		= "Show Breath cast",
+	TimerVulnCD		= "Show Vulnerability CD"
 }
 L:SetMiscLocalization{
-	Breath1	= "First Breath",
-	Breath2	= "Second Breath"
+	Breath1		= "First Breath",
+	Breath2		= "Second Breath",
+	VulnEmote	= "flinches as its skin shimmers."
 }
 
 ----------------
