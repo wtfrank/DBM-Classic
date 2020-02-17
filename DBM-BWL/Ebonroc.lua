@@ -55,7 +55,7 @@ do
 				specWarnShadowYou:Show()
 				specWarnShadowYou:Play("targetyou")
 			else
-				if self.Options.SpecWarn23340taunt and self:IsTank() then
+				if self.Options.SpecWarn23340taunt and (self:IsTank() or not DBM.Options.FilterTankSpec) then
 					specWarnShadow:Show(args.destName)
 					specWarnShadow:Play("tauntboss")
 				else
