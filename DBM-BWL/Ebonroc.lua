@@ -19,6 +19,7 @@ local warnShadowFlame		= mod:NewCastAnnounce(22539, 2)
 local warnShadow			= mod:NewTargetNoFilterAnnounce(23340, 4, nil, "Tank|Healer")
 
 local specWarnShadowYou		= mod:NewSpecialWarningYou(23340, nil, nil, nil, 1, 2)
+local specWarnShadow		= mod:NewSpecialWarningTaunt(23340, nil, nil, nil, 1, 2)
 
 local timerWingBuffet		= mod:NewCDTimer(31, 23339, nil, nil, nil, 2)
 local timerShadowFlameCD	= mod:NewCDTimer(14, 22539, nil, false)--14-21
@@ -54,7 +55,12 @@ do
 				specWarnShadowYou:Show()
 				specWarnShadowYou:Play("targetyou")
 			else
-				warnShadow:Show(args.destName)
+				if self.Options.SpecWarn23340taunt and self:IsTank() then
+					specWarnShadow:Show(args.destName)
+					specWarnShadow:Play("tauntboss")
+				else
+					warnShadow:Show(args.destName)
+				end
 			end
 			timerShadow:Start(args.destName)
 		end
