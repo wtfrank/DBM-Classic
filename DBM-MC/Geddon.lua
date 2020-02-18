@@ -20,7 +20,6 @@ mod:RegisterEventsInCombat(
 (ability.id = 19695 or ability.id = 19659 or ability.id = 20478) and type = "cast"
 --]]
 local warnInferno		= mod:NewSpellAnnounce(19695, 3)
---local warnIgnite		= mod:NewSpellAnnounce(19659, 2)
 local warnBomb			= mod:NewTargetNoFilterAnnounce(20475, 4)
 local warnArmageddon	= mod:NewSpellAnnounce(20478, 3)
 
