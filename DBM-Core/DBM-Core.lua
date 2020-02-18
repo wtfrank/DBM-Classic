@@ -8623,7 +8623,7 @@ do
 			spellId = string.sub(spellId, 3)
 			spellName = DBM:EJ_GetSectionInfo(spellId) or DBM_CORE_UNKNOWN
 		else
-			spellName = DBM:GetSpellInfo(spellId) or DBM_CORE_UNKNOWN
+			spellName = (spellId or 0) >= 6 and DBM:GetSpellInfo(spellId) or DBM_CORE_UNKNOWN
 		end
 		local text
 		if announceType == "cast" then
@@ -9294,7 +9294,7 @@ do
 		if type(spellId) == "string" and spellId:match("ej%d+") then
 			spellName = DBM:EJ_GetSectionInfo(string.sub(spellId, 3)) or DBM_CORE_UNKNOWN
 		else
-			spellName = DBM:GetSpellInfo(spellId) or DBM_CORE_UNKNOWN
+			spellName = (spellId or 0) >= 6 and DBM:GetSpellInfo(spellId) or DBM_CORE_UNKNOWN
 		end
 		if announceType == "prewarn" then
 			if type(stacks) == "string" then
