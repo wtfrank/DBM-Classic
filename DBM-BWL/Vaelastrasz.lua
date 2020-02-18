@@ -15,6 +15,7 @@ mod:RegisterEvents(
 
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 23461",
+	"SPELL_CAST_SUCCESS 18173",
 	"SPELL_AURA_APPLIED 18173",
 	"SPELL_AURA_REMOVED 18173"
 )

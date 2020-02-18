@@ -171,7 +171,7 @@ end
 
 function mod:CHAT_MSG_MONSTER_EMOTE(msg)
 	if (msg == L.VulnEmote or msg:find(L.VulnEmote)) then
-		timerVuln:Start()
+		self:SendSync("Vulnerable")
 	end
 end
 
@@ -189,5 +189,7 @@ function mod:OnSync(msg, Name)
 	elseif msg == "Phase2" and self.vb.phase < 2 then
 		self.vb.phase = 2
 		warnPhase2:Show()
+	elseif msg == "Vulnerable" then
+		timerVuln:Start()
 	end
 end
