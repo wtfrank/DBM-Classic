@@ -125,6 +125,8 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		self:SendSync("ClassCall", "Druid")
 	elseif msg == L.YellHunter or msg:find(L.YellHunter) and self:AntiSpam(5, "ClassCall")  then
 		self:SendSync("ClassCall", "Hunter")
+	elseif msg == L.YellWarlock or msg:find(L.YellWarlock) and self:AntiSpam(5, "ClassCall")  then
+		self:SendSync("ClassCall", "Warlock")
 	elseif msg == L.YellMage or msg:find(L.YellMage) and self:AntiSpam(5, "ClassCall")  then
 		self:SendSync("ClassCall", "Mage")
 	elseif msg == L.YellPaladin or msg:find(L.YellPaladin) and self:AntiSpam(5, "ClassCall")  then
@@ -135,8 +137,6 @@ function mod:CHAT_MSG_MONSTER_YELL(msg)
 		self:SendSync("ClassCall", "Rogue")
 	elseif msg == L.YellShaman or msg:find(L.YellShaman) and self:AntiSpam(5, "ClassCall")  then
 		self:SendSync("ClassCall", "Shaman")
-	elseif msg == L.YellWarlock or msg:find(L.YellWarlock) and self:AntiSpam(5, "ClassCall")  then
-		self:SendSync("ClassCall", "Warlock")
 	elseif msg == L.YellWarrior or msg:find(L.YellWarrior) and self:AntiSpam(5, "ClassCall")  then
 		self:SendSync("ClassCall", "Warrior")
 	elseif msg == L.YellMonk or msg:find(L.YellMonk) and self:AntiSpam(5, "ClassCall")  then
