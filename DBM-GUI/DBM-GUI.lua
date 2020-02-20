@@ -1081,7 +1081,6 @@ do
 		else
 			TABLE = DBM_GUI_Bosses:GetVisibleTabs()
 		end
-		local element
 
 		for i, element in ipairs(displayedElements) do
 			displayedElements[i] = nil
@@ -1116,7 +1115,7 @@ do
 		end
 
 		for i = 1, #buttons do
-			element = displayedElements[i + offset]
+			local element = displayedElements[i + offset]
 			if ( not element ) then
 				DBM_GUI_OptionsFrame:HideButton(buttons[i])
 			else
@@ -4637,7 +4636,7 @@ do
 	local Categories = {}
 	local subTabId = 0
 	function DBM_GUI:UpdateModList()
-		for k, addon in ipairs(DBM.AddOns) do
+		for z, addon in ipairs(DBM.AddOns) do
 			if not Categories[addon.category] then
 				-- Create a Panel for "Wrath of the Lich King" "Burning Crusade" ...
 				local expLevel = GetExpansionLevel()
