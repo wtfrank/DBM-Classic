@@ -157,6 +157,12 @@ globals = {
 	"UIDropDownMenu_Initialize",
 	"UISpecialFrames",
 
+	-- Classic Specific APIs or frames
+	"GetTalentTabInfo",
+	"QuestWatchFrame",
+	"UnitCharacterPoints",
+	"MAX_TALENT_TABS",
+
 	-- FrameXML frames
 	"AlertFrame",
 	"BonusRollFrame",
