@@ -70,7 +70,7 @@ end
 
 DBM = {
 	Revision = parseCurseDate("@project-date-integer@"),
-	DisplayVersion = "1.13.36", -- the string that is shown as version
+	DisplayVersion = "1.13.37 alpha", -- the string that is shown as version
 	ReleaseRevision = releaseDate(2020, 2, 18, 12) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
@@ -5503,7 +5503,7 @@ do
 				DBM:Debug("DBM_CORE_WORLD_BUFFS.hordeOny detected")
 			elseif msg:find(DBM_CORE_WORLD_BUFFS.allianceOny) then
 				local spellName = DBM:GetSpellInfo(22888)
-				SendWorldSync(self, "WBA", "Onyxia\tAlliance\t"..spellName.."\t15")
+				SendWorldSync(self, "WBA", "Onyxia\tAlliance\t"..spellName.."\t14")
 				DBM:Debug("DBM_CORE_WORLD_BUFFS.allianceOny detected")
 			elseif msg:find(DBM_CORE_WORLD_BUFFS.hordeNef) then
 				local spellName = DBM:GetSpellInfo(22888)
