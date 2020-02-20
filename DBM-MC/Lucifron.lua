@@ -30,6 +30,8 @@ local timerCurseCD	= mod:NewCDTimer(20.5, 19703, nil, nil, nil, 3, nil, DBM_CORE
 local timerDoomCD	= mod:NewCDTimer(20, 19702, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)--20-25
 --local timerDoom		= mod:NewCastTimer(10, 19702, nil, nil, nil, 3, nil, DBM_CORE_MAGIC_ICON)
 
+local timerUseDeathWish	= mod:NewCDTimer(37, 12328, nil, nil, nil, 3, nil, DBM_CORE_CURSE_ICON)
+
 mod:AddSetIconOption("SetIconOnMC", 20604, true, false, {1, 2})
 
 mod.vb.lastIcon = 1
@@ -38,6 +40,7 @@ function mod:OnCombatStart(delay)
 	self.vb.lastIcon = 1
 	timerDoomCD:Start(7-delay)--7-8
 	timerCurseCD:Start(12-delay)--12-15
+	timeUseDeathWish:Start()
 end
 
 do
